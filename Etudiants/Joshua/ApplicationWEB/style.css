@@ -1,0 +1,72 @@
+body
+{
+	background-color : black;
+}
+
+.center
+{
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.image
+{
+	float: left;
+	width : 100px;
+	height : 100px;
+}
+
+h1
+{
+	color: white;
+	overflow: hidden;
+	text-align: center;
+	margin-top: center;
+	float: bottom;
+}
+
+.Fond
+{
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.imgFond
+{
+	position: fixed;
+	max-width: 100%;
+	height: auto;
+	z-index: 0;
+}
+
+.mecanisme
+{
+	float: left;
+	width : 100px;
+	height : 100px;
+	z-index: 2;
+}
+
+.Devant
+{
+	position: relative;
+	z-index: 1;
+}
+
+.carré
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+}
+
+.carréMeca
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.6;
+}
