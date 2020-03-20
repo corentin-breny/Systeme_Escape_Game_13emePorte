@@ -1,0 +1,560 @@
+body
+{
+	background-color : black;
+}
+
+.center
+{
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.image
+{
+	float: left;
+	width : 100px;
+	height : 100px;
+}
+
+h1
+{
+	color: white;
+	overflow: hidden;
+	text-align: center;
+	margin-top: center;
+	float: bottom;
+}
+
+.Fond
+{
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.imgFond
+{
+	position: fixed;
+	max-width: 100%;
+	height: auto;
+	z-index: 0;
+}
+
+.mecanisme
+{
+	float: left;
+	width : 100px;
+	height : 100px;
+	z-index: 2;
+}
+
+.Devant
+{
+	position: relative;
+	z-index: 1;
+}
+
+.carré1
+{
+	background-color: gray; 
+	float: left;
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 50px;
+	margin-left: 200px;
+}
+
+.carré2
+{
+	background-color: gray; 
+	float: left;
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 50px;
+	margin-left: 700px;
+}
+
+.carré3
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 50px;
+	margin-left: 300px;
+
+}
+
+.carré4
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 50px;
+	margin-left: 150px;
+}
+
+.carré5
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 275px;
+	margin-left: -1500px;
+}
+
+.carré6
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 275px;
+	margin-left: -1000px;
+}
+
+.carré7
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 275px;
+	margin-left: -550px;
+}
+
+.carré8
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 375px;
+	margin-left: -200px;
+}
+
+.carré9
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 550px;
+	margin-left: -550px;
+}
+
+.carréMeca1
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+	margin-left: 100px;
+}
+
+.carréMeca2
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+	margin-left: 00px;
+}
+
+.carréMeca3
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+}
+
+.carréMeca4
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+	margin-left: 250px;
+}
+
+.carréMeca5
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+}
+
+.carréMeca6
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+	margin-left: -200px;
+}
+
+.carréMeca7
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+	margin-left: -100px;
+}
+
+.carréMeca8
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+}
+
+.carréMeca9
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+	margin-left: -200px;
+}
+
+.carréMeca10
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+	margin-left: -100px;
+}
+
+.carréMeca11
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+	margin-left: 0px;
+}
+
+.carréMeca12
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 250px;
+	margin-left: -250px;
+}
+
+.carréMeca13
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 250px;
+	margin-left: -150px;
+}
+
+.carréMeca14
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -1600px;
+}
+
+.carréMeca15
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -1500px;
+}
+
+.carréMeca16
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -1400px;
+}
+
+.carréMeca17
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -1500px;
+}
+
+.carréMeca18
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -1100px;
+}
+
+.carréMeca19
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -1000px;
+}
+
+.carréMeca20
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -900px;
+}
+
+.carréMeca21
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -1100px;
+}
+
+.carréMeca22
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -1000px;
+}
+
+.carréMeca23
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -900px;
+}
+
+.carréMeca24
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 575px;
+	margin-left: -1100px;
+}
+
+.carréMeca25
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 575px;
+	margin-left: -1000px;
+}
+
+.carréMeca26
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 575px;
+	margin-left: -900px;
+}
+
+.carréMeca27
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 675px;
+	margin-left: -1000px;
+}
+
+.carréMeca28
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -600px;
+}
+
+.carréMeca29
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -500px;
+}
+
+.carréMeca30
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -300px;
+}
+
+.carréMeca31
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -200px;
+}
+
+.carréMeca32
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -100px;
+}
+
+.carréMeca33
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 650px;
+	margin-left: -750px;
+}
+
+.carréMeca34
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 650px;
+	margin-left: -650px;
+}
+
+.carréMeca35
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 650px;
+	margin-left: -550px;
+}
+
+.carréMeca36
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 650px;
+	margin-left: -450px;
+}
+
+.carréMeca37
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 650px;
+	margin-left: -350px;
+}
