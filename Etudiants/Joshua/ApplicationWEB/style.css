@@ -53,20 +53,186 @@ h1
 	z-index: 1;
 }
 
-.carré
+.carré1
+{
+	background-color: gray; 
+	float: left;
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-left: 200px;
+}
+
+.carré2
+{
+	background-color: gray; 
+	float: left;
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-left: 800px;
+}
+
+.carré3
 {
 	background-color: gray; 
 	float: left;
 	width: 100px;
 	height: 100px;
 	opacity: 0.8;
+	margin-left: 200px;
 }
 
-.carréMeca
+.carré4
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-left: 200px;
+}
+
+.carré5
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-left: 200px;
+}
+
+.carré6
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-left: 200px;
+}
+
+.carré7
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-left: 200px;
+}
+
+.carré8
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-left: 200px;
+}
+
+.carré9
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-left: 200px;
+}
+
+.carréMeca1
+{
+	background-color: gray; 
+	float: left;
+	position: relative;
+	width: 100px;
+	height: 100px;
+	opacity: 0.6;
+	margin-top: 100px;
+	margin-left: 50px;
+}
+
+.carréMeca2
 {
 	background-color: gray; 
 	float: left;
 	width: 100px;
 	height: 100px;
 	opacity: 0.6;
+	margin-top: 200px;
+}
+
+.carréMeca3
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.6;
+	margin-top: 300px;
+}
+
+.carréMeca4
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.6;
+	margin-top: 100px;
+}
+
+.carréMeca5
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.6;
+	margin-top: 100px;
+}
+
+.carréMeca6
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.6;
+	margin-top: 100px;
+}
+
+.carréMeca7
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.6;
+	margin-top: 100px;
+}
+
+.carréMeca8
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.6;
+	margin-top: 100px;
+}
+
+.carréMeca9
+{
+	background-color: gray; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.6;
+	margin-top: 100px;
 }
