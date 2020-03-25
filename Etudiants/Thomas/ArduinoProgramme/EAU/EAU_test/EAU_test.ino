@@ -1,11 +1,7 @@
 int CapteurHum = 0; // Le capteur est sur la pin A0  - Capteur H20
-int H2OInitial = 0;
 int readingH2O = 0;     // Contient la valeur lue sur la broche d'entrée
-int etateau = 0; // 0 = non initialisé, 1 = initialisé, 2 = resolu
-long timeEau = 0;
-long debounce = 2000; // Temps de déparasitage (debounce time), a augmenter si la sortie clignote.
-
-
+int EtatEau = 0;
+int H2OInitial = 0;
 
 void setup() {
   Serial.begin (9600);// Démarrage de la liaison série
@@ -25,7 +21,41 @@ void loop() {
   
   readingH2O = analogRead (CapteurHum);// Lecture de la valeur du capteur
   
-  Serial.println(CapteurHum);
+  Serial.println(readingH2O);
   delay(300);
+
+ if(EtatEau == 0)
+ {
+    if(readingH2O > 0)
+    {
+      H2OInitial = readingH2O;
+    }
+    
+    if (readingH2O >= (H2OInitial + 180))
+    {
+       EtatEau = 1;
+    }
+  }
+
+  
+  if (EtatEau == 1)
+  {
+      digitalWrite(3, LOW);  //RELAIS H2O FRIGO
+      delay(1000);
+      digitalWrite(3, HIGH);
+      delay(1000);
+      digitalWrite(3, LOW);  //RELAIS H2O FRIGO
+      delay(1000);
+      digitalWrite(3, HIGH);
+      delay(1000);
+      digitalWrite(3, LOW);
+      delay(1000);
+      digitalWrite(3, HIGH);
+      delay(5000);
+      digitalWrite(3, LOW);
+      delay(20000);
+   }
+
+
 
 }
