@@ -26,34 +26,54 @@ void loop() {
 
  if(EtatEau == 0)
  {
-    if(readingH2O > 0)
-    {
-      H2OInitial = readingH2O;
-    }
+    H2OInitial = readingH2O;
+    EtatEau = 1;
+ }
     
-    if (readingH2O >= (H2OInitial + 180))
+    if ( EtatEau == 1)
     {
-       EtatEau = 1;
+     
+      if (readingH2O >= (H2OInitial + 180)) 
+      {
+         var1 = 1;
+      }
+      else 
+      { 
+        var1 = 0;
+      }
+
+      delay(3000);
+      
+      
+      if (readingH2O >= (H2OInitial + 180)) 
+      {
+        var2 = 1;
+      }
+      else 
+      {
+        var2 = 0;
+      }
     }
-  }
+ 
 
   
-  if (EtatEau == 1)
+  if (var1 == var2 && var2 == 1)
   {
+      EtatEau = 2;
       digitalWrite(3, LOW);  //RELAIS H2O FRIGO
-      delay(1000);
+      delay(3000);
       digitalWrite(3, HIGH);
-      delay(1000);
+      delay(3000);
       digitalWrite(3, LOW);  //RELAIS H2O FRIGO
-      delay(1000);
+      delay(3000);
       digitalWrite(3, HIGH);
-      delay(1000);
+      delay(10000);
       digitalWrite(3, LOW);
-      delay(1000);
+      delay(3000);
       digitalWrite(3, HIGH);
-      delay(5000);
+      delay(3000);
       digitalWrite(3, LOW);
-      delay(20000);
+      delay(3000);
    }
 
 
