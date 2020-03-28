@@ -75,7 +75,3 @@ else { var2 = 0;}
 Serial.println(readingH2O);
 
 }
-
-
-}
-
