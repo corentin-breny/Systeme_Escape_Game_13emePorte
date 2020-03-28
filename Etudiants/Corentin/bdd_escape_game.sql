@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Mer 25 Mars 2020 à 11:09
+-- Généré le: Sam 28 Mars 2020 à 16:49
 -- Version du serveur: 5.5.24-log
 -- Version de PHP: 5.4.3
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `actionneurs` (
   `Etat` tinyint(1) NOT NULL,
   `Heure` datetime NOT NULL,
   PRIMARY KEY (`ID_actionneurs`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Contenu de la table `actionneurs`
@@ -73,10 +73,7 @@ INSERT INTO `capteurs` (`ID_capteurs`, `ID_mecanismes`, `Type`, `Etat`, `Heure`)
 CREATE TABLE IF NOT EXISTS `general` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Nom_mecanisme` text NOT NULL,
-  `Nb_capteurs` int(11) NOT NULL,
-  `Nb_actionneurs` int(11) NOT NULL,
   `Etat` tinyint(1) NOT NULL,
-  `Heure` datetime NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
@@ -84,8 +81,8 @@ CREATE TABLE IF NOT EXISTS `general` (
 -- Contenu de la table `general`
 --
 
-INSERT INTO `general` (`ID`, `Nom_mecanisme`, `Nb_capteurs`, `Nb_actionneurs`, `Etat`, `Heure`) VALUES
-(1, 'L''échiquier', 2, 1, 0, '2020-03-24 20:51:09');
+INSERT INTO `general` (`ID`, `Nom_mecanisme`, `Etat`) VALUES
+(1, 'L''échiquier', 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
