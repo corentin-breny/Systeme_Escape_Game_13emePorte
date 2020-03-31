@@ -60,20 +60,22 @@ void loop() {
   if (var1 == var2 && var2 == 1)
   {
       EtatEau = 2;
+      digitalWrite(2, HIGH); //LED H2O
       digitalWrite(3, LOW);  //RELAIS H2O FRIGO
-      delay(3000);
+      delay(1000);
       digitalWrite(3, HIGH);
-      delay(3000);
+      delay(1000);
       digitalWrite(3, LOW);  //RELAIS H2O FRIGO
-      delay(3000);
+      delay(1000);
       digitalWrite(3, HIGH);
-      delay(10000);
+      delay(1000);
       digitalWrite(3, LOW);
-      delay(3000);
+      delay(1000);
       digitalWrite(3, HIGH);
-      delay(3000);
+      delay(5000);
       digitalWrite(3, LOW);
-      delay(3000);
+      delay(20000);
+      digitalWrite(3, HIGH);
    }
 
 
