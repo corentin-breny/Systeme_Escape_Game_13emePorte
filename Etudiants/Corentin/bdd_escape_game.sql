@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Mar 31 Mars 2020 à 12:12
+-- Généré le: Mar 31 Mars 2020 à 12:45
 -- Version du serveur: 5.5.24-log
 -- Version de PHP: 5.4.3
 
@@ -31,7 +31,8 @@ CREATE TABLE IF NOT EXISTS `actionneurs` (
   `ID_mecanismes` int(11) NOT NULL,
   `type` text NOT NULL,
   `Etat` tinyint(1) NOT NULL,
-  `Heure` datetime NOT NULL,
+  `Valeur` int(5) NOT NULL,
+  `Heure_derniere_mesure` datetime NOT NULL,
   PRIMARY KEY (`ID_actionneurs`),
   KEY `ID_mecanismes` (`ID_mecanismes`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
@@ -40,8 +41,8 @@ CREATE TABLE IF NOT EXISTS `actionneurs` (
 -- Contenu de la table `actionneurs`
 --
 
-INSERT INTO `actionneurs` (`ID_actionneurs`, `ID_mecanismes`, `type`, `Etat`, `Heure`) VALUES
-(1, 6, 'led', 1, '2020-03-24 20:51:52');
+INSERT INTO `actionneurs` (`ID_actionneurs`, `ID_mecanismes`, `type`, `Etat`, `Valeur`, `Heure_derniere_mesure`) VALUES
+(1, 6, 'led', 1, 0, '2020-03-24 20:51:52');
 
 -- --------------------------------------------------------
 
@@ -54,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `capteurs` (
   `ID_mecanismes` int(11) NOT NULL,
   `Type` text NOT NULL,
   `Etat` tinyint(1) NOT NULL,
-  `Heure` datetime NOT NULL,
+  `Heure_derniere_mesure` datetime NOT NULL,
   PRIMARY KEY (`ID_capteurs`),
   KEY `ID_mecanismes` (`ID_mecanismes`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
@@ -63,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `capteurs` (
 -- Contenu de la table `capteurs`
 --
 
-INSERT INTO `capteurs` (`ID_capteurs`, `ID_mecanismes`, `Type`, `Etat`, `Heure`) VALUES
+INSERT INTO `capteurs` (`ID_capteurs`, `ID_mecanismes`, `Type`, `Etat`, `Heure_derniere_mesure`) VALUES
 (1, 6, 'Vanne', 1, '2020-03-24 20:51:09');
 
 -- --------------------------------------------------------
