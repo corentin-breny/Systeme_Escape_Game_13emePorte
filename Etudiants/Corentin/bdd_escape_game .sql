@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Sam 28 Mars 2020 à 16:49
+-- Généré le: Mar 31 Mars 2020 à 12:12
 -- Version du serveur: 5.5.24-log
 -- Version de PHP: 5.4.3
 
@@ -32,7 +32,8 @@ CREATE TABLE IF NOT EXISTS `actionneurs` (
   `type` text NOT NULL,
   `Etat` tinyint(1) NOT NULL,
   `Heure` datetime NOT NULL,
-  PRIMARY KEY (`ID_actionneurs`)
+  PRIMARY KEY (`ID_actionneurs`),
+  KEY `ID_mecanismes` (`ID_mecanismes`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
@@ -54,7 +55,8 @@ CREATE TABLE IF NOT EXISTS `capteurs` (
   `Type` text NOT NULL,
   `Etat` tinyint(1) NOT NULL,
   `Heure` datetime NOT NULL,
-  PRIMARY KEY (`ID_capteurs`)
+  PRIMARY KEY (`ID_capteurs`),
+  KEY `ID_mecanismes` (`ID_mecanismes`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
@@ -71,18 +73,34 @@ INSERT INTO `capteurs` (`ID_capteurs`, `ID_mecanismes`, `Type`, `Etat`, `Heure`)
 --
 
 CREATE TABLE IF NOT EXISTS `general` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ID_mecanismes` int(11) NOT NULL AUTO_INCREMENT,
   `Nom_mecanisme` text NOT NULL,
   `Etat` tinyint(1) NOT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`ID_mecanismes`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Contenu de la table `general`
 --
 
-INSERT INTO `general` (`ID`, `Nom_mecanisme`, `Etat`) VALUES
-(1, 'L''échiquier', 0);
+INSERT INTO `general` (`ID_mecanismes`, `Nom_mecanisme`, `Etat`) VALUES
+(6, 'L''échiquier', 0);
+
+--
+-- Contraintes pour les tables exportées
+--
+
+--
+-- Contraintes pour la table `actionneurs`
+--
+ALTER TABLE `actionneurs`
+  ADD CONSTRAINT `actionneurs_ibfk_3` FOREIGN KEY (`ID_mecanismes`) REFERENCES `general` (`ID_mecanismes`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Contraintes pour la table `capteurs`
+--
+ALTER TABLE `capteurs`
+  ADD CONSTRAINT `capteurs_ibfk_1` FOREIGN KEY (`ID_mecanismes`) REFERENCES `general` (`ID_mecanismes`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
