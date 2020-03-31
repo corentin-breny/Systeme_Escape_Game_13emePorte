@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Mar 31 Mars 2020 à 12:45
+-- Généré le: Mar 31 Mars 2020 à 12:48
 -- Version du serveur: 5.5.24-log
 -- Version de PHP: 5.4.3
 
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `actionneurs` (
   `ID_mecanismes` int(11) NOT NULL,
   `type` text NOT NULL,
   `Etat` tinyint(1) NOT NULL,
-  `Valeur` int(5) NOT NULL,
+  `Valeur_numerique` int(5) NOT NULL,
   `Heure_derniere_mesure` datetime NOT NULL,
   PRIMARY KEY (`ID_actionneurs`),
   KEY `ID_mecanismes` (`ID_mecanismes`)
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `actionneurs` (
 -- Contenu de la table `actionneurs`
 --
 
-INSERT INTO `actionneurs` (`ID_actionneurs`, `ID_mecanismes`, `type`, `Etat`, `Valeur`, `Heure_derniere_mesure`) VALUES
+INSERT INTO `actionneurs` (`ID_actionneurs`, `ID_mecanismes`, `type`, `Etat`, `Valeur_numerique`, `Heure_derniere_mesure`) VALUES
 (1, 6, 'led', 1, 0, '2020-03-24 20:51:52');
 
 -- --------------------------------------------------------
