@@ -7,7 +7,5 @@
 	$PARAM_mot_passe='';
 
 	$connexion = new PDO('mysql:host='.$PARAM_hote.';port='.$PARAM_port.';dbname='.$PARAM_nom_bdd, $PARAM_utilisateur, $PARAM_mot_passe);
-	
-
 
 ?>
