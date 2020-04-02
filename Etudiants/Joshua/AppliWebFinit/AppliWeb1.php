@@ -9,6 +9,17 @@
 </head>
 <body>
 
+<?php 
+
+	$resultats=$connexion->query("SELECT 'ID_capteurs','Etat','Heure_derniere_mesure' FROM 'capteurs'");
+	$resultats->setFetchMode(PDO::Fetch_OBJ);
+	
+	$capteur = utf8_encode($resultats->ID_capteurs);
+	$etat1 = utf8_encode($resultats->Etat);
+	$dateMesure = utf8_encode($resultats->Heure_derniere_mesure);
+
+?>
+
 	<div class="center">
 	<hr color="white">
 	<img class="image" src="photo.png"/>
