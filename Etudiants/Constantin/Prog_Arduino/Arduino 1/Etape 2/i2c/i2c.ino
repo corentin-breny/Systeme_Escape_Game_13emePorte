@@ -2,6 +2,7 @@
 
 #define SLAVE_ADDRESS 0x12 // initialisation de l’Arduino avec l’adresse 0x12
 int dataReceived = 0;
+bool etatMecanisme = true;
 
 
 void receiveData(int byteCount){
@@ -12,17 +13,26 @@ void receiveData(int byteCount){
     }
 }
 
-void sendData(){
-    int envoi = dataReceived + 2;
-    Wire.write(envoi);
+void sendEtatMecanisme(){
+  String envoi;
+  
+  if(etatMecanisme == true){
+    envoi = "1EM OK";
+  }else{
+    envoi = "1EM NOT_OK"; 
+  }
+  Wire.write(envoi.c_str());
+  Serial.print("Donnee envoye à Raspberry : ");
+  Serial.println(envoi);
+  
 }
 
 
 void setup() {
     Serial.begin(9600);
     Wire.begin(SLAVE_ADDRESS);
-    Wire.onReceive(receiveData);
-    Wire.onRequest(sendData);
+    //Wire.onReceive(receiveData);
+    Wire.onRequest(sendEtatMecanisme);
 }
 
 void loop() {
