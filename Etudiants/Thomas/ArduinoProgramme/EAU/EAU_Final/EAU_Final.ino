@@ -80,8 +80,6 @@ void AllumerLedTemoin()
 
 class PorteFrigo
 {
-
-  
   
   public : 
 
@@ -111,7 +109,6 @@ for(int i = 1; i<3; i++)
 
    if (var1 == true && var2 == true)
     {
-        EtatEau = 2;
         digitalWrite(3, LOW);  //RELAIS H2O FRIGO
         delay(1000);
         digitalWrite(3, HIGH);
@@ -152,4 +149,36 @@ void RelaisMoteurFontaine()
   {
     digitalWrite(4, HIGH); //Desactiver Relais FONTAINE
   }
+}
+
+
+
+class ArduinoMecanisme : public Capteur
+{
+
+  private : 
+
+  String m_etatMecanisme;
+  String m_dernierEtatMecanisme;
+  int m_tempsDernierEnvoieValeurCapteur;
+
+
+  public : 
+
+  void calculerTempsDernierEnvoieEtatMecanisme();
+  void redefinirDernierEtatMecanisme();
+  void calculerTempsDernierEnvoieValeurCapteur();
+  void definirEtatMecanisme();
+  
+};
+
+
+
+class Eau : public ArduinoMecanisme
+{
+
+   private : 
+
+   boolean m_EAU;
+  
 }
