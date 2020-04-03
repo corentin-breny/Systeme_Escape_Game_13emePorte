@@ -93,35 +93,22 @@ class PorteFrigo
 void RelaisPorteFrigo()
 {
    
-  
-   boolean var1 = false;
-   boolean var2 = false;
- 
+  tab[] = { var1 , var2 }
    
 for(int i = 1; i<3; i++)
 {
     if (ValeurCapteur >= (H2OInitial + 180)) 
       {
-         var1 = true;
+         tab[i] = 1;
       }
       else 
       { 
-        var1 = false;
+        tab[i] = 0;
       }
 
       delay(3000);
 }     
-      
-      if (ValeurCapteur >= (H2OInitial + 180)) 
-      {
-        var2 = 1;
-      }
-      else 
-      {
-        var2 = 0;
-      }
 
-    
    if (var1 == true && var2 == true)
     {
         EtatEau = 2;
