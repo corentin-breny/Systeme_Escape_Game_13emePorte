@@ -123,9 +123,9 @@
 ?>
 
 <?php
-	if($capteur=3)
+	if($actionneurs=1)
 	{
-		if($etat1=1)
+		if($etat2=1)
 		{
 			?>
 			<div class="carréMeca3.1">
@@ -133,7 +133,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		else($etat2=0)
 		{
 			?>
 			<div class="carréMeca3">
@@ -174,7 +174,7 @@
 ?>
 
 <?php
-	if($capteur=4)
+	if($capteur=3)
 	{
 		if($etat1=1)
 		{
@@ -196,9 +196,9 @@
 ?>
 
 <?php
-	if($capteur=5)
+	if($actionneurs=2)
 	{
-		if($etat1=1)
+		if($etat2=1)
 		{
 			?>
 			<div class="carréMeca5.1">
@@ -206,7 +206,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		else($etat2=0)
 		{
 			?>
 			<div class="carréMeca5">
@@ -245,7 +245,7 @@
 ?>	
 	
 <?php
-	if($capteur=6)
+	if($capteur=4)
 	{
 		if($etat1=1)
 		{
@@ -267,9 +267,9 @@
 ?>	
 
 <?php
-	if($capteur=7)
+	if($actionneurs=3)
 	{
-		if($etat1=1)
+		if($etat2=1)
 		{
 			?>
 			<div class="carréMeca7.1">
@@ -277,7 +277,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		else($etat2=0)
 		{
 			?>
 			<div class="carréMeca7">
@@ -289,9 +289,9 @@
 ?>	
 
 <?php
-	if($capteur=8)
+	if($actionneurs=4)
 	{
-		if($etat1=1)
+		if($etat2=1)
 		{
 			?>
 			<div class="carréMeca8.1">
@@ -299,7 +299,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		else($etat2=0)
 		{
 			?>
 			<div class="carréMeca8">
@@ -338,7 +338,7 @@
 ?>		
 
 <?php
-	if($capteur=9)
+	if($capteur=5)
 	{
 		if($etat1=1)
 		{
@@ -360,7 +360,7 @@
 ?>
 
 <?php
-	if($capteur=10)
+	if($capteur=6)
 	{
 		if($etat1=1)
 		{
@@ -382,7 +382,7 @@
 ?>	
 
 <?php
-	if($capteur=11)
+	if($capteur=7)
 	{
 		if($etat1=1)
 		{
@@ -404,9 +404,9 @@
 ?>	
 
 <?php
-	if($capteur=12)
+	if($actionneurs=5)
 	{
-		if($etat1=1)
+		if($etat2=1)
 		{
 			?>
 			<div class="carréMeca12.1">
@@ -414,7 +414,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		else($etat2=0)
 		{
 			?>
 			<div class="carréMeca12">
@@ -426,9 +426,9 @@
 ?>	
 
 <?php
-	if($capteur=13)
+	if($actionneurs=6)
 	{
-		if($etat1=1)
+		if($etat2=1)
 		{
 			?>
 			<div class="carréMeca13.1">
@@ -436,7 +436,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		else($etat2=0)
 		{
 			?>
 			<div class="carréMeca13">
@@ -475,7 +475,7 @@
 ?>
 
 <?php
-	if($capteur=14)
+	if($capteur=8)
 	{
 		if($etat1=1)
 		{
@@ -497,7 +497,7 @@
 ?>	
 
 <?php
-	if($capteur=15)
+	if($capteur=9)
 	{
 		if($etat1=1)
 		{
@@ -519,7 +519,7 @@
 ?>		
 
 <?php
-	if($capteur=16)
+	if($capteur=10)
 	{
 		if($etat1=1)
 		{
@@ -541,9 +541,9 @@
 ?>		
 
 <?php
-	if($capteur=17)
+	if($actionneurs=7)
 	{
-		if($etat1=1)
+		if($etat2=1)
 		{
 			?>
 			<div class="carréMeca17.1">
@@ -551,7 +551,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		else($etat2=0)
 		{
 			?>
 			<div class="carréMeca17">
@@ -590,7 +590,7 @@
 ?>
 
 <?php
-	if($capteur=18)
+	if($capteur=11)
 	{
 		if($etat1=1)
 		{
@@ -612,7 +612,7 @@
 ?>	
 
 <?php
-	if($capteur=19)
+	if($capteur=12)
 	{
 		if($etat1=1)
 		{
@@ -635,7 +635,7 @@
 
 
 <?php
-	if($capteur=20)
+	if($capteur=13)
 	{
 		if($etat1=1)
 		{
@@ -658,7 +658,7 @@
 
 
 <?php
-	if($capteur=21)
+	if($capteur=14)
 	{
 		if($etat1=1)
 		{
@@ -680,7 +680,7 @@
 ?>
 
 <?php
-	if($capteur=22)
+	if($capteur=15)
 	{
 		if($etat1=1)
 		{
@@ -702,7 +702,7 @@
 ?>
 
 <?php
-	if($capteur=23)
+	if($capteur=16)
 	{
 		if($etat1=1)
 		{
@@ -724,7 +724,7 @@
 ?>
 
 <?php
-	if($capteur=24)
+	if($capteur=17)
 	{
 		if($etat1=1)
 		{
@@ -746,7 +746,7 @@
 ?>
 
 <?php
-	if($capteur=25)
+	if($capteur=18)
 	{
 		if($etat1=1)
 		{
@@ -768,9 +768,9 @@
 ?>
 
 <?php
-	if($capteur=26)
+	if($actionneurs=8)
 	{
-		if($etat1=1)
+		if($etat2=1)
 		{
 			?>
 			<div class="carréMeca26.1">
@@ -778,7 +778,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		else($etat2=0)
 		{
 			?>
 			<div class="carréMeca26">
@@ -790,9 +790,9 @@
 ?>
 
 <?php
-	if($capteur=27)
+	if($actionneurs=9)
 	{
-		if($etat1=1)
+		if($etat2=1)
 		{
 			?>
 			<div class="carréMeca27.1">
@@ -800,7 +800,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		else($etat2=0)
 		{
 			?>
 			<div class="carréMeca27">
@@ -839,7 +839,7 @@
 ?>
 
 <?php
-	if($capteur=28)
+	if($capteur=19)
 	{
 		if($etat1=1)
 		{
@@ -861,9 +861,9 @@
 ?>
 
 <?php
-	if($capteur=29)
+	if($actionneurs=10)
 	{
-		if($etat1=1)
+		if($etat2=1)
 		{
 			?>
 			<div class="carréMeca29.1">
@@ -871,7 +871,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		else($etat2=0)
 		{
 			?>
 			<div class="carréMeca29">
@@ -910,7 +910,7 @@
 ?>
 
 <?php
-	if($capteur=30)
+	if($capteur=20)
 	{
 		if($etat1=1)
 		{
@@ -932,7 +932,7 @@
 ?>	
 
 <?php
-	if($capteur=31)
+	if($capteur=21)
 	{
 		if($etat1=1)
 		{
@@ -954,9 +954,9 @@
 ?>	
 
 <?php
-	if($capteur=32)
+	if($actionneurs=11)
 	{
-		if($etat1=1)
+		if($etat2=1)
 		{
 			?>
 			<div class="carréMeca32.1">
@@ -964,7 +964,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		else($etat2=0)
 		{
 			?>
 			<div class="carréMeca32">
@@ -1003,7 +1003,7 @@
 ?>
 
 <?php
-	if($capteur=33)
+	if($capteur=22)
 	{
 		if($etat1=1)
 		{
@@ -1025,9 +1025,9 @@
 ?>	
 
 <?php
-	if($capteur=34)
+	if($actionneurs=12)
 	{
-		if($etat1=1)
+		if($etat2=1)
 		{
 			?>
 			<div class="carréMeca34.1">
@@ -1035,7 +1035,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		else($etat2=0)
 		{
 			?>
 			<div class="carréMeca34">
@@ -1047,9 +1047,9 @@
 ?>
 
 <?php
-	if($capteur=35)
+	if($actionneurs=13)
 	{
-		if($etat1=1)
+		if($etat2=1)
 		{
 			?>
 			<div class="carréMeca35.1">
@@ -1057,7 +1057,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		else($etat2=0)
 		{
 			?>
 			<div class="carréMeca35">
@@ -1069,9 +1069,9 @@
 ?>	
 
 <?php
-	if($capteur=36)
+	if($actionneurs=14)
 	{
-		if($etat1=1)
+		if($etat2=1)
 		{
 			?>
 			<div class="carréMeca36.1">
@@ -1079,7 +1079,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		else($etat2=0)
 		{
 			?>
 			<div class="carréMeca36">
@@ -1091,9 +1091,9 @@
 ?>	
 
 <?php
-	if($capteur=37)
+	if($actionneurs=15)
 	{
-		if($etat1=1)
+		if($etat2=1)
 		{
 			?>
 			<div class="carréMeca37.1">
@@ -1101,7 +1101,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		else($etat2=0)
 		{
 			?>
 			<div class="carréMeca37">
