@@ -137,7 +137,6 @@ def ask_status():
     """
     ask the mechanism and actuator status of the Arduinos
     """
-  
     for arduino in arduinos :
     
         thread_minuteur_ea = MinuteurEA(arduino)
