@@ -66,7 +66,8 @@ def recieve_actuator_status(mechanism_answer, arduino):
         print("--- Mechanism %s ---\n%s\n--- Envoie au serveur ---"  %(mechanism_answer[0], message))
         arduino['ea_timer'] = 0
         thread_minuteur_ea = MinuteurEA(arduino)
-        thread_minuteur_ea.start() #Corentin : Envoyer f"ETAT ACTIONNEUR ARDUINO{reponse[0]}" = self.arduino['em_status'][a] en BDD
+        thread_minuteur_ea.start() 
+        #Corentin : Envoyer ETAT ACTIONNEUR ARDUINO reponse[0] = self.arduino['em_status'][a] en BDD
     
 
 def recieve_mechanism_status(mechanism_answer, arduino):
@@ -88,8 +89,22 @@ def recieve_mechanism_status(mechanism_answer, arduino):
         print("--- Mechanism %s ---\n%s\n--- Envoie au serveur ---"  %(mechanism_answer[0], message))
         arduino['em_timer'] = 0
         thread_minuteur_em = MinuteurEM(arduino)
-        thread_minuteur_em.start() #Corentin : Envoyer f"ETAT MECANISME ARDUINO{reponse[0]}" = self.arduino['em_status'] en BDD
+        thread_minuteur_em.start() 
+        #Corentin : Envoyer ETAT MECANISME ARDUINO reponse[0] = self.arduino['em_status'] en BDD
 
+def convertir_message(reponse) :
+    """
+    convert the message to String
+    """
+    l = []
+    for r in reponse:
+        if r==255: 
+            break
+        l.append(chr(r))
+        
+    message="".join(l)
+    
+    return message
 
 class EtatMecanisme(Thread):
 
@@ -108,16 +123,12 @@ class EtatMecanisme(Thread):
                 time.sleep(1)
 
                 reponse=bus.read_i2c_block_data(self.arduino['address'],0x32)
-                l = []
-                for r in reponse:
-                    if r==255: 
-                        break
-                    l.append(chr(r))
-                reponse="".join(l)
                 
-                recieve_mechanism_status(reponse, self.arduino)
+                message = convertir_message(reponse)
                 
-                recieve_actuator_status(reponse, self.arduino)
+                recieve_mechanism_status(message, self.arduino)
+                
+                recieve_actuator_status(message, self.arduino)
                    
             i += 1
            
