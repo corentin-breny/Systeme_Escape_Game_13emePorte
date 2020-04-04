@@ -20,7 +20,7 @@ class Minuteur(Thread):
         self.em = em
         
     def run(self):
-        while self.em['timer'] < 5 :#60 :
+        while self.em['timer'] < 5 : #60 :
             time.sleep(1)
             self.em['timer'] += 1
 
@@ -37,7 +37,9 @@ class EtatMecanisme(Thread):
         i = 0
         while i < 20:
             with verrou :
-                print("Envoi de la valeur 1 a Arduino")
+                minuteur_reset = 0
+                
+                print("Arduino communication")
                 bus.write_byte(self.address,1)
                 time.sleep(1)
 
@@ -49,24 +51,23 @@ class EtatMecanisme(Thread):
                     l.append(chr(r))
                 reponse="".join(l)
                 
+                if self.em['timer'] >= 5 :#60 :
+                    print("--- Arduino %s : 5s elapsed ---" %reponse[0]) #print("---Arduino %s 60s elapsed---" %reponse[0])
+                    print("Mechanism status : %s" %reponse)
+                    minuteur_reset = 1
+                    #Corentin : Envoyer f"ETAT MECANISME {reponse[0]}" = self.em['status'] en BDD
+                    
                 if reponse[4] == "O" and self.em['status'] != "OK" :
-                    print("Reponse de Arduino : %s" %reponse)
-                    self.em['timer'] = 0
-                    thread0 = Minuteur(self.em)
-                    thread0.start()
+                    print("--- Arduino %s : MECHANISM STATUS HAS CHANGED ---" %reponse[0])
+                    print("Mechanism status : %s" %reponse)
                     self.em['status'] = "OK"
-                    #Envoyer f"ETAT MECANISME {reponse[0]}" = OK en BDD
-                    #for em in EM :
-                        #print(em)
-                        
-                if self.em['timer'] == 5 :#60 :
-                    print("Reponse de Arduino : %s" %reponse)
+                    minuteur_reset = 1
+                    #Corentin : Envoyer f"ETAT MECANISME {reponse[0]}" = OK en BDD
+                
+                if minuteur_reset == 1 :
                     self.em['timer'] = 0
-                    thread0 = Minuteur(self.em)
-                    thread0.start()
-                    #Envoyer f"ETAT MECANISME {reponse[0]}" = self.em['status'] en BDD
-                    #for em in EM :
-                        #print(em)
+                    thread_minuteur = Minuteur(self.em)
+                    thread_minuteur.start()
             i += 1
            
 
@@ -75,8 +76,8 @@ def ask_mechanism_status():
     ask the status mechanism of the Arduinos
     """
     for em in EM :
-        thread0 = Minuteur(em)
-        thread0.start()
+        thread_minuteur = Minuteur(em)
+        thread_minuteur.start()
         thread = EtatMecanisme(em, em['address'], em['status'])
         thread.start()
 
