@@ -42,32 +42,6 @@ class MinuteurEM(Thread):
             time.sleep(1)
             self.arduino['em_timer'] += 1
 
-def recieve_actuator_status(mechanism_answer, arduino):
-    """
-    manages the acuator status reception of the Arduinos
-    """
-    minuteur_ea_reset = 0
-    
-    cpt = 7
-    for a in arduino['ea_status'] :
-                
-        if arduino['ea_timer'] >= 5 :
-            message = "actuator status : 5s elapsed since last send"
-            minuteur_ea_reset = 1
-                    
-        if mechanism_answer[cpt] == "T" and arduino['ea_status'][a] != "OK":
-            arduino['ea_status'][a] = "OK"
-            message = "ACTUATOR STATUS HAS CHANGED"
-            minuteur_ea_reset = 1
-                           
-        cpt+=1
-                    
-    if minuteur_ea_reset == 1 :
-        print("--- Mechanism %s ---\n%s\n--- Envoie au serveur ---"  %(mechanism_answer[0], message))
-        arduino['ea_timer'] = 0
-        thread_minuteur_ea = MinuteurEA(arduino)
-        thread_minuteur_ea.start() #Corentin : Envoyer f"ETAT ACTIONNEUR ARDUINO{reponse[0]}" = self.arduino['em_status'][a] en BDD
-    
 
 def recieve_mechanism_status(mechanism_answer, arduino):
     """
@@ -76,16 +50,16 @@ def recieve_mechanism_status(mechanism_answer, arduino):
     minuteur_em_reset = 0
     
     if arduino['em_timer'] >= 60 :
-        message = "mechanism status : 60s elapsed since last send"
+        message1 = "mechanism status : 60s elapsed since last send"
         minuteur_em_reset = 1
                     
     if mechanism_answer[3] == "T" and arduino['em_status'] != "OK" :
         arduino['em_status'] = "OK"
-        message = "MECHANISM STATUS HAS CHANGED"
+        message1 = "MECHANISM STATUS HAS CHANGED"
         minuteur_em_reset = 1
                 
     if minuteur_em_reset == 1 :
-        print("--- Mechanism %s ---\n%s\n--- Envoie au serveur ---"  %(mechanism_answer[0], message))
+        print("--- Mechanism %s ---\n%s\n--- Envoie au serveur ---"  %(mechanism_answer[0], message1))
         arduino['em_timer'] = 0
         thread_minuteur_em = MinuteurEM(arduino)
         thread_minuteur_em.start() #Corentin : Envoyer f"ETAT MECANISME ARDUINO{reponse[0]}" = self.arduino['em_status'] en BDD
@@ -102,7 +76,9 @@ class EtatMecanisme(Thread):
         i = 0
         while i < 10 :
             with verrou :
-            
+                
+                minuteur_ea_reset = 0
+                
                 print("Arduino communication")
                 bus.write_byte(self.arduino['address'],1)
                 time.sleep(1)
@@ -117,8 +93,28 @@ class EtatMecanisme(Thread):
                 
                 recieve_mechanism_status(reponse, self.arduino)
                 
-                recieve_actuator_status(reponse, self.arduino)
-                   
+                
+                
+                cpt = 7
+                for a in self.arduino['ea_status'] :
+                
+                    if self.arduino['ea_timer'] >= 5 :
+                        message2 = "actuator status : 5s elapsed since last send"
+                        minuteur_ea_reset = 1
+                    
+                    if reponse[cpt] == "T" and self.arduino['ea_status'][a] != "OK":
+                        self.arduino['ea_status'][a] = "OK"
+                        message2 = "ACTUATOR STATUS HAS CHANGED"
+                        minuteur_ea_reset = 1
+                        msg = 1
+                           
+                    cpt+=1
+                    
+                if minuteur_ea_reset == 1 :
+                        print("--- Mechanism %s ---\n%s\n--- Envoie au serveur ---"  %(reponse[0], message2))
+                        self.arduino['ea_timer'] = 0
+                        thread_minuteur_ea = MinuteurEA(self.arduino)
+                        thread_minuteur_ea.start() #Corentin : Envoyer f"ETAT ACTIONNEUR ARDUINO{reponse[0]}" = self.arduino['em_status'][a] en BDD    
             i += 1
            
  
@@ -137,7 +133,6 @@ def ask_status():
         
         thread = EtatMecanisme(arduino)
         thread.start()
-
 
 def main():
     
