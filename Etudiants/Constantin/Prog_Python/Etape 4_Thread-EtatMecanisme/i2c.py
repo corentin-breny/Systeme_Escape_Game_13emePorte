@@ -7,8 +7,8 @@ from threading import Thread, RLock
 bus=smbus.SMBus(1)
 
 EM = [
-        {'address': 0x12, 'status': "NOT_OK", 'timer': 0},
-        {'address': 0x13, 'status': "NOT_OK", 'timer': 0}
+        {'address': 0x15, 'status': "NOT_OK", 'timer': 0},
+        {'address': 0x19, 'status': "NOT_OK", 'timer': 0}
      ]
      
 verrou = RLock()
@@ -57,7 +57,7 @@ class EtatMecanisme(Thread):
                     minuteur_reset = 1
                     #Corentin : Envoyer f"ETAT MECANISME {reponse[0]}" = self.em['status'] en BDD
                     
-                if reponse[4] == "O" and self.em['status'] != "OK" :
+                if reponse[3] == "T" and self.em['status'] != "OK" :
                     print("--- Arduino %s : MECHANISM STATUS HAS CHANGED ---" %reponse[0])
                     print("Mechanism status : %s" %reponse)
                     self.em['status'] = "OK"

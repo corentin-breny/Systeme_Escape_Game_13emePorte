@@ -1,6 +1,6 @@
 #include <Wire.h> // librairie permettant de communiquer via I2C
 
-#define SLAVE_ADDRESS 0x12 // initialisation de l’Arduino avec l’adresse 0x12
+#define SLAVE_ADDRESS 0x15 // initialisation de l’Arduino avec l’adresse 0x12
 int dataReceived = 0;
 bool etatMecanisme = true;
 
@@ -17,9 +17,9 @@ void sendEtatMecanisme(){
   String envoi;
   
   if(etatMecanisme == true){
-    envoi = "1EM OK";
+    envoi = "1EMTEA4FFFT";
   }else{
-    envoi = "1EM NOT_OK"; 
+    envoi = "1EMFEA4FFFF"; 
   }
   Wire.write(envoi.c_str());
   Serial.print("Donnee envoye à Raspberry : ");
