@@ -106,7 +106,7 @@ def convertir_message(reponse) :
     
     return message
 
-class EtatMecanisme(Thread):
+class Status(Thread):
 
     def __init__(self, arduino) :
         Thread.__init__(self)
@@ -146,7 +146,7 @@ def ask_status():
         thread_minuteur_em = MinuteurEM(arduino)
         thread_minuteur_em.start()
         
-        thread = EtatMecanisme(arduino)
+        thread = Status(arduino)
         thread.start()
 
 
