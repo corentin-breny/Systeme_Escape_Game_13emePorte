@@ -7,15 +7,15 @@ from threading import Thread, RLock
 bus=smbus.SMBus(1)
 
 arduinos = [
-        #{'address': 0x12, 'em_status': "NOT_OK", 'em_timer': 0},
-        #{'address': 0x13, 'em_status': "NOT_OK", 'em_timer': 0},
-        # {'address': 0x14, 'em_status': "NOT_OK", 'em_timer': 0},
-        {'address': 0x15, 'em_status': "NOT_OK", 'em_timer': 0, 'ea_status' : {'S_Dragon':"NOT_OK",'S_Fumee':"NOT_OK",'S_Led':"NOT_OK",'S_FEU':"NOT_OK"}, 'ea_timer' : 0},
-        # {'address': 0x16, 'em_status': "NOT_OK", 'em_timer': 0},
-        # {'address': 0x17, 'em_status': "NOT_OK", 'em_timer': 0},
-        # {'address': 0x18, 'em_status': "NOT_OK", 'em_timer': 0},
+        #{'address': 0x12, 'em_status': "NOT_OK", 'em_timer': 0, 'ea_status' : {'S_Echiquier':"NOT_OK"}, 'ea_timer' : 0},
+        #{'address': 0x13, 'em_status': "NOT_OK", 'em_timer': 0, 'ea_status' : {'S_Lion':"NOT_OK"}, 'ea_timer' : 0},
+        # {'address': 0x14, 'em_status': "NOT_OK", 'em_timer': 0, 'ea_status' : {'S_Meuble':"NOT_OK",'S_Terre':"NOT_OK"}, 'ea_timer' : 0},
+        {'address': 0x15, 'em_status': "NOT_OK", 'em_timer': 0, 'ea_status' : {'S_Dragon':"NOT_OK",'S_Fumee':"NOT_OK",'S_Led':"NOT_OK",'S_Feu':"NOT_OK"}, 'ea_timer' : 0},
+        # {'address': 0x16, 'em_status': "NOT_OK", 'em_timer': 0, 'ea_status' : {'S_Frigo':"NOT_OK",'S_Fontaine':"NOT_OK", 'S_Eau':"NOT_OK"}, 'ea_timer' : 0},
+        # {'address': 0x17, 'em_status': "NOT_OK", 'em_timer': 0, 'ea_status' : {'S_Vanne':"NOT_OK",'S_Chien':"NOT_OK",'S_Led':"NOT_OK",'S_Air':"NOT_OK"}, 'ea_timer' : 0},
+        # {'address': 0x18, 'em_status': "NOT_OK", 'em_timer': 0, 'ea_status' : {'S_Katana':"NOT_OK"}, 'ea_timer' : 0},
         {'address': 0x19, 'em_status': "NOT_OK", 'em_timer': 0, 'ea_status' : {'S_Tableau':"NOT_OK",'S_Led':"NOT_OK"}, 'ea_timer' : 0}#,
-        # {'address': 0x20, 'em_status': "NOT_OK", 'em_timer': 0}
+        # {'address': 0x20, 'em_status': "NOT_OK", 'em_timer': 0, 'ea_status' : {'S_PorteFinal':"NOT_OK"}, 'ea_timer' : 0}
      ]
      
 verrou = RLock()
