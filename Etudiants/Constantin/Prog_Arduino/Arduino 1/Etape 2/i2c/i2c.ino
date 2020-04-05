@@ -4,26 +4,29 @@
 int dataReceived = 0;
 bool etatMecanisme = true;
 
-
 void receiveData(int byteCount){
-    while(Wire.available()) {
-        dataReceived = Wire.read();
-        Serial.print("Donnee recue : ");
-        Serial.println(dataReceived);
-    }
+  Serial.print("data received: ");
+        String strMsg;
+  while(Wire.available() > 0) {
+          char c = Wire.read();
+    strMsg += String(c);
+  }
+  Serial.println();
+  Serial.print(strMsg);
+  Serial.println();
 }
 
 void sendEtatMecanisme(){
   String envoi;
   
   if(etatMecanisme == true){
-    envoi = "EMTEAFFFT";
+    envoi = "MSTASFFFT";
   }else{
-    envoi = "EMFEAFFFF"; 
+    envoi = "MSFASFFFF"; 
   }
   Wire.write(envoi.c_str());
-  Serial.print("Donnee envoye à Raspberry : ");
-  Serial.println(envoi);
+  //Serial.print("Donnee envoye à Raspberry : ");
+  //Serial.println(envoi);
   
 }
 
@@ -31,7 +34,7 @@ void sendEtatMecanisme(){
 void setup() {
     Serial.begin(9600);
     Wire.begin(SLAVE_ADDRESS);
-    //Wire.onReceive(receiveData);
+    Wire.onReceive(receiveData);
     Wire.onRequest(sendEtatMecanisme);
 }
 

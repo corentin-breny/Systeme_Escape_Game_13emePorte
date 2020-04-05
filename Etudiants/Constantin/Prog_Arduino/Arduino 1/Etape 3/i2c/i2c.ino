@@ -1,6 +1,6 @@
 #include <Wire.h> // librairie permettant de communiquer via I2C
 
-#define SLAVE_ADDRESS 0x15 // initialisation de l’Arduino avec l’adresse 0x12
+#define SLAVE_ADDRESS 0x15 // initialisation de l’Arduino avec l’adresse 0x15
 int dataReceived = 0;
 bool etatMecanisme = true;
 
