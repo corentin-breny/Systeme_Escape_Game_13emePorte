@@ -1,4 +1,4 @@
-#!usr/bin/python3.7
+#!usr/bin/python2.7
 
 import smbus
 import time
@@ -17,7 +17,7 @@ arduinos = [
         {'id': 8, 'address': 0x19, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'acuator_status' : {'S_Tableau':"NOT_OK",'S_Led':"NOT_OK"}, 'as_timer' : 0}#,
         # {'id': 9, 'address': 0x20, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'acuator_status' : {'S_PorteFinal':"NOT_OK"}, 'as_timer' : 0}
      ]
-     
+
 verrou = RLock()
 
 def send_AStoDataBase(id_arduino, acuator_name, acuator_status):
@@ -25,19 +25,19 @@ def send_AStoDataBase(id_arduino, acuator_name, acuator_status):
     send acuator status to DataBase
     """
     #Corentin : Ecrire code
-    
+
 def send_MStoDataBase(id_arduino, mechanism_status):
     """
     send mechanism status to DataBase
     """
     #Corentin : Ecrire code
-    
+
 class ASTimer(Thread):
 
     def __init__(self, arduino):
         Thread.__init__(self)
         self.arduino = arduino
-        
+
     def run(self):
         while self.arduino['as_timer'] < 5 :
             time.sleep(1)
@@ -48,7 +48,7 @@ class MSTimer(Thread):
     def __init__(self, arduino):
         Thread.__init__(self)
         self.arduino = arduino
-        
+
     def run(self):
         while self.arduino['ms_timer'] < 60 :
             time.sleep(1)
@@ -59,50 +59,50 @@ def get_acuator_status(message, arduino):
     manages acuator status reception of a Mechanism
     """
     as_timer_reset = 0
-    
+
     cpt = 5
     for acuator_name in arduino['acuator_status'] :
-                
+
         if arduino['as_timer'] >= 5 :
             message_console = "actuator status : 5s elapsed since last send"
             as_timer_reset = 1
             send_AStoDataBase(arduino['id'], acuator_name, arduino['acuator_status'][acuator_name])#Fonction Corentin
-                    
+
         if message[cpt] == "T" and arduino['acuator_status'][acuator_name] != "OK":
             arduino['acuator_status'][acuator_name] = "OK"
             message_console = "ACTUATOR STATUS HAS CHANGED"
             as_timer_reset = 1
             send_AStoDataBase(arduino['id'], acuator_name, arduino['acuator_status'][acuator_name])#Fonction Corentin
-                           
+
         cpt+=1
-                    
+
     if as_timer_reset == 1 :
         print("--- Mechanism %s ---\n%s\n--- Envoie au serveur ---"  %(arduino['id'], message_console))
         arduino['as_timer'] = 0
         as_timer_thread = ASTimer(arduino)
         as_timer_thread.start()
-    
+
 
 def get_mechanism_status(message, arduino):
     """
     manages mechanism status reception of a Mechanism
     """
     ms_timer_reset = 0
-    
+
     if arduino['ms_timer'] >= 60 :
         message_console = "mechanism status : 60s elapsed since last send"
         ms_timer_reset = 1
-                    
+
     if message[2] == "T" and arduino['mechanism_status'] != "OK" :
         arduino['mechanism_status'] = "OK"
         message_console = "MECHANISM STATUS HAS CHANGED"
         ms_timer_reset = 1
-                
+
     if ms_timer_reset == 1 :
         print("--- Mechanism %s ---\n%s\n--- Envoie au serveur ---"  %(arduino['id'], message_console))
         arduino['ms_timer'] = 0
         ms_timer_thread = MSTimer(arduino)
-        ms_timer_thread.start() 
+        ms_timer_thread.start()
         send_MStoDataBase(arduino['id'], arduino['mechanism_status'])#Fonction Corentin
 
 
@@ -112,12 +112,12 @@ def read_message(answer) :
     """
     l = []
     for letter in answer:
-        if letter==255: 
+        if letter==255:
             break
         l.append(chr(letter))
-        
+
     message="".join(l)
-    
+
     return message
 
 
@@ -126,46 +126,46 @@ class ArduinoCom(Thread):
     def __init__(self, arduino) :
         Thread.__init__(self)
         self.arduino = arduino
-        
+
     def run(self):
         #while True:
         i = 0
         while i < 10 :
             with verrou :
-            
+
                 print("Arduino communication")
                 bus.write_byte(self.arduino['address'],1)
                 time.sleep(1)
 
                 answer=bus.read_i2c_block_data(self.arduino['address'],0x32)
-                
+
                 message = read_message(answer)
-                
+
                 get_mechanism_status(message, self.arduino)
-                
+
                 get_acuator_status(message, self.arduino)
-                   
+
             i += 1
-           
+
 
 def get_status():
     """
     get mechanism and actuator status of the Mechanism
     """
     for arduino in arduinos :
-    
+
         as_timer_thread = ASTimer(arduino)
         as_timer_thread.start()
-        
+
         ms_timer_thread = MSTimer(arduino)
         ms_timer_thread.start()
-        
+
         thread = ArduinoCom(arduino)
         thread.start()
 
 
 def main():
-    
+
     get_status()
-    
+
 main()
