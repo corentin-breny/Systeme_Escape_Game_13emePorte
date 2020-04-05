@@ -17,9 +17,9 @@ void sendEtatMecanisme(){
   String envoi;
   
   if(etatMecanisme == true){
-    envoi = "1EMTEA4FFFT";
+    envoi = "EMTEAFFFT";
   }else{
-    envoi = "1EMFEA4FFFF"; 
+    envoi = "EMFEAFFFF"; 
   }
   Wire.write(envoi.c_str());
   Serial.print("Donnee envoye à Raspberry : ");
