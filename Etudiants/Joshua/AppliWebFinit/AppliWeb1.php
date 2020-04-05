@@ -64,7 +64,7 @@
 			</div>
 			<?php			
 		}
-		else($etat3=0)
+		elseif($etat3=0)
 		{
 			?>
 			<div class="carré1">
@@ -86,7 +86,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca1">
@@ -108,7 +108,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca2">
@@ -130,7 +130,7 @@
 			</div>
 			<?php			
 		}
-		else($etat2=0)
+		elseif($etat2=0)
 		{
 			?>
 			<div class="carréMeca3">
@@ -159,7 +159,7 @@
 			</div>
 			<?php			
 		}
-		else($etat3=0)
+		elseif($etat3=0)
 		{
 			?>
 			<div class="carré2">
@@ -181,7 +181,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca4">
@@ -203,7 +203,7 @@
 			</div>
 			<?php			
 		}
-		else($etat2=0)
+		elseif($etat2=0)
 		{
 			?>
 			<div class="carréMeca5">
@@ -230,7 +230,7 @@
 			</div>
 			<?php			
 		}
-		else($etat3=0)
+		elseif($etat3=0)
 		{
 			?>
 			<div class="carré3">
@@ -252,7 +252,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca6">
@@ -274,7 +274,7 @@
 			</div>
 			<?php			
 		}
-		else($etat2=0)
+		elseif($etat2=0)
 		{
 			?>
 			<div class="carréMeca7">
@@ -296,7 +296,7 @@
 			</div>
 			<?php			
 		}
-		else($etat2=0)
+		elseif($etat2=0)
 		{
 			?>
 			<div class="carréMeca8">
@@ -323,7 +323,7 @@
 			</div>
 			<?php			
 		}
-		else($etat3=0)
+		elseif($etat3=0)
 		{
 			?>
 			<div class="carré4">
@@ -345,7 +345,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca9">
@@ -367,7 +367,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca10">
@@ -389,7 +389,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca11">
@@ -411,7 +411,7 @@
 			</div>
 			<?php			
 		}
-		else($etat2=0)
+		elseif($etat2=0)
 		{
 			?>
 			<div class="carréMeca12">
@@ -433,7 +433,7 @@
 			</div>
 			<?php			
 		}
-		else($etat2=0)
+		elseif($etat2=0)
 		{
 			?>
 			<div class="carréMeca13">
@@ -460,7 +460,7 @@
 			</div>
 			<?php			
 		}
-		else($etat3=0)
+		elseif($etat3=0)
 		{
 			?>
 			<div class="carré5">
@@ -482,7 +482,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca14">
@@ -504,7 +504,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca15">
@@ -526,7 +526,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca16">
@@ -548,7 +548,7 @@
 			</div>
 			<?php			
 		}
-		else($etat2=0)
+		elseif($etat2=0)
 		{
 			?>
 			<div class="carréMeca17">
@@ -575,7 +575,7 @@
 			</div>
 			<?php			
 		}
-		else($etat3=0)
+		elseif($etat3=0)
 		{
 			?>
 			<div class="carré6">
@@ -597,7 +597,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca18">
@@ -619,7 +619,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca19">
@@ -642,7 +642,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca20">
@@ -665,7 +665,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca21">
@@ -687,7 +687,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca22">
@@ -709,7 +709,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca23">
@@ -731,7 +731,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca24">
@@ -753,7 +753,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca25">
@@ -775,7 +775,7 @@
 			</div>
 			<?php			
 		}
-		else($etat2=0)
+		elseif($etat2=0)
 		{
 			?>
 			<div class="carréMeca26">
@@ -797,7 +797,7 @@
 			</div>
 			<?php			
 		}
-		else($etat2=0)
+		elseif($etat2=0)
 		{
 			?>
 			<div class="carréMeca27">
@@ -824,7 +824,7 @@
 			</div>
 			<?php			
 		}
-		else($etat3=0)
+		elseif($etat3=0)
 		{
 			?>
 			<div class="carré7">
@@ -846,7 +846,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca28">
@@ -868,7 +868,7 @@
 			</div>
 			<?php			
 		}
-		else($etat2=0)
+		elseif($etat2=0)
 		{
 			?>
 			<div class="carréMeca29">
@@ -895,7 +895,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carré8">
@@ -917,7 +917,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca30">
@@ -939,7 +939,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca31">
@@ -961,7 +961,7 @@
 			</div>
 			<?php			
 		}
-		else($etat2=0)
+		elseif($etat2=0)
 		{
 			?>
 			<div class="carréMeca32">
@@ -988,7 +988,7 @@
 			</div>
 			<?php			
 		}
-		else($etat3=0)
+		elseif($etat3=0)
 		{
 			?>
 			<div class="carré9">
@@ -1010,7 +1010,7 @@
 			</div>
 			<?php			
 		}
-		else($etat1=0)
+		elseif($etat1=0)
 		{
 			?>
 			<div class="carréMeca33">
@@ -1032,7 +1032,7 @@
 			</div>
 			<?php			
 		}
-		else($etat2=0)
+		elseif($etat2=0)
 		{
 			?>
 			<div class="carréMeca34">
@@ -1054,7 +1054,7 @@
 			</div>
 			<?php			
 		}
-		else($etat2=0)
+		elseif($etat2=0)
 		{
 			?>
 			<div class="carréMeca35">
@@ -1076,7 +1076,7 @@
 			</div>
 			<?php			
 		}
-		else($etat2=0)
+		elseif($etat2=0)
 		{
 			?>
 			<div class="carréMeca36">
@@ -1098,7 +1098,7 @@
 			</div>
 			<?php			
 		}
-		else($etat2=0)
+		elseif($etat2=0)
 		{
 			?>
 			<div class="carréMeca37">
