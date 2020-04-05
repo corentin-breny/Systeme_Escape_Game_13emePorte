@@ -64,20 +64,20 @@ def get_actuator_status(message, arduino):
     for actuator_name in arduino['actuator_status'] :
 
         if arduino['as_timer'] >= 5 :
-            message_console = "actuator status : 5s elapsed since last send"
+            message_console = "5s elapsed since last send"
             as_timer_reset = 1
             send_AStoDataBase(arduino['id'], actuator_name, arduino['actuator_status'][actuator_name])#Fonction Corentin
 
         if message[cpt] == "T" and arduino['actuator_status'][actuator_name] != "OK":
             arduino['actuator_status'][actuator_name] = "OK"
-            message_console = "ACTUATOR STATUS HAS CHANGED"
+            message_console = "CHANGE"
             as_timer_reset = 1
             send_AStoDataBase(arduino['id'], actuator_name, arduino['actuator_status'][actuator_name])#Fonction Corentin
 
         cpt+=1
 
     if as_timer_reset == 1 :
-        print("Mechanism %s : %s --- Envoie au serveur ---"  %(arduino['id'], message_console))
+        print("Mechanism %s : actuator status : %s --- Envoie au serveur ---"  %(arduino['id'], message_console))
         arduino['as_timer'] = 0
         as_timer_thread = ASTimer(arduino)
         as_timer_thread.start()
@@ -90,16 +90,16 @@ def get_mechanism_status(message, arduino):
     ms_timer_reset = 0
 
     if arduino['ms_timer'] >= 60 :
-        message_console = "mechanism status : 60s elapsed since last send"
+        message_console = "60s elapsed since last send"
         ms_timer_reset = 1
 
     if message[2] == "T" and arduino['mechanism_status'] != "OK" :
         arduino['mechanism_status'] = "OK"
-        message_console = "MECHANISM STATUS HAS CHANGED"
+        message_console = "CHANGE"
         ms_timer_reset = 1
 
     if ms_timer_reset == 1 :
-        print("Mechanism %s : %s --- Envoie au serveur ---"  %(arduino['id'], message_console))
+        print("Mechanism %s : mechanism status : %s --- Envoie au serveur ---"  %(arduino['id'], message_console))
         arduino['ms_timer'] = 0
         ms_timer_thread = MSTimer(arduino)
         ms_timer_thread.start()
