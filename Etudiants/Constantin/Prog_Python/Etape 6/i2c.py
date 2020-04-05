@@ -7,22 +7,22 @@ from threading import Thread, RLock
 bus=smbus.SMBus(1)
 
 arduinos = [
-        # {'id': 1, 'address': 0x12, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'acuator_status' : {'S_Echiquier':"NOT_OK"}, 'as_timer' : 0},
-        # {'id': 2, 'address': 0x13, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'acuator_status' : {'S_Lion':"NOT_OK"}, 'as_timer' : 0},
-        # {'id': 3, 'address': 0x14, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'acuator_status' : {'S_Meuble':"NOT_OK",'S_Terre':"NOT_OK"}, 'as_timer' : 0},
-        {'id': 4, 'address': 0x15, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'acuator_status' : {'S_Dragon':"NOT_OK",'S_Fumee':"NOT_OK",'S_Led':"NOT_OK",'S_Feu':"NOT_OK"}, 'as_timer' : 0},
-        # {'id': 5, 'address': 0x16, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'acuator_status' : {'S_Frigo':"NOT_OK",'S_Fontaine':"NOT_OK", 'S_Eau':"NOT_OK"}, 'as_timer' : 0},
-        # {'id': 6, 'address': 0x17, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'acuator_status' : {'S_Vanne':"NOT_OK",'S_Chien':"NOT_OK",'S_Led':"NOT_OK",'S_Air':"NOT_OK"}, 'as_timer' : 0},
-        # {'id': 7, 'address': 0x18, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'acuator_status' : {'S_Katana':"NOT_OK"}, 'as_timer' : 0},
-        {'id': 8, 'address': 0x19, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'acuator_status' : {'S_Tableau':"NOT_OK",'S_Led':"NOT_OK"}, 'as_timer' : 0}#,
-        # {'id': 9, 'address': 0x20, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'acuator_status' : {'S_PorteFinal':"NOT_OK"}, 'as_timer' : 0}
+        # {'id': 1, 'address': 0x12, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Echiquier':"NOT_OK"}, 'as_timer' : 0},
+        # {'id': 2, 'address': 0x13, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Lion':"NOT_OK"}, 'as_timer' : 0},
+        # {'id': 3, 'address': 0x14, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Meuble':"NOT_OK",'S_Terre':"NOT_OK"}, 'as_timer' : 0},
+        {'id': 4, 'address': 0x15, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Dragon':"NOT_OK",'S_Fumee':"NOT_OK",'S_Led':"NOT_OK",'S_Feu':"NOT_OK"}, 'as_timer' : 0},
+        # {'id': 5, 'address': 0x16, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Frigo':"NOT_OK",'S_Fontaine':"NOT_OK", 'S_Eau':"NOT_OK"}, 'as_timer' : 0},
+        # {'id': 6, 'address': 0x17, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Vanne':"NOT_OK",'S_Chien':"NOT_OK",'S_Led':"NOT_OK",'S_Air':"NOT_OK"}, 'as_timer' : 0},
+        # {'id': 7, 'address': 0x18, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Katana':"NOT_OK"}, 'as_timer' : 0},
+        {'id': 8, 'address': 0x19, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Tableau':"NOT_OK",'S_Led':"NOT_OK"}, 'as_timer' : 0}#,
+        # {'id': 9, 'address': 0x20, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_PorteFinal':"NOT_OK"}, 'as_timer' : 0}
      ]
 
 verrou = RLock()
 
-def send_AStoDataBase(id_arduino, acuator_name, acuator_status):
+def send_AStoDataBase(id_arduino, actuator_name, actuator_status):
     """
-    send acuator status to DataBase
+    send actuator status to DataBase
     """
     #Corentin : Ecrire code
 
@@ -54,30 +54,30 @@ class MSTimer(Thread):
             time.sleep(1)
             self.arduino['ms_timer'] += 1
 
-def get_acuator_status(message, arduino):
+def get_actuator_status(message, arduino):
     """
-    manages acuator status reception of a Mechanism
+    manages actuator status reception of a Mechanism
     """
     as_timer_reset = 0
 
     cpt = 5
-    for acuator_name in arduino['acuator_status'] :
+    for actuator_name in arduino['actuator_status'] :
 
         if arduino['as_timer'] >= 5 :
             message_console = "actuator status : 5s elapsed since last send"
             as_timer_reset = 1
-            send_AStoDataBase(arduino['id'], acuator_name, arduino['acuator_status'][acuator_name])#Fonction Corentin
+            send_AStoDataBase(arduino['id'], actuator_name, arduino['actuator_status'][actuator_name])#Fonction Corentin
 
-        if message[cpt] == "T" and arduino['acuator_status'][acuator_name] != "OK":
-            arduino['acuator_status'][acuator_name] = "OK"
+        if message[cpt] == "T" and arduino['actuator_status'][actuator_name] != "OK":
+            arduino['actuator_status'][actuator_name] = "OK"
             message_console = "ACTUATOR STATUS HAS CHANGED"
             as_timer_reset = 1
-            send_AStoDataBase(arduino['id'], acuator_name, arduino['acuator_status'][acuator_name])#Fonction Corentin
+            send_AStoDataBase(arduino['id'], actuator_name, arduino['actuator_status'][actuator_name])#Fonction Corentin
 
         cpt+=1
 
     if as_timer_reset == 1 :
-        print("--- Mechanism %s ---\n%s\n--- Envoie au serveur ---"  %(arduino['id'], message_console))
+        print("Mechanism %s : %s --- Envoie au serveur ---"  %(arduino['id'], message_console))
         arduino['as_timer'] = 0
         as_timer_thread = ASTimer(arduino)
         as_timer_thread.start()
@@ -99,7 +99,7 @@ def get_mechanism_status(message, arduino):
         ms_timer_reset = 1
 
     if ms_timer_reset == 1 :
-        print("--- Mechanism %s ---\n%s\n--- Envoie au serveur ---"  %(arduino['id'], message_console))
+        print("Mechanism %s : %s --- Envoie au serveur ---"  %(arduino['id'], message_console))
         arduino['ms_timer'] = 0
         ms_timer_thread = MSTimer(arduino)
         ms_timer_thread.start()
@@ -128,9 +128,9 @@ class ArduinoCom(Thread):
         self.arduino = arduino
 
     def run(self):
-        #while True:
-        i = 0
-        while i < 10 :
+        #while True: #A decommenter
+        i = 0 #A supprimer
+        while i < 10 : #A supprimer
             with verrou :
 
                 print("Arduino communication")
@@ -143,9 +143,9 @@ class ArduinoCom(Thread):
 
                 get_mechanism_status(message, self.arduino)
 
-                get_acuator_status(message, self.arduino)
+                get_actuator_status(message, self.arduino)
 
-            i += 1
+            i += 1 #A supprimer
 
 
 def get_status():
