@@ -4,15 +4,6 @@
 int dataReceived = 0;
 bool etatMecanisme = true;
 
-
-/*void receiveData(int byteCount){
-    while(Wire.available()) {
-        dataReceived = Wire.read();
-        Serial.print("Donnee recue : ");
-        Serial.println(dataReceived);
-    }
-}*/
-
 void receiveData(int byteCount){
   Serial.print("data received: ");
         String strMsg;

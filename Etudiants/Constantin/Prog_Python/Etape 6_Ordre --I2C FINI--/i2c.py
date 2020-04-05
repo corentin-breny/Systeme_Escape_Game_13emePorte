@@ -28,16 +28,17 @@ def get_socketMessage():
     get socket message
     """
     #Thomas : Ecrire code
-    
+
     # NE PAS OUBLIER CETTE PARTIE :
     # if socket_message != ""
         # for arduino in arduinos :
             # if socket_message[0] == arduino['id']:
                 # arduino['ordre'] = "OK"
-    
+
     socket_message = "4MSFASTXXX"
-    
+
     return socket_message
+
 
 def send_AStoDataBase(id_arduino, actuator_name, actuator_status):
     """
@@ -45,11 +46,13 @@ def send_AStoDataBase(id_arduino, actuator_name, actuator_status):
     """
     #Corentin : Ecrire code
 
+
 def send_MStoDataBase(id_arduino, mechanism_status):
     """
     send mechanism status to DataBase
     """
     #Corentin : Ecrire code
+
 
 class ASTimer(Thread):
 
@@ -62,6 +65,7 @@ class ASTimer(Thread):
             time.sleep(1)
             self.arduino['as_timer'] += 1
 
+
 class MSTimer(Thread):
 
     def __init__(self, arduino):
@@ -72,6 +76,7 @@ class MSTimer(Thread):
         while self.arduino['ms_timer'] < 60 :
             time.sleep(1)
             self.arduino['ms_timer'] += 1
+
 
 def get_actuator_status(message, arduino):
     """
@@ -139,11 +144,13 @@ def read_message(answer) :
 
     return message
 
+
 def convertStrToListHex(strChaine):
    lstHex = []
    for c in strChaine:
       lstHex.append(ord(c))
    return lstHex
+
 
 def send_order(arduino):
     if arduino['ordre'] == "OK" :
@@ -167,7 +174,7 @@ class ArduinoCom(Thread):
             with verrou :
 
                 print("Arduino communication")
-                
+
                 send_order(self.arduino)
 
                 answer=bus.read_i2c_block_data(self.arduino['address'],0x32)
@@ -177,7 +184,7 @@ class ArduinoCom(Thread):
                 get_mechanism_status(message, self.arduino)
 
                 get_actuator_status(message, self.arduino)
-                
+
                 time.sleep(1)
 
             i += 1 #A supprimer
