@@ -7,18 +7,37 @@ from threading import Thread, RLock
 bus=smbus.SMBus(1)
 
 arduinos = [
-        # {'id': 1, 'address': 0x12, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Echiquier':"NOT_OK"}, 'as_timer' : 0},
-        # {'id': 2, 'address': 0x13, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Lion':"NOT_OK"}, 'as_timer' : 0},
-        # {'id': 3, 'address': 0x14, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Meuble':"NOT_OK",'S_Terre':"NOT_OK"}, 'as_timer' : 0},
-        {'id': 4, 'address': 0x15, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Dragon':"NOT_OK",'S_Fumee':"NOT_OK",'S_Led':"NOT_OK",'S_Feu':"NOT_OK"}, 'as_timer' : 0},
-        # {'id': 5, 'address': 0x16, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Frigo':"NOT_OK",'S_Fontaine':"NOT_OK", 'S_Eau':"NOT_OK"}, 'as_timer' : 0},
-        # {'id': 6, 'address': 0x17, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Vanne':"NOT_OK",'S_Chien':"NOT_OK",'S_Led':"NOT_OK",'S_Air':"NOT_OK"}, 'as_timer' : 0},
-        # {'id': 7, 'address': 0x18, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Katana':"NOT_OK"}, 'as_timer' : 0},
-        {'id': 8, 'address': 0x19, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Tableau':"NOT_OK",'S_Led':"NOT_OK"}, 'as_timer' : 0}#,
-        # {'id': 9, 'address': 0x20, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_PorteFinal':"NOT_OK"}, 'as_timer' : 0}
+        # {'id': 1, 'address': 0x12, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Echiquier':"NOT_OK"}, 'as_timer' : 0, 'ordre' : "NOT_OK"},
+        # {'id': 2, 'address': 0x13, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Lion':"NOT_OK"}, 'as_timer' : 0, 'ordre' : "NOT_OK"},
+        # {'id': 3, 'address': 0x14, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Meuble':"NOT_OK",'S_Terre':"NOT_OK"}, 'as_timer' : 0, 'ordre' : "NOT_OK"},
+        {'id': 4, 'address': 0x15, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Dragon':"NOT_OK",'S_Fumee':"NOT_OK",'S_Led':"NOT_OK",'S_Feu':"NOT_OK"}, 'as_timer' : 0, 'ordre' : "OK"},
+        # {'id': 5, 'address': 0x16, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Frigo':"NOT_OK",'S_Fontaine':"NOT_OK", 'S_Eau':"NOT_OK"}, 'as_timer' : 0, 'ordre' : "NOT_OK"},
+        # {'id': 6, 'address': 0x17, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Vanne':"NOT_OK",'S_Chien':"NOT_OK",'S_Led':"NOT_OK",'S_Air':"NOT_OK"}, 'as_timer' : 0,'ordre' : "NOT_OK"},
+        # {'id': 7, 'address': 0x18, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Katana':"NOT_OK"}, 'as_timer' : 0, 'ordre' : "NOT_OK"},
+        {'id': 8, 'address': 0x19, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Tableau':"NOT_OK",'S_Led':"NOT_OK"}, 'as_timer' : 0, 'ordre' : "NOT_OK"}#,
+        # {'id': 9, 'address': 0x20, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_PorteFinal':"NOT_OK"}, 'as_timer' : 0, 'ordre' : "NOT_OK"}
      ]
 
 verrou = RLock()
+
+#Thomas :
+        #Structure du msgSocket : [noMecanisme]MS[T ou F ou X]AS[T ou F ou X][T ou F ou X] (Si il y a 2 actionneurs) ex: 8MSFASTX
+
+def get_socketMessage():
+    """
+    get socket message
+    """
+    #Thomas : Ecrire code
+    
+    # NE PAS OUBLIER CETTE PARTIE :
+    # if socket_message != ""
+        # for arduino in arduinos :
+            # if socket_message[0] == arduino['id']:
+                # arduino['ordre'] = "OK"
+    
+    socket_message = "4MSFASTXXX"
+    
+    return socket_message
 
 def send_AStoDataBase(id_arduino, actuator_name, actuator_status):
     """
@@ -77,7 +96,7 @@ def get_actuator_status(message, arduino):
         cpt+=1
 
     if as_timer_reset == 1 :
-        print("Mechanism %s : actuator status : %s --- database update ---"  %(arduino['id'], message_console))
+        print("Mechanism %s : actuator status : %s --- database update ---" %(arduino['id'], message_console))
         arduino['as_timer'] = 0
         as_timer_thread = ASTimer(arduino)
         as_timer_thread.start()
@@ -99,7 +118,7 @@ def get_mechanism_status(message, arduino):
         ms_timer_reset = 1
 
     if ms_timer_reset == 1 :
-        print("Mechanism %s : mechanism status : %s --- database update ---"  %(arduino['id'], message_console))
+        print("Mechanism %s : mechanism status : %s --- database update ---" %(arduino['id'], message_console))
         arduino['ms_timer'] = 0
         ms_timer_thread = MSTimer(arduino)
         ms_timer_thread.start()
@@ -120,6 +139,20 @@ def read_message(answer) :
 
     return message
 
+def convertStrToListHex(strChaine):
+   lstHex = []
+   for c in strChaine:
+      lstHex.append(ord(c))
+   return lstHex
+
+def send_order(arduino):
+    if arduino['ordre'] == "OK" :
+        socket_message = get_socketMessage()#"4MSFASTXXX" Fonction Thomas
+        order = convertStrToListHex(socket_message)
+        bus.write_i2c_block_data(arduino['address'], 0, order)
+        arduino['ordre'] = "NOT_OK"
+        print("Mechanism %s : ORDER SENT" %arduino['id'])
+
 
 class ArduinoCom(Thread):
 
@@ -130,12 +163,12 @@ class ArduinoCom(Thread):
     def run(self):
         #while True: #A decommenter
         i = 0 #A supprimer
-        while i < 10 : #A supprimer
+        while i < 5 : #A supprimer
             with verrou :
 
                 print("Arduino communication")
-                bus.write_byte(self.arduino['address'],1)
-                time.sleep(1)
+                
+                send_order(self.arduino)
 
                 answer=bus.read_i2c_block_data(self.arduino['address'],0x32)
 
@@ -144,13 +177,15 @@ class ArduinoCom(Thread):
                 get_mechanism_status(message, self.arduino)
 
                 get_actuator_status(message, self.arduino)
+                
+                time.sleep(1)
 
             i += 1 #A supprimer
 
 
-def get_status():
+def execute():
     """
-    get mechanism and actuator status of the Mechanism
+    get mechanism and actuator status and gives orders if necessary
     """
     for arduino in arduinos :
 
@@ -166,6 +201,6 @@ def get_status():
 
 def main():
 
-    get_status()
+    execute()
 
 main()
