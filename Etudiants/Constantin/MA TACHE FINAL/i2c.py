@@ -168,9 +168,7 @@ class ArduinoCom(Thread):
         self.arduino = arduino
 
     def run(self):
-        #while True: #A decommenter
-        i = 0 #A supprimer
-        while i < 5 : #A supprimer
+        while True:
             with verrou :
 
                 print("Arduino communication")
@@ -186,8 +184,6 @@ class ArduinoCom(Thread):
                 get_actuator_status(message, self.arduino)
 
                 time.sleep(1)
-
-            i += 1 #A supprimer
 
 
 def execute():
