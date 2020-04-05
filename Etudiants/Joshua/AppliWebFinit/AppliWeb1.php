@@ -11,7 +11,6 @@
 
 <?php 
 
-	<!-- table capteurs -->
 	$resultats=$connexion->query("SELECT 'ID_capteurs','Etat','Heure_derniere_mesure' FROM 'capteurs'");
 	$resultats->setFetchMode(PDO::Fetch_OBJ);
 	
@@ -20,7 +19,6 @@
 	$dateMesure = utf8_encode($resultats->Heure_derniere_mesure);
 	
 	
-	<!-- table actionneurs -->
 	$resultats2=$connexion->query("SELECT 'ID_actionneurs','Etat','Heure_derniere_mesure' FROM 'actionneurs'");
 	$resultats2->setFetchMode(PDO::Fetch_OBJ);
 	
@@ -29,7 +27,6 @@
 	$dateMesure2 = utf8_encode($resultats->Heure_derniere_mesure);
 	
 	
-	<!-- table generale -->
 	$resultats3=$connexion->query("SELECT 'ID_mecanismes','Etat' FROM 'general'");
 	$resultats3->setFetchMode(PDO::Fetch_OBJ);
 	
