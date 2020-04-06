@@ -14,6 +14,10 @@ void loop()
 
 void getValeurCapteur();
 
+void getEtatMecanisme();
+
+int definirEtatMecanisme();
+
 void RelaisPorteFrigo();
 
 void RelaisMoteurFontaine();
@@ -28,7 +32,7 @@ class Capteur
   
   private :
 
-  //int H2OInitial = ValeurCapteur;
+ 
   int m_id;
   int ValeurCapteur;
 
@@ -63,9 +67,12 @@ class Led
 };
 
 
-void AllumerLedTemoin(int m_etatMecanisme)
+void AllumerLedTemoin(int m_etatMecanismeLedTemoin, int m_etatMecanisme)
 {
-  if (m_etatMecanisme == 1)
+  
+  m_etatMecanismeLedTemoin = getEtatMecanisme(m_etatMecanisme);
+  
+  if (m_etatMecanismeLedTemoin == 1)
   {
     digitalWrite(5, LOW); //Eteindre LED H2O Rouge
     digitalWrite(2, HIGH); //Allumer LED H2O Vert
@@ -88,10 +95,12 @@ class PorteFrigo
 };
 
 
-void RelaisPorteFrigo(int m_etatMecanisme)
+void RelaisPorteFrigo(int m_etatMecanismePorteFrigo, int m_etatMecanisme)
 {
+
+ m_etatMecanismePorteFrigo = getEtatMecanisme(m_etatMecanisme);
    
-   if (m_etatMecanisme == 1)
+   if (m_etatMecanismePorteFrigo == 1)
     {
         digitalWrite(3, LOW);  //RELAIS H2O FRIGO
         delay(1000);
@@ -123,9 +132,12 @@ class Fontaine
 };
 
 
-void RelaisMoteurFontaine(int m_etatMecanisme)
+void RelaisMoteurFontaine(int m_etatMecanismeMoteurFontaine, int m_etatMecanisme)
 {
-  if (m_etatMecanisme == 1)
+  
+  m_etatMecanismeMoteurFontaine = getEtatMecanisme(m_etatMecanisme);
+  
+  if (m_etatMecanismeMoteurFontaine == 1)
   {
     digitalWrite(4, LOW); //Activer Relais FONTAINE
   }
@@ -137,7 +149,7 @@ void RelaisMoteurFontaine(int m_etatMecanisme)
 
 
 
-class ArduinoMecanisme : public Capteur
+class ArduinoMecanisme 
 {
 
   private : 
@@ -152,16 +164,17 @@ class ArduinoMecanisme : public Capteur
   void calculerTempsDernierEnvoieEtatMecanisme();
   void redefinirDernierEtatMecanisme();
   void calculerTempsDernierEnvoieValeurCapteur();
-  void definirEtatMecanisme();
+  int definirEtatMecanisme();
   
 };
 
 
-void definirEtatMecanisme(int m_etatMecanisme)
+int definirEtatMecanisme(int m_etatMecanisme, int ValeurCapteur)
 {
     
-
- int tab[] = { var1 , var2 };
+ int H2OInitial =  getValeurCapteur(ValeurCapteur);
+ 
+ int tab[] = { 0 , 0 };
    
 for(int i = 1; i<3; i++)
 {
@@ -176,14 +189,24 @@ for(int i = 1; i<3; i++)
 
       delay(3000);
 
-     if(var1 == 1 && var2 == 1)
+     if(tab[0] == 1 && tab[1] == 1)
      {
        m_etatMecanisme = 1;
      }
 }     
 
+
 }
 
+
+int getEtatMecanisme(int m_etatMecanisme)
+{
+
+this.m_etatMecanisme = m_etatMecanisme;
+
+return m_etatMecanisme;
+  
+}
 
 
 
