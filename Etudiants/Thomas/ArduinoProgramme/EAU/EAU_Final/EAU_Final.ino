@@ -12,7 +12,11 @@ void setup() {
 void loop() 
 {
 
-void getValeurCapteur(int ValeurCapteur);
+int getValeurCapteur();
+
+bool getEtatMecanisme();
+
+int definirEtatMecanisme();
 
 void RelaisPorteFrigo();
 
@@ -28,18 +32,17 @@ class Capteur
   
   private :
 
-  //int H2OInitial = ValeurCapteur;
   int m_id;
   int ValeurCapteur;
 
   public : 
 
-  int getValeurCapteur();
+  int getValeurCapteur(int ValeurCapteur);
     
 };
 
 
-int getValeurCapteur()
+int Capteur::getValeurCapteur()
 {
    int CapteurHum = 0;//Le capteur est sur la pin A0  - Capteur H20
    
@@ -63,9 +66,10 @@ class Led
 };
 
 
-void AllumerLedTemoin()
+void Led::AllumerLedTemoin()
 {
-  if (var1 == var2 && var2 == 1)
+  
+  if (getEtatMecanisme() == 1)
   {
     digitalWrite(5, LOW); //Eteindre LED H2O Rouge
     digitalWrite(2, HIGH); //Allumer LED H2O Vert
@@ -88,26 +92,10 @@ class PorteFrigo
 };
 
 
-void RelaisPorteFrigo()
+void PorteFrigo::RelaisPorteFrigo()
 {
-   
-  tab[] = { var1 , var2 }
-   
-for(int i = 1; i<3; i++)
-{
-    if (ValeurCapteur >= (H2OInitial + 180)) 
-      {
-         tab[i] = 1;
-      }
-      else 
-      { 
-        tab[i] = 0;
-      }
 
-      delay(3000);
-}     
-
-   if (var1 == true && var2 == true)
+   if (getEtatMecanisme() == 1)
     {
         digitalWrite(3, LOW);  //RELAIS H2O FRIGO
         delay(1000);
@@ -139,9 +127,10 @@ class Fontaine
 };
 
 
-void RelaisMoteurFontaine()
+void Fontaine::RelaisMoteurFontaine()
 {
-  if (var1 == var2 && var2 == 1)
+  
+  if (getEtatMecanisme() == true)
   {
     digitalWrite(4, LOW); //Activer Relais FONTAINE
   }
@@ -153,32 +142,64 @@ void RelaisMoteurFontaine()
 
 
 
-class ArduinoMecanisme : public Capteur
+class ArduinoMecanisme 
 {
 
   private : 
 
-  String m_etatMecanisme;
-  String m_dernierEtatMecanisme;
-  int m_tempsDernierEnvoieValeurCapteur;
-
+  bool m_etatMecanisme;
+  bool S_Frigo;
+  bool S_Fontaine;
+  bool S_Eau;
+  bool actuator[] = {S_Frigo, S_Fontaine, S_Eau};
 
   public : 
 
-  void calculerTempsDernierEnvoieEtatMecanisme();
-  void redefinirDernierEtatMecanisme();
-  void calculerTempsDernierEnvoieValeurCapteur();
-  void definirEtatMecanisme();
+  ArduinoMecanisme();
+  int definirEtatMecanisme();
+  bool gerEtatMecanisme();
+  
   
 };
 
 
-
-class Eau : public ArduinoMecanisme
+ArduinoMecanisme::ArduinoMecanisme()
 {
+ m_etatMecanisme = false;
+}
 
-   private : 
 
-   boolean m_EAU;
-  
+
+int ArduinoMecanisme::definirEtatMecanisme(bool m_etatMecanisme)
+{
+    
+ int H2OInitial =  getValeurCapteur();
+ 
+ int tab[] = { 0 , 0 };
+   
+for(int i = 1; i<3; i++)
+{
+    if (ValeurCapteur >= (H2OInitial + 180)) 
+      {
+         tab[i] = 1;
+      }
+      else 
+      { 
+        tab[i] = 0;
+      }
+
+      delay(3000);
+
+     if(tab[0] == 1 && tab[1] == 1)
+     {
+       m_etatMecanisme = true;
+     }
+}     
+
+}
+
+
+bool ArduinoMecanisme::getEtatMecanisme()
+{
+return m_etatMecanisme;
 }
