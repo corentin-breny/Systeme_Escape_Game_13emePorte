@@ -7,15 +7,15 @@ from threading import Thread, RLock
 bus=smbus.SMBus(1)
 
 arduinos = [
-        # {'id': 1, 'address': 0x12, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Echiquier':"NOT_OK"}, 'as_timer' : 0, 'ordre' : "NOT_OK"},
-        # {'id': 2, 'address': 0x13, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Lion':"NOT_OK"}, 'as_timer' : 0, 'ordre' : "NOT_OK"},
-        # {'id': 3, 'address': 0x14, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Meuble':"NOT_OK",'S_Terre':"NOT_OK"}, 'as_timer' : 0, 'ordre' : "NOT_OK"},
-        {'id': 4, 'address': 0x15, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Dragon':"NOT_OK",'S_Fumee':"NOT_OK",'S_Led':"NOT_OK",'S_Feu':"NOT_OK"}, 'as_timer' : 0, 'ordre' : "OK"},
-        # {'id': 5, 'address': 0x16, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Frigo':"NOT_OK",'S_Fontaine':"NOT_OK", 'S_Eau':"NOT_OK"}, 'as_timer' : 0, 'ordre' : "NOT_OK"},
-        # {'id': 6, 'address': 0x17, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Vanne':"NOT_OK",'S_Chien':"NOT_OK",'S_Led':"NOT_OK",'S_Air':"NOT_OK"}, 'as_timer' : 0,'ordre' : "NOT_OK"},
-        # {'id': 7, 'address': 0x18, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Katana':"NOT_OK"}, 'as_timer' : 0, 'ordre' : "NOT_OK"},
-        {'id': 8, 'address': 0x19, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_Tableau':"NOT_OK",'S_Led':"NOT_OK"}, 'as_timer' : 0, 'ordre' : "NOT_OK"}#,
-        # {'id': 9, 'address': 0x20, 'mechanism_status': "NOT_OK", 'ms_timer': 0, 'actuator_status' : {'S_PorteFinal':"NOT_OK"}, 'as_timer' : 0, 'ordre' : "NOT_OK"}
+        # {'id': 1, 'address': 0x12, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Echiquier': False}, 'as_timer' : 0, 'ordre' : False},
+        # {'id': 2, 'address': 0x13, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Lion': False}, 'as_timer' : 0, 'ordre' : False},
+        # {'id': 3, 'address': 0x14, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Meuble': False,'S_Terre': False}, 'as_timer' : 0, 'ordre' : False},
+        {'id': 4, 'address': 0x15, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Dragon': False,'S_Fumee': False,'S_Led': False,'S_Feu': False}, 'as_timer' : 0, 'ordre' : True},
+        # {'id': 5, 'address': 0x16, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Frigo': False,'S_Fontaine': False, 'S_Eau':False}, 'as_timer' : 0, 'ordre' : False},
+        # {'id': 6, 'address': 0x17, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Vanne': False,'S_Chien': False,'S_Led': False,'S_Air': False}, 'as_timer' : 0,'ordre' : False},
+        # {'id': 7, 'address': 0x18, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Katana': False}, 'as_timer' : 0, 'ordre' : False},
+        {'id': 8, 'address': 0x19, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Tableau': False,'S_Led': False}, 'as_timer' : 0, 'ordre' : False}#,
+        # {'id': 9, 'address': 0x20, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_PorteFinal': False}, 'as_timer' : 0, 'ordre' : False}
      ]
 
 verrou = RLock()
@@ -33,7 +33,7 @@ def get_socketMessage():
     # if socket_message != ""
         # for arduino in arduinos :
             # if socket_message[0] == arduino['id']:
-                # arduino['ordre'] = "OK"
+                # arduino['ordre'] = True
 
     socket_message = "4MSFASTXXX"
 
@@ -92,8 +92,8 @@ def get_actuator_status(message, arduino):
             as_timer_reset = 1
             send_AStoDataBase(arduino['id'], actuator_name, arduino['actuator_status'][actuator_name])#Fonction Corentin
 
-        if message[cpt] == "T" and arduino['actuator_status'][actuator_name] != "OK":
-            arduino['actuator_status'][actuator_name] = "OK"
+        if message[cpt] == "T" and arduino['actuator_status'][actuator_name] != True:
+            arduino['actuator_status'][actuator_name] = True
             message_console = "CHANGE"
             as_timer_reset = 1
             send_AStoDataBase(arduino['id'], actuator_name, arduino['actuator_status'][actuator_name])#Fonction Corentin
@@ -117,8 +117,8 @@ def get_mechanism_status(message, arduino):
         message_console = "60s elapsed since last send"
         ms_timer_reset = 1
 
-    if message[2] == "T" and arduino['mechanism_status'] != "OK" :
-        arduino['mechanism_status'] = "OK"
+    if message[2] == "T" and arduino['mechanism_status'] != True :
+        arduino['mechanism_status'] = True
         message_console = "CHANGE"
         ms_timer_reset = 1
 
@@ -153,11 +153,11 @@ def convertStrToListHex(strChaine):
 
 
 def send_order(arduino):
-    if arduino['ordre'] == "OK" :
+    if arduino['ordre'] == True :
         socket_message = get_socketMessage()#"4MSFASTXXX" Fonction Thomas
         order = convertStrToListHex(socket_message)
         bus.write_i2c_block_data(arduino['address'], 0, order)
-        arduino['ordre'] = "NOT_OK"
+        arduino['ordre'] = False
         print("Mechanism %s : ORDER SENT" %arduino['id'])
 
 
