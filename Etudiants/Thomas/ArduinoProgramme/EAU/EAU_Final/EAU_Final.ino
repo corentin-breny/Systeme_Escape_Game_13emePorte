@@ -12,7 +12,7 @@ void setup() {
 void loop() 
 {
 
-void getValeurCapteur(int ValeurCapteur);
+void getValeurCapteur();
 
 void RelaisPorteFrigo();
 
@@ -34,12 +34,12 @@ class Capteur
 
   public : 
 
-  int getValeurCapteur();
+  int getValeurCapteur(int ValeurCapteur);
     
 };
 
 
-int getValeurCapteur()
+int getValeurCapteur(int ValeurCapteur)
 {
    int CapteurHum = 0;//Le capteur est sur la pin A0  - Capteur H20
    
@@ -63,9 +63,9 @@ class Led
 };
 
 
-void AllumerLedTemoin()
+void AllumerLedTemoin(int m_etatMecanisme)
 {
-  if (var1 == var2 && var2 == 1)
+  if (m_etatMecanisme == 1)
   {
     digitalWrite(5, LOW); //Eteindre LED H2O Rouge
     digitalWrite(2, HIGH); //Allumer LED H2O Vert
@@ -88,26 +88,10 @@ class PorteFrigo
 };
 
 
-void RelaisPorteFrigo()
+void RelaisPorteFrigo(int m_etatMecanisme)
 {
    
-  tab[] = { var1 , var2 }
-   
-for(int i = 1; i<3; i++)
-{
-    if (ValeurCapteur >= (H2OInitial + 180)) 
-      {
-         tab[i] = 1;
-      }
-      else 
-      { 
-        tab[i] = 0;
-      }
-
-      delay(3000);
-}     
-
-   if (var1 == true && var2 == true)
+   if (m_etatMecanisme == 1)
     {
         digitalWrite(3, LOW);  //RELAIS H2O FRIGO
         delay(1000);
@@ -139,9 +123,9 @@ class Fontaine
 };
 
 
-void RelaisMoteurFontaine()
+void RelaisMoteurFontaine(int m_etatMecanisme)
 {
-  if (var1 == var2 && var2 == 1)
+  if (m_etatMecanisme == 1)
   {
     digitalWrite(4, LOW); //Activer Relais FONTAINE
   }
@@ -158,7 +142,7 @@ class ArduinoMecanisme : public Capteur
 
   private : 
 
-  String m_etatMecanisme;
+  int m_etatMecanisme;
   String m_dernierEtatMecanisme;
   int m_tempsDernierEnvoieValeurCapteur;
 
@@ -173,6 +157,38 @@ class ArduinoMecanisme : public Capteur
 };
 
 
+void definirEtatMecanisme(int m_etatMecanisme)
+{
+    
+
+ int tab[] = { var1 , var2 };
+   
+for(int i = 1; i<3; i++)
+{
+    if (ValeurCapteur >= (H2OInitial + 180)) 
+      {
+         tab[i] = 1;
+      }
+      else 
+      { 
+        tab[i] = 0;
+      }
+
+      delay(3000);
+
+     if(var1 == 1 && var2 == 1)
+     {
+       m_etatMecanisme = 1;
+     }
+}     
+
+}
+
+
+
+
+
+
 
 class Eau : public ArduinoMecanisme
 {
@@ -181,4 +197,4 @@ class Eau : public ArduinoMecanisme
 
    boolean m_EAU;
   
-}
+};
