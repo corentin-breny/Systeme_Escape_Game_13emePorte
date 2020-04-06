@@ -32,7 +32,6 @@ class Capteur
   
   private :
 
- 
   int m_id;
   int ValeurCapteur;
 
@@ -43,7 +42,7 @@ class Capteur
 };
 
 
-int getValeurCapteur()
+int Capteur::getValeurCapteur()
 {
    int CapteurHum = 0;//Le capteur est sur la pin A0  - Capteur H20
    
@@ -67,7 +66,7 @@ class Led
 };
 
 
-void AllumerLedTemoin()
+void Led::AllumerLedTemoin()
 {
   
   if (getEtatMecanisme() == 1)
@@ -93,7 +92,7 @@ class PorteFrigo
 };
 
 
-void RelaisPorteFrigo()
+void PorteFrigo::RelaisPorteFrigo()
 {
 
    if (getEtatMecanisme() == 1)
@@ -128,7 +127,7 @@ class Fontaine
 };
 
 
-void RelaisMoteurFontaine()
+void Fontaine::RelaisMoteurFontaine()
 {
   
   if (getEtatMecanisme() == true)
@@ -164,14 +163,14 @@ class ArduinoMecanisme
 };
 
 
-ArduinoMecanisme()
+ArduinoMecanisme::ArduinoMecanisme()
 {
  m_etatMecanisme = false;
 }
 
 
 
-int definirEtatMecanisme(bool m_etatMecanisme)
+int ArduinoMecanisme::definirEtatMecanisme(bool m_etatMecanisme)
 {
     
  int H2OInitial =  getValeurCapteur();
@@ -200,7 +199,7 @@ for(int i = 1; i<3; i++)
 }
 
 
-bool getEtatMecanisme()
+bool ArduinoMecanisme::getEtatMecanisme()
 {
 return m_etatMecanisme;
 }
