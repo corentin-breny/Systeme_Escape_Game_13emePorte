@@ -9,12 +9,12 @@ bus=smbus.SMBus(1)
 arduinos = [
         # {'id': 1, 'address': 0x12, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Echiquier': False}, 'as_timer' : 0, 'ordre' : False},
         # {'id': 2, 'address': 0x13, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Lion': False}, 'as_timer' : 0, 'ordre' : False},
-        # {'id': 3, 'address': 0x14, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Meuble': False,'S_Terre': False}, 'as_timer' : 0, 'ordre' : False},
-        {'id': 4, 'address': 0x15, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Dragon': False,'S_Fumee': False,'S_Led': False,'S_Feu': False}, 'as_timer' : 0, 'ordre' : True},
-        # {'id': 5, 'address': 0x16, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Frigo': False,'S_Fontaine': False, 'S_Eau':False}, 'as_timer' : 0, 'ordre' : False},
-        # {'id': 6, 'address': 0x17, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Vanne': False,'S_Chien': False,'S_Led': False,'S_Air': False}, 'as_timer' : 0,'ordre' : False},
+        # {'id': 3, 'address': 0x14, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Meuble': False, 'S_Terre': False}, 'as_timer' : 0, 'ordre' : False},
+        {'id': 4, 'address': 0x15, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Dragon': False, 'S_Fumee': False, 'S_Led': False, 'S_Feu': False}, 'as_timer' : 0, 'ordre' : True},
+        # {'id': 5, 'address': 0x16, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Frigo': False, 'S_Fontaine': False, 'S_Eau':False}, 'as_timer' : 0, 'ordre' : False},
+        # {'id': 6, 'address': 0x17, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Vanne': False, 'S_Chien': False, 'S_Led': False, 'S_Air': False}, 'as_timer' : 0, 'ordre' : False},
         # {'id': 7, 'address': 0x18, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Katana': False}, 'as_timer' : 0, 'ordre' : False},
-        {'id': 8, 'address': 0x19, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Tableau': False,'S_Led': False}, 'as_timer' : 0, 'ordre' : False}#,
+        {'id': 8, 'address': 0x19, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_Tableau': False, 'S_Led': False}, 'as_timer' : 0, 'ordre' : False}#,
         # {'id': 9, 'address': 0x20, 'mechanism_status': False, 'ms_timer': 0, 'actuator_status' : {'S_PorteFinal': False}, 'as_timer' : 0, 'ordre' : False}
      ]
 
