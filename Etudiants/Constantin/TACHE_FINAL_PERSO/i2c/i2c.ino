@@ -87,7 +87,7 @@ void send_status() {
   }
   
   /*
-   DECOMMENTER SI sensor[] est un bool
+   //DECOMMENTER SI sensor[] est un bool
    
   for(int i=0; i<sizeof(sensor); i++){
     if (sensor[i] == true){
@@ -99,14 +99,14 @@ void send_status() {
   */
   
   /*
-   DECOMMENTER SI sensor[] est un int
+   //DECOMMENTER SI sensor[] est un int
    
   for(int i=0; i<sizeof(sensor)/2; i++){
     sd_I2Cmessage += sensor[i];
     sd_I2Cmessage += "X";
   }*/
 
-  I2Cmessage = as_I2Cmessage + sd_I2Cmessage;//asFFXXsdF
+  I2Cmessage = as_I2Cmessage + sd_I2Cmessage;
   
   Wire.write(I2Cmessage.c_str());
   Serial.print("Message send to Raspberry : ");
