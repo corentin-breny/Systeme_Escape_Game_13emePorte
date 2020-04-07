@@ -4,8 +4,9 @@
 
 
 bool S_Tableau = false;
-bool S_Led = false;
-bool actuator[] = {S_Tableau, S_Led};
+bool S_LedV = false;
+bool S_LedR = true;
+bool actuator[] = {S_Tableau, S_LedV, S_LedR};
 
 int C_Poids = 42;
 int sensor[] = {C_Poids};

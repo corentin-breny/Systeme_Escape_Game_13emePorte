@@ -12,7 +12,7 @@ bool C_Interupteur = false;
 bool sensor[] = {C_Interupteur};
 
 
-void execute_order(String order){
+/*void execute_order(String order){
   for(int i=1; i<sizeof(order)+1; i++) {
     if(order[i] == 'T'){
       actuator[i-1] = true;
@@ -75,7 +75,7 @@ void setupI2C() {
     Wire.begin(SLAVE_ADDRESS);
     Wire.onReceive(receive_order);
     Wire.onRequest(send_status);
-}
+}*/
 
 void setup() {
     //setupI2C();
