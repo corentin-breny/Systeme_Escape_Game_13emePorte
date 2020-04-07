@@ -11,27 +11,33 @@
 
 <?php 
 
-	$resultats=$dbh->query("SELECT 'ID_capteurs','Etat','Heure_derniere_mesure' FROM 'capteurs'");
-	$resultats->setFetchMode(PDO::Fetch_OBJ);
+	$query=("SELECT*FROM capteurs");
+	$resultats=$dbh->query($query);
+	$resultats->setFetchMode(PDO::FETCH_OBJ);
+	$unResultat = $resultats->fetch();
 	
-	$capteur = utf8_encode($resultats->ID_capteurs);
-	$etat1 = utf8_encode($resultats->Etat);
-	$dateMesure = utf8_encode($resultats->Heure_derniere_mesure);
-	
-	
-	$resultats2=$dbh->query("SELECT 'ID_actionneurs','Etat','Heure_derniere_mesure' FROM 'actionneurs'");
-	$resultats2->setFetchMode(PDO::Fetch_OBJ);
-	
-	$actionneurs = utf8_encode($resultats->ID_actionneurs);
-	$etat2 = utf8_encode($resultats->Etat);
-	$dateMesure2 = utf8_encode($resultats->Heure_derniere_mesure);
+	$capteur = utf8_encode($unResultat->ID_capteurs);
+	$etat1 = utf8_encode($unResultat->Etat);
+	$dateMesure = utf8_encode($unResultat->Heure_derniere_mesure);
 	
 	
-	$resultats3=$dbh->query("SELECT 'ID_mecanismes','Etat' FROM 'general'");
-	$resultats3->setFetchMode(PDO::Fetch_OBJ);
+	$query=("SELECT*FROM actionneurs");
+	$resultats=$dbh->query($query);
+	$resultats->setFetchMode(PDO::FETCH_OBJ);
+	$unResultat = $resultats->fetch();
 	
-	$mecanisme = utf8_encode($resultats->ID_mecanismes);
-	$etat3 = utf8_encode($resultats->Etat);
+	$actionneurs = utf8_encode($unResultat->ID_actionneurs);
+	$etat2 = utf8_encode($unResultat->Etat);
+	$dateMesure2 = utf8_encode($unResultat->Heure_derniere_mesure);
+	
+	
+	$query=("SELECT*FROM general");
+	$resultats=$dbh->query($query);
+	$resultats->setFetchMode(PDO::FETCH_OBJ);
+	$unResultat = $resultats->fetch();
+	
+	$mecanisme = utf8_encode($unResultat->ID_mecanismes);
+	$etat3 = utf8_encode($unResultat->Etat);
 
 ?>
 
