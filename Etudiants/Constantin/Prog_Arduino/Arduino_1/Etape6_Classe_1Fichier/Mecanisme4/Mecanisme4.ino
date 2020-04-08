@@ -37,7 +37,7 @@ Feu::Feu(){
   S_Dragon = false;
   S_Fumee = false;
   S_Led = false;
-  S_Feu = true;
+  S_Feu = false;
   C_Interupteur = false;
   mechanism_status = false;
 }
@@ -98,7 +98,7 @@ void Feu::execute(){
 
 //FICHIER I2C H
 
-#include "Wire.h"
+/*#include "Wire.h"
 
 #define SLAVE_ADDRESS 0x15  //initialisation de l’Arduino avec l’adresse 0x15
 
@@ -178,7 +178,7 @@ void i2c::send_status() {
   Wire.write(I2Cmessage.c_str());
   Serial.print("Message send to Raspberry : ");
   Serial.println(I2Cmessage);
-}
+}*/
 
 //MAIN
 
@@ -196,5 +196,5 @@ void setup() {
 
 void loop() {
   delay(100);
-  //mechanism.execute();
+  mechanism.execute();
 }
