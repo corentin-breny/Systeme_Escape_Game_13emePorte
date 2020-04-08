@@ -1,11 +1,12 @@
 //FICHIER Feu H
 
+#include "Wire.h"
+
 #define CInterupteur_PIN 8  //interupteur a clef
 #define SLed_PIN 9          //led controle
 #define SDragon_PIN 10      //relais dragon
 #define SFumee_PIN 11       //relais fumee
 #define DEBOUNCE 500
-
 
 int sensor_data = LOW;        
 bool sd_previous = false;     //Last sensor data
@@ -21,7 +22,7 @@ class Feu{
     bool C_Interupteur;
     bool mechanism_status;
 
-  public :
+  private :
     bool actuator[4] = {S_Dragon, S_Fumee, S_Led, S_Feu};
     bool sensor[1] = {C_Interupteur};
   
@@ -29,6 +30,8 @@ class Feu{
     Feu();
     void setupMechanism();
     void execute();
+    void receive_order();
+    void send_status();
 };
 
 //FICHIER FEU CPP
@@ -43,6 +46,8 @@ Feu::Feu(){
 }
 
 void Feu::setupMechanism() {
+  Serial.begin(9600);
+  
   pinMode(CInterupteur_PIN , INPUT_PULLUP); 
   
   pinMode(SLed_PIN, OUTPUT); 
@@ -83,7 +88,7 @@ void Feu::execute(){
       delay(4000); // attend 5 sec
       digitalWrite(SFumee_PIN, LOW); //fumée on
       delay(1000);
-      digitalWrite(SFumee_PIN,HIGH);//fumée off
+      digitalWrite(SFumee_PIN, HIGH);//fumée off
       S_Fumee = true;
         
       delay(5000);
@@ -96,37 +101,7 @@ void Feu::execute(){
   sd_previous = C_Interupteur;
 }
 
-//FICHIER I2C H
-
-/*#include "Wire.h"
-
-#define SLAVE_ADDRESS 0x15  //initialisation de l’Arduino avec l’adresse 0x15
-
-class i2c{
-
-  private :
-    //Feu mecanisme;
-  public :
-    i2c();
-    void setupI2C();
-    void receive_order();
-    void send_status();
-}
-
-//FICHIER I2C CPP
-
-i2c::i2c(){
-  
-}
-
-void i2c::setupI2C(Feu mecanisme) {
-  Serial.begin(9600);
-  Wire.begin(SLAVE_ADDRESS);
-  Wire.onReceive(receive_order);
-  Wire.onRequest(send_status);
-}
-
-void i2c::receive_order() {
+void Feu::receive_order() {
   String data_received;
   while(Wire.available() > 0) {
     char c = Wire.read();
@@ -147,7 +122,7 @@ void i2c::receive_order() {
   }
 }
 
-void i2c::send_status() {
+void Feu::send_status() {
   String as_I2Cmessage = "as";
   String sd_I2Cmessage = "sd";
   String I2Cmessage;
@@ -178,19 +153,43 @@ void i2c::send_status() {
   Wire.write(I2Cmessage.c_str());
   Serial.print("Message send to Raspberry : ");
   Serial.println(I2Cmessage);
-}*/
+}
+
+//FICHIER I2C H
+
+
+#define SLAVE_ADDRESS 0x15  //initialisation de l’Arduino avec l’adresse 0x15
+
+class i2c{
+
+  private :
+    Feu mechanism;
+  public :
+    i2c(Feu mechanism);
+    void setupI2C();
+};
+
+//FICHIER I2C CPP
+
+i2c::i2c(Feu mechanism){
+  mechanism = mechanism;
+}
+
+void i2c::setupI2C() {
+  Serial.begin(9600);
+  Wire.begin(SLAVE_ADDRESS);
+  /*Wire.onReceive(mechanism.receive_order);
+  Wire.onRequest(mechanism.send_status);*/
+}
+
 
 //MAIN
-
 Feu mechanism = Feu();
-/*
-i2c message = i2c();
-message.send_status(mechanism);
-message.receive_order(mechanism);
-*/
+i2c message = i2c(mechanism);
+
 
 void setup() {
-  /*message.setupI2C()*/
+  message.setupI2C();
   mechanism.setupMechanism();
 }
 
