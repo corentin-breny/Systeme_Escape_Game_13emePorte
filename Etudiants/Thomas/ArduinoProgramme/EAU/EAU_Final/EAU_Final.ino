@@ -20,7 +20,7 @@ class Eau{
 
   private : 
     bool actuator[4] = {S_Frigo, S_Fontaine, S_Led, S_Eau};
-    bool sensor[1] = {C_Humidite];
+    bool sensor[1] = {C_Humidite};
 
 
     public : 
@@ -56,7 +56,7 @@ pinMode(SFrigo_PIN, OUTPUT);
 digitalWrite(SFrigo_PIN, HIGH);
 
 pinMode(SFontaine_PIN, OUTPUT);
-digitalWrite(SFontaine_PIN, LOW);
+digitalWrite(SFontaine_PIN, HIGH);
 }
 
 
@@ -79,17 +79,17 @@ if(mecanism_status == false)
 if(mecanism_status == true)
   {
 
-       if(ValeurCapteur >= (ValeurCapteurInitial + 180) && TimeMeca == 0)
+       if(ValeurCapteur >= (ValeurCapteurInitial + 180) && Time_Meca == 0)
        {
-         TimeMeca = millis();
+         Time_Meca = millis();
        }
        else if(ValeurCapteur < (ValeurCapteurInitial + 180))
        {
-         TimeMeca = 0;
+         Time_Meca = 0;
        }
 
        
-       if(TimeMeca > DEBOUNCE)
+       if(Time_Meca > DEBOUNCE)
        {
          digitalWrite(SLed_PIN, HIGH);
 
@@ -114,14 +114,16 @@ if(mecanism_status == true)
 digitalWrite(SFrigo_PIN, HIGH);
 }
 
+
+//MAIN
+
 Eau Mecanisme = Eau();
 
-
-void setup() {
- Mecanism.setupMechanism();
+void setup(){
+ Mecanisme.setupMecanism();
 }
 
-void loop() {
+void loop(){
  delay(100);
  Mecanisme.execute();
 }
