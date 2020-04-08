@@ -14,14 +14,14 @@ arduinos = [
         # {'id': 5, 'address': 0x16, 'mechanism_status': False, 'actuator_status' : {'S_Frigo': False, 'S_Fontaine': False, 'S_Eau': False}, 'as_timer' : 0, 'sensor_data' : {'C_Humidite': 0}, 'sd_timer': 0, 'ordre' : False},
         # {'id': 6, 'address': 0x17, 'mechanism_status': False, 'actuator_status' : {'S_Vanne': False, 'S_Chien': False, 'S_Led': False, 'S_Air': False}, 'as_timer' : 0, 'sensor_data' : {'C_Vanne1': False, 'C_Vanne2': False, , 'C_Vanne3': False, 'C_Vanne4': False, 'C_Vanne5': False, 'C_Vanne6': False, 'C_Vanne7': False, 'C_Bouton': False}, 'sd_timer': 0, 'ordre' : False},
         # {'id': 7, 'address': 0x18, 'mechanism_status': False, 'actuator_status' : {'S_Katana': False}, 'as_timer' : 0, 'sensor_data' : {'C_Interupteur': False}, 'sd_timer': 0, 'ordre' : False},
-        {'id': 8, 'address': 0x19, 'mechanism_status': False, 'actuator_status' : {'S_Tableau': False, 'S_Led': False}, 'as_timer' : 0, 'sensor_data' : {'C_Poids': 0}, 'sd_timer': 0, 'ordre' : False}#,
+        {'id': 8, 'address': 0x19, 'mechanism_status': False, 'actuator_status' : {'S_Tableau': False, 'S_LedV': False, 'S_LedR': True}, 'as_timer' : 0, 'sensor_data' : {'C_Poids': 0}, 'sd_timer': 0, 'ordre' : False}#,
         # {'id': 9, 'address': 0x20, 'mechanism_status': False, 'actuator_status' : {'S_PorteFinal': False}, 'as_timer' : 0, 'sensor_data' : {'C_Bouton': False}, 'sd_timer': 0, 'ordre' : False}
      ]
 
 verrou = RLock()
 
 #Thomas :
-        #Structure du msgSocket : [noMecanisme][T ou F ou X][T ou F ou X] (Si il y a 2 actionneurs) ex : 8TX
+        #Structure du msgSocket : [noMecanisme][T ou F ou X][T ou F ou X][T ou F ou X] (Si il y a 3 actionneurs) ex : 8TXX
 
 def get_socketMessage():
     """

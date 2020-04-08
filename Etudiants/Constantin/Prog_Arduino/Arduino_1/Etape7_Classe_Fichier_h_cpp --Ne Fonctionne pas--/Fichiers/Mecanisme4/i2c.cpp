@@ -1,28 +1,18 @@
-#include <Wire.h> // librairie permettant de communiquer via I2C
 
-#define SLAVE_ADDRESS 0x15 // initialisation de l’Arduino avec l’adresse 0x15
+#include "i2c.h"
 
-bool S_Dragon = false;
-bool S_Fumee = false;
-bool S_Led = false;
-bool S_Feu = true;
-bool actuator[] = {S_Dragon, S_Fumee, S_Led, S_Feu};
-
-bool C_Interupteur = false;
-bool sensor[] = {C_Interupteur};
-
-
-/*void execute_order(String order){
-  for(int i=1; i<sizeof(order)+1; i++) {
-    if(order[i] == 'T'){
-      actuator[i-1] = true;
-    }else if(order[i] == 'F'){
-      actuator[i-1] = false;
-    }
-  }
+i2c::i2c(){
+  
 }
 
-void receive_order(int byteCount) {
+void i2c::setupI2C(Feu mecanisme) {
+  Serial.begin(9600);
+  Wire.begin(SLAVE_ADDRESS);
+  Wire.onReceive(receive_order);
+  Wire.onRequest(send_status);
+}
+
+void i2c::receive_order() {
   String data_received;
   while(Wire.available() > 0) {
     char c = Wire.read();
@@ -33,11 +23,17 @@ void receive_order(int byteCount) {
     Serial.print("Order received : ");
     Serial.println(order);//4MSTASFFFT.
 
-    execute_order(order);
+    for(int i=1; i<sizeof(order)+1; i++) {
+      if(order[i] == 'T'){
+        actuator[i-1] = true;
+      }else if(order[i] == 'F'){
+        actuator[i-1] = false;
+      }
+    }
   }
 }
 
-void send_status() {
+void i2c::send_status() {
   String as_I2Cmessage = "as";
   String sd_I2Cmessage = "sd";
   String I2Cmessage;
@@ -68,19 +64,4 @@ void send_status() {
   Wire.write(I2Cmessage.c_str());
   Serial.print("Message send to Raspberry : ");
   Serial.println(I2Cmessage);
-}
-
-void setupI2C() {
-    Serial.begin(9600);
-    Wire.begin(SLAVE_ADDRESS);
-    Wire.onReceive(receive_order);
-    Wire.onRequest(send_status);
-}*/
-
-void setup() {
-    //setupI2C();
-}
-
-void loop() {
-    delay(100);
 }

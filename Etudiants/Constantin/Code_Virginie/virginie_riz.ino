@@ -6,17 +6,17 @@
 //  5V -> VCC
 //  GND -> GND
 //
-//  PIN 4 = LED VERT (Riz)
-//  PIN 5 = LED Rouge (Riz)
-//  PIN 6 = RELAIS riz (Tableau métro)
+//  PIN 4 = LED VERT (Riz) S_LedV
+//  PIN 5 = LED Rouge (Riz) S_LedR
+//  PIN 6 = RELAIS riz (Tableau métro) S_Tableau
 
 
 // PIN A0 , A1 , A2 ,A3 ,A4 , A5 ,13 => 4 DIGIT   7,8.9.10.11.12.13
 
-// PIN 8 Lecture interupteur clef   
-// PIN 9 LED CONTROLE     
-// PIN 10 RELAIS ventouse dragon    
-// PIN 11 RELAIS Fumée    
+// PIN 8 Lecture interupteur clef   //C_Interupteur
+// PIN 9 LED CONTROLE     //S_LED
+// PIN 10 RELAIS ventouse dragon    //S_Dragon
+// PIN 11 RELAIS Fumée    //S_Fumee
 // PIN 12 Selecteur afficheur LED     suppressible    
 
 
