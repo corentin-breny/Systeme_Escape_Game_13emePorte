@@ -158,16 +158,19 @@ INSERT INTO `capteurs` (`ID_capteurs`, `ID_mecanismes`, `Type`, `Etat`, `Heure_d
 (17, 6, 'Vanne', 1, '2020-03-24 20:51:09');
 
 INSERT INTO `capteurs` (`ID_capteurs`, `ID_mecanismes`, `Type`, `Etat`, `Heure_derniere_mesure`) VALUES
-(18, 7, 'Course', 1, '2020-03-24 20:51:09');
+(18, 7, 'Chien', 1, '2020-03-24 20:51:09');
 
 INSERT INTO `capteurs` (`ID_capteurs`, `ID_mecanismes`, `Type`, `Etat`, `Heure_derniere_mesure`) VALUES
-(19, 8, 'Poids', 1, '2020-03-24 20:51:09');
+(19, 7, 'Course', 1, '2020-03-24 20:51:09');
 
 INSERT INTO `capteurs` (`ID_capteurs`, `ID_mecanismes`, `Type`, `Etat`, `Heure_derniere_mesure`) VALUES
-(20, 8, 'Tableau', 1, '2020-03-24 20:51:09');
+(20, 8, 'Poids', 1, '2020-03-24 20:51:09');
 
 INSERT INTO `capteurs` (`ID_capteurs`, `ID_mecanismes`, `Type`, `Etat`, `Heure_derniere_mesure`) VALUES
-(21, 9, 'Poussoir', 1, '2020-03-24 20:51:09');
+(21, 8, 'Tableau', 1, '2020-03-24 20:51:09');
+
+INSERT INTO `capteurs` (`ID_capteurs`, `ID_mecanismes`, `Type`, `Etat`, `Heure_derniere_mesure`) VALUES
+(22, 9, 'Poussoir', 1, '2020-03-24 20:51:09');
 
 -- --------------------------------------------------------
 
