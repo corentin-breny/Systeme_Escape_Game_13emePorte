@@ -1,0 +1,16 @@
+#Ecrire les opérations à réaliser sur la bdd
+
+#Insérer des données dans la table
+curseur.execute("Insert INTO actionneurs (ID_Actionneur, Etat, Valeur) VALUES (%s, %s, %s)", ("1", "OK", "20)
+
+#Insérer des données depuis un dictionnaire
+capteur = [
+{"ID_Actionneur":"1", "Etat":"OK", "Valeur":"20" },
+
+]
+for nbRelevés in actionneur:
+	curseur.execute("Insert INTO actionneurs (ID_Actionneur, Etat, Valeur) VALUES (%(ID_Actionneur)s, %(Etat)s, %(Valeur)s)", nbRelevés)
+
+
+conn.commit()	#sert à sauvegarder les données dans la table avant de fermer la connexion. 
+conn.close()
