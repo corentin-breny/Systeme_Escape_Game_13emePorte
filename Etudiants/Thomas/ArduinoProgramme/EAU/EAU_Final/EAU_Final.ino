@@ -37,7 +37,7 @@ Eau::Eau(){
   S_Fontaine = false;
   S_Led = false;
   S_Eau = false;
-  C_Humidite = true;
+  C_Humidite = false;
   mecanism_status = false;
 }
 
@@ -68,6 +68,7 @@ int Time_Meca = 0;
 
 
 ValeurCapteur = analogRead (CHumidite_PIN); //Lecture de la valeur du capteur
+C_Humidite = true;
 
 if(mecanism_status == false)
 {
@@ -92,14 +93,18 @@ if(mecanism_status == true)
        if(Time_Meca > DEBOUNCE)
        {
          digitalWrite(SLed_PIN, HIGH);
+         S_Led = true;
 
          digitalWrite(SFontaine_PIN, LOW);
+         S_Fontaine = true;
 
          digitalWrite(SFrigo_PIN, LOW);  //RELAIS H2O FRIGO
          delay(1000);
          digitalWrite(SFrigo_PIN, HIGH);
+         S_Frigo = true;
+         
          delay(1000);
-         digitalWrite(SFrigo_PIN, LOW);  //RELAIS H2O FRIGO
+         digitalWrite(SFrigo_PIN, LOW);  
          delay(1000);
          digitalWrite(SFrigo_PIN, HIGH);
          delay(1000);
@@ -108,10 +113,14 @@ if(mecanism_status == true)
          digitalWrite(SFrigo_PIN, HIGH);
          delay(5000);
          digitalWrite(SFrigo_PIN, LOW);
+         S_EAU = true;
          delay(20000);
+         
+         digitalWrite(SFrigo_PIN, HIGH);
+         delay(1000)
+         digitalWrite(SFrigo_PIN, LOW);
        }
   }
-digitalWrite(SFrigo_PIN, HIGH);
 }
 
 
