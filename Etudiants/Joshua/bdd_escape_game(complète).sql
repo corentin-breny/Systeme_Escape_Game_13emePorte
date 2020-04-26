@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `actionneurs` (
   `ID_actionneurs` int(11) NOT NULL AUTO_INCREMENT,
   `ID_mecanismes` int(11) NOT NULL,
   `type` text NOT NULL,
-  `Etat` tinyint(1) NOT NULL,
+  `Etat` ENUM('TRUE','FALSE') NOT NULL,
   `Valeur_numerique` int(5) NOT NULL,
   `Heure_derniere_mesure` datetime NOT NULL,
   PRIMARY KEY (`ID_actionneurs`),
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `capteurs` (
   `ID_capteurs` int(11) NOT NULL AUTO_INCREMENT,
   `ID_mecanismes` int(11) NOT NULL,
   `Type` text NOT NULL,
-  `Etat` tinyint(1) NOT NULL,
+  `Etat` ENUM('TRUE','FALSE') NOT NULL,
   `Heure_derniere_mesure` datetime NOT NULL,
   PRIMARY KEY (`ID_capteurs`),
   KEY `ID_mecanismes` (`ID_mecanismes`)
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `capteurs` (
 --
 
 INSERT INTO `capteurs` (`ID_capteurs`, `ID_mecanismes`, `Type`, `Etat`, `Heure_derniere_mesure`) VALUES
-(1, 1, 'Plateau', 1, '2020-03-24 20:51:09');
+(1, 1, 'Plateau', 0, '2020-03-24 20:51:09');
 
 INSERT INTO `capteurs` (`ID_capteurs`, `ID_mecanismes`, `Type`, `Etat`, `Heure_derniere_mesure`) VALUES
 (2, 1, 'Plateau', 1, '2020-03-24 20:51:09');
@@ -158,16 +158,19 @@ INSERT INTO `capteurs` (`ID_capteurs`, `ID_mecanismes`, `Type`, `Etat`, `Heure_d
 (17, 6, 'Vanne', 1, '2020-03-24 20:51:09');
 
 INSERT INTO `capteurs` (`ID_capteurs`, `ID_mecanismes`, `Type`, `Etat`, `Heure_derniere_mesure`) VALUES
-(18, 7, 'Course', 1, '2020-03-24 20:51:09');
+(18, 7, 'Chien', 1, '2020-03-24 20:51:09');
 
 INSERT INTO `capteurs` (`ID_capteurs`, `ID_mecanismes`, `Type`, `Etat`, `Heure_derniere_mesure`) VALUES
-(19, 8, 'Poids', 1, '2020-03-24 20:51:09');
+(19, 7, 'Course', 1, '2020-03-24 20:51:09');
 
 INSERT INTO `capteurs` (`ID_capteurs`, `ID_mecanismes`, `Type`, `Etat`, `Heure_derniere_mesure`) VALUES
-(20, 8, 'Tableau', 1, '2020-03-24 20:51:09');
+(20, 8, 'Poids', 1, '2020-03-24 20:51:09');
 
 INSERT INTO `capteurs` (`ID_capteurs`, `ID_mecanismes`, `Type`, `Etat`, `Heure_derniere_mesure`) VALUES
-(21, 9, 'Poussoir', 1, '2020-03-24 20:51:09');
+(21, 8, 'Tableau', 1, '2020-03-24 20:51:09');
+
+INSERT INTO `capteurs` (`ID_capteurs`, `ID_mecanismes`, `Type`, `Etat`, `Heure_derniere_mesure`) VALUES
+(22, 9, 'Poussoir', 1, '2020-03-24 20:51:09');
 
 -- --------------------------------------------------------
 
@@ -178,7 +181,7 @@ INSERT INTO `capteurs` (`ID_capteurs`, `ID_mecanismes`, `Type`, `Etat`, `Heure_d
 CREATE TABLE IF NOT EXISTS `general` (
   `ID_mecanismes` int(11) NOT NULL AUTO_INCREMENT,
   `Nom_mecanisme` text NOT NULL,
-  `Etat` tinyint(1) NOT NULL,
+  `Etat` ENUM('TRUE','FALSE') NOT NULL,
   PRIMARY KEY (`ID_mecanismes`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
@@ -187,31 +190,31 @@ CREATE TABLE IF NOT EXISTS `general` (
 --
 
 INSERT INTO `general` (`ID_mecanismes`, `Nom_mecanisme`, `Etat`) VALUES
-(6, 'Echiquier', 0);
+(1, 'Echiquier', FALSE);
 
 INSERT INTO `general` (`ID_mecanismes`, `Nom_mecanisme`, `Etat`) VALUES
-(6, 'Le Lion', 0);
+(2, 'Le Lion', TRUE);
 
 INSERT INTO `general` (`ID_mecanismes`, `Nom_mecanisme`, `Etat`) VALUES
-(6, 'Terre', 0);
+(3, 'Terre', TRUE);
 
 INSERT INTO `general` (`ID_mecanismes`, `Nom_mecanisme`, `Etat`) VALUES
-(6, 'Feu', 0);
+(4, 'Feu', TRUE);
 
 INSERT INTO `general` (`ID_mecanismes`, `Nom_mecanisme`, `Etat`) VALUES
-(6, 'Eau', 0);
+(5, 'Eau', TRUE);
 
 INSERT INTO `general` (`ID_mecanismes`, `Nom_mecanisme`, `Etat`) VALUES
-(6, 'Air', 0);
+(6, 'Air', TRUE);
 
 INSERT INTO `general` (`ID_mecanismes`, `Nom_mecanisme`, `Etat`) VALUES
-(6, 'Katana', 0);
+(7, 'Katana', TRUE);
 
 INSERT INTO `general` (`ID_mecanismes`, `Nom_mecanisme`, `Etat`) VALUES
-(6, 'Riz', 0);
+(8, 'Riz', TRUE);
 
 INSERT INTO `general` (`ID_mecanismes`, `Nom_mecanisme`, `Etat`) VALUES
-(6, 'Quatre Elements', 0);
+(9, 'Quatre Elements',TRUE);
 --
 -- Contraintes pour les tables exportées
 --

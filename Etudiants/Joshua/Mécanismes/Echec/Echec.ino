@@ -1,56 +1,36 @@
-int ECHECstate = HIGH; // Etat actuel de la broche de sortie (la ventouse HIGH maintiens de la ventouse fermée)
-int readingECHEC;         // Contient la valeur lue sur la broche d'entrée
-int previousECHEC = LOW;  // Contient la précédente valeur lue sur la broche d'entrée
-long timeECHEC = 0;      // La dernière fois que la broche de sortie à changé d'état
+//Fichier Echec.h
 
-void setup() {
-	
-  digitalWrite(hallPin, HIGH);  // Activation résistance pullUP
-  digitalWrite(hallPin2, HIGH);
+#define C_EffetHall1_PIN A0 //Capteur à effet Hall 1
+#define C_EffetHall2_PIN 2 //Capteur à effet Hall 2
+#define S_LedR_PIN 3 //Led de sortie
 
-}
+class Echec{
 
-void loop() {
-	
-    // lecture du capteur a Effet Hall
-	
-	pin1 = digitalRead( hallPin );
-	pin2 = digitalRead( hallPin2 );
-	
-	readingECHEC = pin1;
-	
-    // Si le contact à changé, est-ce causé par un changement de
-    // position OU un parasite (bille qui trésaute)...
-	
-   
-	if (ECHECstate == HIGH)	 // SI on a pas reolu l'enigme
-	{
-		if (readingECHEC != previousECHEC) 
-		{	// Remettre la minuterie/timer de déparasitage à 0
-		timeECHEC = millis();
-		}
-	
-    // attendre que l'on ai dépassé le temps de déparasitage
-	
-    if ((millis() - timeECHEC) > debounce)
-    {
-        if ((pin1 == LOW) && (pin2 == LOW))	// si les deux pieces sont à la bonne place
-		{
-			ECHECstate = LOW; // On valide l'enigme
-			//else
-			//  LEDstate = HIGH; }
-		}
-	
-		previousECHEC = readingECHEC;	// Mémoriser la dernière lecture
-	
-	}
+  private :
+    bool C_EffetHall1;
+    bool C_EffetHall2;
+    bool S_LedR;
+    bool mecanism_status;
 
-    digitalWrite(7, not(ECHECstate));	// ecriture du statut sur la led (HIGH = allumé donc inverse de la ventouse)
-	
-    // ecriture du statut sur la ventouse (LOW = on libere l'electroaimant)
-	
-    digitalWrite(8, ECHECstate);
-    delay(500);
-    digitalWrite(8, not(ECHECstate));
-	}
+  private :
+    bool actuator[3] = {S_LedR};
+    bool sensor[1] = {C_EffetHall1};
+    bool sensor[2] = {C_EffetHall2};    
+
+  public :
+    Echec();
+    void setupMecanism();
+    void execute();
+    void receive_order();
+    void send_status();    
+};
+
+//Fichier Echec.cpp
+
+Echec::Echec(){
+  
+  C_EffetHall1 = false;
+  C_EffetHall2 = false;
+  S_LedR = false;
+  mecanism_status = false;
 }

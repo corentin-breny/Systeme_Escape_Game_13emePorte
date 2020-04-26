@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>13ème Porte Application WEB</title>
-  <link rel="stylesheet" href="style1.css">
+  <link rel="stylesheet" href="style1.css" type="texte/css">
   <script src="script.js"></script>
 </head>
 <body>
@@ -19,8 +19,9 @@
 	$capteur = utf8_encode($unResultat->ID_capteurs);
 	$etat1 = utf8_encode($unResultat->Etat);
 	$dateMesure = utf8_encode($unResultat->Heure_derniere_mesure);
-	
-	
+?>
+
+<?php	
 	$query=("SELECT*FROM actionneurs");
 	$resultats=$dbh->query($query);
 	$resultats->setFetchMode(PDO::FETCH_OBJ);
@@ -29,8 +30,9 @@
 	$actionneurs = utf8_encode($unResultat->ID_actionneurs);
 	$etat2 = utf8_encode($unResultat->Etat);
 	$dateMesure2 = utf8_encode($unResultat->Heure_derniere_mesure);
+?>
 	
-	
+<?php	
 	$query=("SELECT*FROM general");
 	$resultats=$dbh->query($query);
 	$resultats->setFetchMode(PDO::FETCH_OBJ);
@@ -148,8 +150,6 @@
 ?>	
 	
 	</div>
-	
-	<div>
 
 
 	<div class="Devant">
@@ -1117,6 +1117,5 @@
 	
 	</div>
 	
-	</div>
 </body>
 </html>
