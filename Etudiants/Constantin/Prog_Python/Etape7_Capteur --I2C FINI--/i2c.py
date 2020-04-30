@@ -34,7 +34,7 @@ arduinos = [
         
         # {'id': 6, 'address': 0x17, 'mechanism_status': False, 
         # 'actuator_status' : {'S_Vanne': False, 'S_Chien': False, 'S_Led': False, 'S_Air': False}, 'as_timer' : 0, 
-        # 'sensor_data' : {'C_Vanne1': False, 'C_Vanne2': False, , 'C_Vanne3': False, 'C_Vanne4': False, 'C_Vanne5': False, 'C_Vanne6': False, 'C_Vanne7': False, 'C_Bouton': False}, 'sd_timer': 0, 
+        # 'sensor_data' : {'C_Vanne1': False, 'C_Vanne2': False, 'C_Vanne3': False, 'C_Vanne4': False, 'C_Vanne5': False, 'C_Vanne6': False, 'C_Vanne7': False, 'C_Bouton': False}, 'sd_timer': 0, 
         # 'ordre' : False},
         
         # {'id': 7, 'address': 0x18, 'mechanism_status': False, 

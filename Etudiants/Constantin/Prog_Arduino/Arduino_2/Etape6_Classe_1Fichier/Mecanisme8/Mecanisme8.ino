@@ -83,7 +83,9 @@ void Riz::execute(){
         digitalWrite(STableau_PIN, LOW);   // relais tableau métro
         delay(200);
         digitalWrite(STableau_PIN, HIGH);  // relais tableau métro
+		
         mechanism_status = true;
+		
       } else {
         digitalWrite(SLedV_PIN, 0 );    // LED VERT
         digitalWrite(SLedR_PIN, 200);   // LED ROUGE

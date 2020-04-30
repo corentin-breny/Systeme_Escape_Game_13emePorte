@@ -68,40 +68,35 @@ void Feu::execute(){
 		ms_time = millis();								//On remet le timer de déparasitage à 0
 	}
 	
-	if (sd_reading == LOW){								//Si il semble y avoir eu un changement de positiion positif
-		
-		if ((millis() - ms_time) > ((DEBOUNCE)/2)){ 	//On vérifie s'il y a eu un changement de position
+	if (sd_reading == LOW
+	&& (millis() - ms_time) > ((DEBOUNCE)/2)){ 			//On vérifie s'il y a eu un changement de position positif
 			
-			C_Interupteur = true;						//On fixe la valeur de l'attribut capteur
-			Serial.print(digitalRead(CInterupteur_PIN));
+		C_Interupteur = true;							//On fixe la valeur de l'attribut capteur
+		Serial.print(digitalRead(CInterupteur_PIN));
 			
-			if (mechanism_status == false) {			//Si il y a eu le premier changement de position
+		if (mechanism_status == false) {				//Si il y a eu le premier changement de position
 			  
-				digitalWrite(SDragon_PIN, LOW); 		//On désactive l'electroaimant de la trappe dragon
-				delay(1000);							//On attend 1 seconde
-				digitalWrite(SDragon_PIN, HIGH);		//On  réactive l'electroaimant
-				S_Dragon = true;						//On change la valeur de l'attribut
+			digitalWrite(SDragon_PIN, LOW); 			//On désactive l'electroaimant de la trappe dragon
+			delay(1000);								//On attend 1 seconde
+			digitalWrite(SDragon_PIN, HIGH);			//On  réactive l'electroaimant
+			S_Dragon = true;							//On change la valeur de l'attribut
 				
-				delay(4000); 							//On attend 4 secondes
-				digitalWrite(SFumee_PIN, LOW); 			//On allume la fumée
-				delay(5000);							//On attend 5 seconde
-				digitalWrite(SFumee_PIN, HIGH);			//On éteint la fumée
-				S_Fumee = true;							//On change la valeur de l'attribut
+			delay(4000); 								//On attend 4 secondes
+			digitalWrite(SFumee_PIN, LOW); 				//On allume la fumée
+			delay(5000);								//On attend 5 seconde
+			digitalWrite(SFumee_PIN, HIGH);				//On éteint la fumée
+			S_Fumee = true;								//On change la valeur de l'attribut
 				
-				delay(1000);							//On attend 1 secondes
-				digitalWrite(SLed_PIN, HIGH);			//On allume la led de contrôle
-				S_Led = true;							//On change la valeur de l'attribut
+			delay(1000);								//On attend 1 secondes
+			digitalWrite(SLed_PIN, HIGH);				//On allume la led de contrôle
+			S_Led = true;								//On change la valeur de l'attribut
 				
-				S_Feu = true;							//On change la valeur de l'attribut
+			S_Feu = true;								//On change la valeur de l'attribut
 				
-				mechanism_status = true; 				//On change la valeur de l'attribut
-			} 
-		}else{											//Si il n'y a en fait pas eu de changement de position
-			C_Interupteur = false;						//On fixe la valeur de l'attribut capteur
-			Serial.print(digitalRead(CInterupteur_PIN));
-		}
-		
+			mechanism_status = true; 					//On change la valeur de l'attribut
+		} 
 	}else{												//Si il n'y a pas eu de changement de position positif
+	
 		C_Interupteur = false;							//On fixe la valeur de l'attribut capteur
 		Serial.print(digitalRead(CInterupteur_PIN));
 	}	
