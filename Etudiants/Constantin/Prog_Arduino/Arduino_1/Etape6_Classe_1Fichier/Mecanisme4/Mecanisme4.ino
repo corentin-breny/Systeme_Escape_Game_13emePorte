@@ -2,15 +2,15 @@
 
 #include "Wire.h"
 
-#define CInterupteur_PIN 8  //interupteur a clef
-#define SLed_PIN 9          //led controle
-#define SDragon_PIN 10      //relais dragon
-#define SFumee_PIN 11       //relais fumee
+#define CInterupteur_PIN 8  	//interupteur a clef
+#define SLed_PIN 9          	//led controle
+#define SDragon_PIN 10      	//relais dragon
+#define SFumee_PIN 11       	//relais fumee
 #define DEBOUNCE 500
 
-int sensor_data = LOW;        
-bool sd_previous = false;     //Last sensor data
-long ms_time = 0;             //Last time mechanism_status has changed
+int sd_reading = HIGH;        	//Valeur actuelle du capteur
+int sd_previous = HIGH;     	//Dernière valeur du capteur
+long ms_time = 0;             	//Dernière fois que le statut du mécanisme a changé
 
 class Feu{
 
@@ -61,44 +61,52 @@ void Feu::setupMechanism() {
 }
 
 void Feu::execute(){
-  sensor_data = digitalRead(CInterupteur_PIN);   // INTERUPTEUR CLEF
-  
-  if (sensor_data == HIGH){
-    C_Interupteur = true;
-  }
-  
-  // Si le contact à changé, est-ce causé par un changement de position OU un parasite (bille qui trésaute)... 
-  if (C_Interupteur != sd_previous) {
-  // Remettre la minuterie/timer de déparasitage à 0
-    ms_time = millis();
-  }
-  
-  // attendre que l'on ai dépassé le temps de déparasitage 
-  if ((millis() - ms_time) > ((DEBOUNCE)/2)) {  
-    Serial.print(digitalRead(CInterupteur_PIN));
+	sd_reading = digitalRead(CInterupteur_PIN);   		//On récupère la valeur du capteur intérupteur à clef
 
-    if (mechanism_status==false && C_Interupteur == true){
-      //cathode_high();  //eteind led 7 digit //Envoyer un ordre à une autre arduino
-        
-      digitalWrite(SDragon_PIN, LOW); // Ventouse dragon
-      delay(1000);
-      digitalWrite(SDragon_PIN, HIGH);
-      S_Dragon = true;
-        
-      delay(4000); // attend 5 sec
-      digitalWrite(SFumee_PIN, LOW); //fumée on
-      delay(1000);
-      digitalWrite(SFumee_PIN, HIGH);//fumée off
-      S_Fumee = true;
-        
-      delay(5000);
-      mechanism_status = true; 
-      digitalWrite(SLed_PIN, HIGH);
-      S_Led = true;
-      S_Dragon = true;
-    } 
-  }
-  sd_previous = C_Interupteur;
+	//on tient à vérifier si il y a eu un changement de position ou un parasite (bille qui trésaute)... 
+	if (sd_reading != sd_previous) {
+		ms_time = millis();								//On remet le timer de déparasitage à 0
+	}
+	
+	if (sd_reading == LOW){								//Si il semble y avoir eu un changement de positiion positif
+		
+		if ((millis() - ms_time) > ((DEBOUNCE)/2)){ 	//On vérifie s'il y a eu un changement de position
+			
+			C_Interupteur = true;						//On fixe la valeur de l'attribut capteur
+			Serial.print(digitalRead(CInterupteur_PIN));
+			
+			if (mechanism_status == false) {			//Si il y a eu le premier changement de position
+			  
+				digitalWrite(SDragon_PIN, LOW); 		//On désactive l'electroaimant de la trappe dragon
+				delay(1000);							//On attend 1 seconde
+				digitalWrite(SDragon_PIN, HIGH);		//On  réactive l'electroaimant
+				S_Dragon = true;						//On change la valeur de l'attribut
+				
+				delay(4000); 							//On attend 4 secondes
+				digitalWrite(SFumee_PIN, LOW); 			//On allume la fumée
+				delay(5000);							//On attend 5 seconde
+				digitalWrite(SFumee_PIN, HIGH);			//On éteint la fumée
+				S_Fumee = true;							//On change la valeur de l'attribut
+				
+				delay(1000);							//On attend 1 secondes
+				digitalWrite(SLed_PIN, HIGH);			//On allume la led de contrôle
+				S_Led = true;							//On change la valeur de l'attribut
+				
+				S_Feu = true;							//On change la valeur de l'attribut
+				
+				mechanism_status = true; 				//On change la valeur de l'attribut
+			} 
+		}else{											//Si il n'y a en fait pas eu de changement de position
+			C_Interupteur = false;						//On fixe la valeur de l'attribut capteur
+			Serial.print(digitalRead(CInterupteur_PIN));
+		}
+		
+	}else{												//Si il n'y a pas eu de changement de position positif
+		C_Interupteur = false;							//On fixe la valeur de l'attribut capteur
+		Serial.print(digitalRead(CInterupteur_PIN));
+	}	
+	
+	sd_previous = sd_reading;
 }
 
 void Feu::receive_order() {
