@@ -68,6 +68,8 @@ void Feu::execute(){
 		ms_time = millis();								//On remet le timer de déparasitage à 0
 	}
 	
+	sd_previous = sd_reading;
+	
 	if (sd_reading == LOW
 	&& (millis() - ms_time) > ((DEBOUNCE)/2)){ 			//On vérifie s'il y a eu un changement de position positif
 			
@@ -76,23 +78,10 @@ void Feu::execute(){
 			
 		if (mechanism_status == false) {				//Si il y a eu le premier changement de position
 			  
-			digitalWrite(SDragon_PIN, LOW); 			//On désactive l'electroaimant de la trappe dragon
-			delay(1000);								//On attend 1 seconde
-			digitalWrite(SDragon_PIN, HIGH);			//On  réactive l'electroaimant
-			S_Dragon = true;							//On change la valeur de l'attribut
-				
-			delay(4000); 								//On attend 4 secondes
-			digitalWrite(SFumee_PIN, LOW); 				//On allume la fumée
-			delay(5000);								//On attend 5 seconde
-			digitalWrite(SFumee_PIN, HIGH);				//On éteint la fumée
-			S_Fumee = true;								//On change la valeur de l'attribut
-				
-			delay(1000);								//On attend 1 secondes
-			digitalWrite(SLed_PIN, HIGH);				//On allume la led de contrôle
-			S_Led = true;								//On change la valeur de l'attribut
-				
-			S_Feu = true;								//On change la valeur de l'attribut
-				
+			S_Dragon = true;							//On change la valeur de l'attribut			
+			S_Fumee = true;								//On change la valeur de l'attribut			
+			S_Led = true;								//On change la valeur de l'attribut			
+			S_Feu = true;								//On change la valeur de l'attribut		
 			mechanism_status = true; 					//On change la valeur de l'attribut
 		} 
 	}else{												//Si il n'y a pas eu de changement de position positif
@@ -101,7 +90,30 @@ void Feu::execute(){
 		Serial.print(digitalRead(CInterupteur_PIN));
 	}	
 	
-	sd_previous = sd_reading;
+	if ( S_Dragon == true ){
+		delay(100);										//On attend 0.1 seconde
+		digitalWrite(SDragon_PIN, LOW); 				//On désactive l'electroaimant de la trappe dragon
+		delay(1000);									//On attend 1 seconde
+		digitalWrite(SDragon_PIN, HIGH);				//On réactive l'electroaimant
+		delay(4000); 									//On attend 4 secondes
+		S_Dragon = false;								//On change la valeur de l'attribut
+	}
+	
+	if ( S_Fumee == true ){
+		delay(100);										//On attend 0.1 seconde
+		digitalWrite(SFumee_PIN, LOW); 					//On allume la fumée
+		delay(5000);									//On attend 5 secondes
+		digitalWrite(SFumee_PIN, HIGH);					//On éteint la fumée
+		S_Fumee = false;								//On change la valeur de l'attribut
+	}
+	
+	if ( S_Led == true ){
+		delay(100);										//On attend 0.1 seconde
+		digitalWrite(SLed_PIN, HIGH);					//On allume la led de contrôle
+	}else{
+		delay(100);										//On attend 0.1 seconde
+		digitalWrite(SLed_PIN, LOW);					//On éteint la led de contrôle
+	}	
 }
 
 void Feu::receive_order() {

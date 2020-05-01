@@ -73,33 +73,45 @@ void Riz::execute(){
 		C_Poids = (int) sd_reading;						//On fixe la valeur de l'attribut capteur
 		sd_previous = C_Poids;
 		
-		if ((sd_reading >= 0.48) 
+		if ( (sd_reading >= 0.48) 
 		&& (sd_reading <= 0.52 )
-		&& mechanism_status == false) {					//Si la mesure est comprise entre 0.48 et 0.52 pour la 1ere fois
-			
-			digitalWrite(STableau_PIN, LOW);   			//On désactive l'electroaimant du tableau
-			delay(200);									//On attend 0.2 seconde
-			digitalWrite(STableau_PIN, HIGH);  			//On active l'electroaimant du tableau
-			delay(500);									//On attend 0.5 seconde
-			digitalWrite(STableau_PIN, LOW);   			//On désactive l'electroaimant du tableau
-			delay(200);									//On attend 0.2 seconde
-			digitalWrite(STableau_PIN, HIGH);  			//On active l'electroaimant du tableau
-			delay(500);									//On attend 0.5 seconde
-			digitalWrite(STableau_PIN, LOW);   			//On désactive l'electroaimant du tableau
-			delay(200);									//On attend 0.2 seconde
-			digitalWrite(STableau_PIN, HIGH);  			//On active l'electroaimant du tableau
-			S_Tableau = true;							//On change la valeur de l'attribut
-			
-			digitalWrite(SLedV_PIN, HIGH);  			//On allume la Led Verte
-			digitalWrite(SLedR_PIN, LOW);     			//On éteint la Led Rouge
-			S_Led = true;								//On change la valeur de l'attribut			
-			
+		&& mechanism_status == false ) {				//Si la mesure est comprise entre 0.48 et 0.52 pour la 1ere fois
+									
+			S_Led = true;								//On change la valeur de l'attribut	
+			S_Tableau = true;							//On change la valeur de l'attribut					
 			mechanism_status = true; 					//On change la valeur de l'attribut		
 		}
 	}else{												//Si les 2 mesures ne sont pas quasi égales
 		
         C_Poids = sd_previous;							//On fixe la valeur de l'attribut capteur
     }
+		
+	if ( S_Led == true ){
+		delay(100);										//On attend 0.1 seconde
+		digitalWrite(SLedV_PIN, HIGH);  				//On allume la Led Verte
+		digitalWrite(SLedR_PIN, LOW);     				//On éteint la Led Rouge
+	}else{
+		delay(100);										//On attend 0.1 seconde
+		digitalWrite(SLedR_PIN, HIGH);  				//On allume la Led Rouge
+		digitalWrite(SLedV_PIN, LOW);     				//On éteint la Led Verte
+	}
+	
+	if ( S_Tableau == true ){
+		delay(100);										//On attend 0.1 seconde
+		digitalWrite(STableau_PIN, LOW);   				//On désactive l'electroaimant du tableau
+		delay(200);										//On attend 0.2 seconde
+		digitalWrite(STableau_PIN, HIGH);  				//On active l'electroaimant du tableau
+		delay(500);										//On attend 0.5 seconde
+		digitalWrite(STableau_PIN, LOW);   				//On désactive l'electroaimant du tableau
+		delay(200);										//On attend 0.2 seconde
+		digitalWrite(STableau_PIN, HIGH);  				//On active l'electroaimant du tableau
+		delay(500);										//On attend 0.5 seconde
+		digitalWrite(STableau_PIN, LOW);   				//On désactive l'electroaimant du tableau
+		delay(200);										//On attend 0.2 seconde
+		digitalWrite(STableau_PIN, HIGH);  				//On active l'electroaimant du tableau
+		delay(4000); 									//On attend 4 secondes
+		S_Tableau = false;								//On change la valeur de l'attribut
+	}
 }
 
 void Riz::receive_order() {
