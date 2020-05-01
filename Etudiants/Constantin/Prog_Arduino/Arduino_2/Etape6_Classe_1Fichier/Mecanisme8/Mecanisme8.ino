@@ -1,7 +1,7 @@
 //FICHIER RIZ H
 
 #include "Wire.h"
-#include <HX711.h>  //You must have this library in your arduino library folder
+#include "HX711.h"  //You must have this library in your arduino library folder
 
 #define STableau_PIN 6   //relais tableau
 #define SLedV_PIN 4      //led verte
@@ -11,18 +11,21 @@
 //Change this calibration factor as per your load cell once it is found you many need to vary it in thousands
 #define calibration_factor 20180; //-106600 worked for my 40Kg max scale setup
 
+HX711 scale(CPoids_DOUT, CPoids_CLK);
+float sd_reading = 0;       //Valeur actuelle du capteur
+int sd_previous = 0;     	//Valeur précédente du capteur
+
 class Riz{
 
   private :
     bool S_Tableau;
-    bool S_LedV;
-    bool S_LedR;
-    bool C_Poids;
+    bool S_Led;
+    int C_Poids;
     bool mechanism_status;
 
   private :
-    bool actuator[3] = {S_Tableau, S_LedV, S_LedR};
-    bool sensor[1] = {C_Poids};
+    bool actuator[2] = {S_Tableau, S_Led};
+    int sensor[1] = {C_Poids};
   
   public :
     Riz();
@@ -36,8 +39,7 @@ class Riz{
 
 Riz::Riz(){
   S_Tableau = false;
-  S_LedV = false;
-  S_LedR = true;
+  S_Led = false;
   C_Poids = 0;
   mechanism_status = false;
 }
@@ -45,7 +47,6 @@ Riz::Riz(){
 void Riz::setupMechanism() {
   Serial.begin(9600);
 
-  HX711 scale(DOUT, CLK);
   scale.set_scale();
   scale.tare(); //Reset the scale to 0
 
@@ -60,39 +61,45 @@ void Riz::setupMechanism() {
 }
 
 void Riz::execute(){
-  scale.set_scale(calibration_factor); //Adjust to this calibration factor
+	scale.set_scale(calibration_factor); 				//On ajuste la balance au facteur d'étalonnage
 
-  if (mechanism_status == false) {
-    float C_Poids = (scale.get_units() / 2.0);
-    delay(1000);
-    float C_Poids_verif = (scale.get_units() / 2.0);
+    sd_reading = (scale.get_units() / 2.0); 			//On récupère une 1ere mesure du capteur de poids
+    delay(1000);										//On attend 1 seconde
+    float sd_reading_verif = (scale.get_units() / 2.0);	//On récupère une 2eme mesure du capteur de poids
 
+    if ( (sd_reading_verif >= (sd_reading - 0.03)) 
+	&& (sd_reading_verif <= (sd_reading + 0.03)) ) { 	//On vérifie que les 2 mesures sont quasi égales
 
-    if ( (C_Poids_verif >= (C_Poids - 0.03)) && (C_Poids_verif <= (C_Poids + 0.03)) ) {
-      if ((C_Poids >= 0.48) && (C_Poids <= 0.52 )) {
-        digitalWrite(SLedV_PIN, 200 );  // LED VERT
-        digitalWrite(SLedR_PIN, 0);     // LED ROUGE
-        digitalWrite(STableau_PIN, LOW);   // relais tableau métro
-        delay(200);
-        digitalWrite(STableau_PIN, HIGH);  // relais tableau métro
-        delay(500);
-        digitalWrite(STableau_PIN, LOW);   // relais tableau métro
-        delay(200);
-        digitalWrite(STableau_PIN, HIGH);  // relais tableau métro
-        delay(500);
-        digitalWrite(STableau_PIN, LOW);   // relais tableau métro
-        delay(200);
-        digitalWrite(STableau_PIN, HIGH);  // relais tableau métro
+		C_Poids = (int) sd_reading;						//On fixe la valeur de l'attribut capteur
+		sd_previous = C_Poids;
 		
-        mechanism_status = true;
+		if ((sd_reading >= 0.48) 
+		&& (sd_reading <= 0.52 )
+		&& mechanism_status == false) {					//Si la mesure est comprise entre 0.48 et 0.52 pour la 1ere fois
+			
+			digitalWrite(STableau_PIN, LOW);   			//On désactive l'electroaimant du tableau
+			delay(200);									//On attend 0.2 seconde
+			digitalWrite(STableau_PIN, HIGH);  			//On active l'electroaimant du tableau
+			delay(500);									//On attend 0.5 seconde
+			digitalWrite(STableau_PIN, LOW);   			//On désactive l'electroaimant du tableau
+			delay(200);									//On attend 0.2 seconde
+			digitalWrite(STableau_PIN, HIGH);  			//On active l'electroaimant du tableau
+			delay(500);									//On attend 0.5 seconde
+			digitalWrite(STableau_PIN, LOW);   			//On désactive l'electroaimant du tableau
+			delay(200);									//On attend 0.2 seconde
+			digitalWrite(STableau_PIN, HIGH);  			//On active l'electroaimant du tableau
+			S_Tableau = true;							//On change la valeur de l'attribut
+			
+			digitalWrite(SLedV_PIN, HIGH);  			//On allume la Led Verte
+			digitalWrite(SLedR_PIN, LOW);     			//On éteint la Led Rouge
+			S_Led = true;								//On change la valeur de l'attribut			
+			
+			mechanism_status = true; 					//On change la valeur de l'attribut		
+		}
+	}else{												//Si les 2 mesures ne sont pas quasi égales
 		
-      } else {
-        digitalWrite(SLedV_PIN, 0 );    // LED VERT
-        digitalWrite(SLedR_PIN, 200);   // LED ROUGE
-        digitalWrite(STableau_PIN, HIGH);  // relais tableau métro
-      }
+        C_Poids = sd_previous;							//On fixe la valeur de l'attribut capteur
     }
-  }
 }
 
 void Riz::receive_order() {

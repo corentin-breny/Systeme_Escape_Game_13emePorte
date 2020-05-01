@@ -9,7 +9,7 @@
 #define DEBOUNCE 500
 
 int sd_reading = HIGH;        	//Valeur actuelle du capteur
-int sd_previous = HIGH;     	//Dernière valeur du capteur
+int sd_previous = HIGH;     	//Valeur précédente du capteur
 long ms_time = 0;             	//Dernière fois que le statut du mécanisme a changé
 
 class Feu{

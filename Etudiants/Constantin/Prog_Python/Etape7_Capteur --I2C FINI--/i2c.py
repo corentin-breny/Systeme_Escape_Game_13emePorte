@@ -43,7 +43,7 @@ arduinos = [
         # 'ordre' : False},
         
         {'id': 8, 'address': 0x19, 'mechanism_status': False, 
-        'actuator_status' : {'S_Tableau': False, 'S_LedV': False, 'S_LedR': True}, 'as_timer' : 0, 
+        'actuator_status' : {'S_Tableau': False, 'S_Led': False}, 'as_timer' : 0, 
         'sensor_data' : {'C_Poids': 0}, 'sd_timer': 0, 
         'ordre' : False}#,
         
