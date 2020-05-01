@@ -77,26 +77,26 @@ void Riz::execute(){
 		&& (sd_reading <= 0.52 )
 		&& mechanism_status == false ) {				//Si la mesure est comprise entre 0.48 et 0.52 pour la 1ere fois
 									
-			S_Led = true;								//On change la valeur de l'attribut	
-			S_Tableau = true;							//On change la valeur de l'attribut					
-			mechanism_status = true; 					//On change la valeur de l'attribut		
+			S_Led = true;								//On allume la led verte et on éteint la rouge	
+			S_Tableau = true;							//On libère la chute du tableau			
+			mechanism_status = true; 					//On valide le mécanisme		
 		}
 	}else{												//Si les 2 mesures ne sont pas quasi égales
 		
         C_Poids = sd_previous;							//On fixe la valeur de l'attribut capteur
     }
 		
-	if ( S_Led == true ){
+	if ( S_Led == true ){								//Pour allumer la led verte et éteindre la rouge
 		delay(100);										//On attend 0.1 seconde
 		digitalWrite(SLedV_PIN, HIGH);  				//On allume la Led Verte
 		digitalWrite(SLedR_PIN, LOW);     				//On éteint la Led Rouge
-	}else{
+	}else{												//Pour allumer la led rouge et éteindre la verte
 		delay(100);										//On attend 0.1 seconde
 		digitalWrite(SLedR_PIN, HIGH);  				//On allume la Led Rouge
 		digitalWrite(SLedV_PIN, LOW);     				//On éteint la Led Verte
 	}
 	
-	if ( S_Tableau == true ){
+	if ( S_Tableau == true ){							//Pour libérer la chute du tableau
 		delay(100);										//On attend 0.1 seconde
 		digitalWrite(STableau_PIN, LOW);   				//On désactive l'electroaimant du tableau
 		delay(200);										//On attend 0.2 seconde
@@ -113,7 +113,7 @@ void Riz::execute(){
 		S_Tableau = false;								//On change la valeur de l'attribut
 	}
 	
-	if ( mechanism_status == false ){
+	if ( mechanism_status == false ){					//En cas de reset
 		S_Led = false;									//On change la valeur de l'attribut
 	}
 }

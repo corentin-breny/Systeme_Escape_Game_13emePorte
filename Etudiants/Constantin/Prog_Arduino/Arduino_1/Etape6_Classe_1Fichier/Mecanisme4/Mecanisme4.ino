@@ -78,11 +78,11 @@ void Feu::execute(){
 			
 		if (mechanism_status == false) {				//Si il y a eu le premier changement de position
 			  
-			S_Dragon = true;							//On change la valeur de l'attribut			
-			S_Fumee = true;								//On change la valeur de l'attribut			
-			S_Led = true;								//On change la valeur de l'attribut			
-			S_Feu = true;								//On change la valeur de l'attribut		
-			mechanism_status = true; 					//On change la valeur de l'attribut
+			S_Dragon = true;							//On active l'électroaimant de la ventouse dragon		
+			S_Fumee = true;								//On active la fumée			
+			S_Led = true;								//On allume la led verte		
+			S_Feu = true;								//On allume l'element FEU des 4 éléments		
+			mechanism_status = true; 					//On valide le mécanisme
 		} 
 	}else{												//Si il n'y a pas eu de changement de position positif
 	
@@ -90,7 +90,7 @@ void Feu::execute(){
 		Serial.print(digitalRead(CInterupteur_PIN));
 	}	
 	
-	if ( S_Dragon == true ){
+	if ( S_Dragon == true ){							//Pour désactiver l'electroaimant de la ventouse dragon
 		delay(100);										//On attend 0.1 seconde
 		digitalWrite(SDragon_PIN, LOW); 				//On désactive l'electroaimant de la trappe dragon
 		delay(1000);									//On attend 1 seconde
@@ -99,7 +99,7 @@ void Feu::execute(){
 		S_Dragon = false;								//On change la valeur de l'attribut
 	}
 	
-	if ( S_Fumee == true ){
+	if ( S_Fumee == true ){								//Pour activer la fumée
 		delay(100);										//On attend 0.1 seconde
 		digitalWrite(SFumee_PIN, LOW); 					//On allume la fumée
 		delay(5000);									//On attend 5 secondes
@@ -107,15 +107,15 @@ void Feu::execute(){
 		S_Fumee = false;								//On change la valeur de l'attribut
 	}
 	
-	if ( S_Led == true ){
+	if ( S_Led == true ){								//Pour allumer la led témoin
 		delay(100);										//On attend 0.1 seconde
 		digitalWrite(SLed_PIN, HIGH);					//On allume la led de contrôle
-	}else{
+	}else{												//Pour éteindre la led témoin
 		delay(100);										//On attend 0.1 seconde
 		digitalWrite(SLed_PIN, LOW);					//On éteint la led de contrôle
 	}
 	
-	if ( mechanism_status == false ){
+	if ( mechanism_status == false ){					//En cas de reset
 		S_Led = false;									//On change la valeur de l'attribut
 		S_Feu = false;									//On change la valeur de l'attribut
 	}
