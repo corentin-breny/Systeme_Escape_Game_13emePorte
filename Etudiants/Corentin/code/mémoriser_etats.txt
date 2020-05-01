@@ -1,0 +1,32 @@
+import mysql.connector
+
+conn = mysql.connector.connect(host="localhost", user="root", password="", database="bdd_escape_game")
+cursor=conn.cursor()
+
+
+def send_SDtoDataBase(arduino_id, sensor_name, sensor_data):
+    """
+    send sensor data to DataBase
+    """
+    #Corentin : Ecrire code
+curseur.execute("Insert INTO capteurs (ID_Capteurs, Nom_Capteurs, Valeur) VALUES (%s, %s, %s)", ("arduino_id", "sensor_name", "sensor_data")
+conn.commit()	#sert à sauvegarder les données dans la table avant de fermer la connexion. 
+
+
+def send_AStoDataBase(arduino_id, actuator_name, actuator_status):
+    """
+    send actuator status to DataBase
+    """
+    #Corentin : Ecrire code
+curseur.execute("Insert INTO actionneurs (ID_Actionneur, Nom_Actionneur, Etat) VALUES (%s, %s, %s)", ("arduino_id", "actuator_name", "actuator_status")
+conn.commit()	#sert à sauvegarder les données dans la table avant de fermer la connexion. 
+
+
+def send_MStoDataBase(arduino_id, mechanism_status):
+    """
+    send mechanism status to DataBase
+    """
+    #Corentin : Ecrire code
+curseur.execute("Insert INTO general (ID_mecanisme, Etat) VALUES (%s, %s)", ("arduino_id", "mechanism_status")
+conn.commit()	#sert à sauvegarder les données dans la table avant de fermer la connexion. 
+conn.close()
