@@ -112,6 +112,10 @@ void Riz::execute(){
 		delay(4000); 									//On attend 4 secondes
 		S_Tableau = false;								//On change la valeur de l'attribut
 	}
+	
+	if ( mechanism_status == false ){
+		S_Led = false;									//On change la valeur de l'attribut
+	}
 }
 
 void Riz::receive_order() {

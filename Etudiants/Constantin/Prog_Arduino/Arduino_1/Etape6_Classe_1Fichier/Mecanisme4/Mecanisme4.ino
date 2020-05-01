@@ -113,7 +113,12 @@ void Feu::execute(){
 	}else{
 		delay(100);										//On attend 0.1 seconde
 		digitalWrite(SLed_PIN, LOW);					//On éteint la led de contrôle
-	}	
+	}
+	
+	if ( mechanism_status == false ){
+		S_Led = false;									//On change la valeur de l'attribut
+		S_Feu = false;									//On change la valeur de l'attribut
+	}
 }
 
 void Feu::receive_order() {
