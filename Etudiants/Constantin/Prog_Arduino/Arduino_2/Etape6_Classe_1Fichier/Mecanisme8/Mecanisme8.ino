@@ -129,10 +129,16 @@ void Riz::receive_order() {
     Serial.print("Order received : ");
     Serial.println(order);//4MSTASFFFT.
 
-    for(int i=1; i<sizeof(order)+1; i++) {
-      if(order[i] == 'T'){
+    if(order[1] == '1'){
+      mechanism_status = true;
+    }else if(order[1] == '0'){
+      mechanism_status = false;
+    }
+	
+	for(int i=2; i<sizeof(order)+1; i++) {
+      if(order[i] == '1'){
         actuator[i-1] = true;
-      }else if(order[i] == 'F'){
+      }else if(order[i] == '0'){
         actuator[i-1] = false;
       }
     }
@@ -140,10 +146,17 @@ void Riz::receive_order() {
 }
 
 void Riz::send_status() {
+  String ms_I2Cmessage = "ms";
   String as_I2Cmessage = "as";
   String sd_I2Cmessage = "sd";
   String I2Cmessage;
-
+  
+  if (mechanism_status == true){
+    ms_I2Cmessage += "T";
+  }else{
+    ms_I2Cmessage += "F";
+  }
+  
   for(int i=0; i<sizeof(actuator); i++){
     if (actuator[i] == true){
       as_I2Cmessage += "T";
@@ -162,7 +175,7 @@ void Riz::send_status() {
     sd_I2Cmessage += "X";
   }
 
-  I2Cmessage = as_I2Cmessage + sd_I2Cmessage;//asFFXXsdF
+  I2Cmessage =  ms_I2Cmessage + as_I2Cmessage + sd_I2Cmessage;//asFFXXsdF
   
   Wire.write(I2Cmessage.c_str());
   Serial.print("Message send to Raspberry : ");

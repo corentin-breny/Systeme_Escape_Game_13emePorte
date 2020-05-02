@@ -2,13 +2,15 @@
 
 #define SLAVE_ADDRESS 0x15 // initialisation de l’Arduino avec l’adresse 0x15
 
+bool mechanism_status = false;
+
 bool S_Dragon = false;
 bool S_Fumee = false;
 bool S_Led = false;
 bool S_Feu = true;
 bool actuator[] = {S_Dragon, S_Fumee, S_Led, S_Feu};
 
-bool C_Interupteur = false;
+bool C_Interupteur = true;
 bool sensor[] = {C_Interupteur};
 
 
@@ -38,10 +40,17 @@ void receive_order(int byteCount) {
 }
 
 void send_status() {
+  String ms_I2Cmessage = "ms";
   String as_I2Cmessage = "as";
   String sd_I2Cmessage = "sd";
   String I2Cmessage;
 
+  if (mechanism_status == true){
+    ms_I2Cmessage += "T";
+  }else{
+    ms_I2Cmessage += "F";
+  }
+  
   for(int i=0; i<sizeof(actuator); i++){
     if (actuator[i] == true){
       as_I2Cmessage += "T";
@@ -67,8 +76,8 @@ void send_status() {
     sd_I2Cmessage += sensor[i];
     sd_I2Cmessage += "X";
   }*/
-
-  I2Cmessage = as_I2Cmessage + sd_I2Cmessage;//asFFXXsdF
+  
+  I2Cmessage = ms_I2Cmessage + as_I2Cmessage + sd_I2Cmessage; //msFasFFFFsdF
   
   Wire.write(I2Cmessage.c_str());
   Serial.print("Message send to Raspberry : ");
