@@ -2,6 +2,7 @@
 
 #include "Wire.h"
 #include "HX711.h"  //You must have this library in your arduino library folder
+#define SLAVE_ADDRESS 0x19  //initialisation de l’Arduino avec l’adresse 0x19
 
 #define STableau_PIN 6   //relais tableau
 #define SLedV_PIN 4      //led verte
@@ -23,16 +24,18 @@ class Riz{
     int C_Poids;
     bool mechanism_status;
 
-  private :
+  public :
     bool actuator[2] = {S_Tableau, S_Led};
     int sensor[1] = {C_Poids};
   
   public :
+    bool getMechanism_status();
+    void setMechanism_status(bool ms);
+
+  public :
     Riz();
     void setupMechanism();
     void execute();
-    void receive_order();
-    void send_status();
 };
 
 //FICHIER Riz CsPP
@@ -42,6 +45,14 @@ Riz::Riz(){
   S_Led = false;
   C_Poids = 0;
   mechanism_status = false;
+}
+
+bool Riz::getMechanism_status(){
+  return mechanism_status;
+}
+
+void Riz::setMechanism_status(bool ms){
+  mechanism_status = ms;
 }
 
 void Riz::setupMechanism() {
@@ -118,7 +129,11 @@ void Riz::execute(){
 	}
 }
 
-void Riz::receive_order() {
+
+//MAIN
+Riz mechanism = Riz();
+
+void receive_order(int numBytes) {
   String data_received;
   while(Wire.available() > 0) {
     char c = Wire.read();
@@ -130,35 +145,35 @@ void Riz::receive_order() {
     Serial.println(order);//4MSTASFFFT.
 
     if(order[1] == '1'){
-      mechanism_status = true;
+      mechanism.setMechanism_status(true);
     }else if(order[1] == '0'){
-      mechanism_status = false;
+      mechanism.setMechanism_status(false);
     }
-	
-	for(int i=2; i<sizeof(order)+1; i++) {
+  
+  for(int i=2; i<sizeof(order)+1; i++) {
       if(order[i] == '1'){
-        actuator[i-1] = true;
+        mechanism.actuator[i-1] = true;
       }else if(order[i] == '0'){
-        actuator[i-1] = false;
+        mechanism.actuator[i-1] = false;
       }
     }
   }
 }
 
-void Riz::send_status() {
+void send_status() {
   String ms_I2Cmessage = "ms";
   String as_I2Cmessage = "as";
   String sd_I2Cmessage = "sd";
   String I2Cmessage;
-  
-  if (mechanism_status == true){
+
+  if (mechanism.getMechanism_status() == true){
     ms_I2Cmessage += "T";
   }else{
     ms_I2Cmessage += "F";
   }
   
-  for(int i=0; i<sizeof(actuator); i++){
-    if (actuator[i] == true){
+  for(int i=0; i<sizeof(mechanism.actuator); i++){
+    if (mechanism.actuator[i] == true){
       as_I2Cmessage += "T";
     }else{
       as_I2Cmessage += "F";
@@ -169,54 +184,34 @@ void Riz::send_status() {
       as_I2Cmessage += "X";
     }
   }
-  
-  for(int i=0; i<sizeof(sensor)/2; i++){
+
+  /*//A DECOMMENTER SI LES CAPTEURS SONT DES VALEURS BOOLEAN
+  for(int i=0; i<sizeof(mechanism.sensor); i++){
+    if (mechanism.sensor[i] == true){
+      sd_I2Cmessage += "T";
+    }else{
+      sd_I2Cmessage += "F";
+    }
+  }*/
+
+  //A DECOMMENTER SI LES CAPTEURS SONT DES VALEURS NUMERIQUE
+   for(int i=0; i<sizeof(sensor)/2; i++){
     sd_I2Cmessage += sensor[i];
     sd_I2Cmessage += "X";
   }
-
-  I2Cmessage =  ms_I2Cmessage + as_I2Cmessage + sd_I2Cmessage;//asFFXXsdF
+  
+  I2Cmessage = ms_I2Cmessage + as_I2Cmessage + sd_I2Cmessage;//asFFXXsdF
   
   Wire.write(I2Cmessage.c_str());
   Serial.print("Message send to Raspberry : ");
   Serial.println(I2Cmessage);
 }
 
-//FICHIER I2C H
-
-
-#define SLAVE_ADDRESS 0x19  //initialisation de l’Arduino avec l’adresse 0x15
-
-class i2c{
-
-  private :
-    Riz mechanism;
-  public :
-    i2c(Riz mechanism);
-    void setupI2C();
-};
-
-//FICHIER I2C CPP
-
-i2c::i2c(Riz mechanism){
-  mechanism = mechanism;
-}
-
-void i2c::setupI2C() {
+void setup() {
   Serial.begin(9600);
   Wire.begin(SLAVE_ADDRESS);
-  /*Wire.onReceive(mechanism.receive_order);
-  Wire.onRequest(mechanism.send_status);*/
-}
-
-
-//MAIN
-Riz mechanism = Riz();
-i2c message = i2c(mechanism);
-
-
-void setup() {
-  message.setupI2C();
+  Wire.onReceive(receive_order);
+  Wire.onRequest(send_status);
   mechanism.setupMechanism();
 }
 

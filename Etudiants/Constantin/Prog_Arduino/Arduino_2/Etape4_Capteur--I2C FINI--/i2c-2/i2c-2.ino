@@ -8,7 +8,7 @@ bool S_Tableau = false;
 bool S_Led = false;
 bool actuator[] = {S_Tableau, S_Led};
 
-int C_Poids = 42;
+int C_Poids = 0;
 int sensor[] = {C_Poids};
 
 

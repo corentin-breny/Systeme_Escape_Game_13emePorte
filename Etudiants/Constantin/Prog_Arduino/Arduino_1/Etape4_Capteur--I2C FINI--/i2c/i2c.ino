@@ -7,10 +7,10 @@ bool mechanism_status = false;
 bool S_Dragon = false;
 bool S_Fumee = false;
 bool S_Led = false;
-bool S_Feu = true;
+bool S_Feu = false;
 bool actuator[] = {S_Dragon, S_Fumee, S_Led, S_Feu};
 
-bool C_Interupteur = true;
+bool C_Interupteur = false;
 bool sensor[] = {C_Interupteur};
 
 
