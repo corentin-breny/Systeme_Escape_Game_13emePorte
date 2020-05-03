@@ -84,7 +84,6 @@ void Feu::execute(){
 	&& (millis() - ms_time) > ((DEBOUNCE)/2)){ 			//On vérifie s'il y a eu un changement de position positif
 			
 		C_Interupteur = true;							//On fixe la valeur de l'attribut capteur
-		Serial.print(digitalRead(CInterupteur_PIN));
 			
 		if (mechanism_status == false) {				//Si il y a eu le premier changement de position
 			  
@@ -97,7 +96,6 @@ void Feu::execute(){
 	}else{												//Si il n'y a pas eu de changement de position positif
 	
 		C_Interupteur = false;							//On fixe la valeur de l'attribut capteur
-		Serial.print(digitalRead(CInterupteur_PIN));
 	}	
 	
 	if ( S_Dragon == true ){							//Pour désactiver l'electroaimant de la ventouse dragon
@@ -143,20 +141,22 @@ void receive_order(int numBytes) {
   if(data_received != "2") {
     String order = data_received;
     Serial.print("Order received : ");
-    Serial.println(order);//4MSTASFFFT.
+    Serial.println(order);//412221
 
     if(order[1] == '1'){
       mechanism.setMechanism_status(true);
     }else if(order[1] == '0'){
       mechanism.setMechanism_status(false);
     }
+    Serial.println(mechanism.getMechanism_status());
   
-  for(int i=2; i<sizeof(order)+1; i++) {
+    for(int i=2; i<sizeof(order); i++) {
       if(order[i] == '1'){
         mechanism.actuator[i-1] = true;
       }else if(order[i] == '0'){
         mechanism.actuator[i-1] = false;
       }
+      Serial.println(mechanism.actuator[i-1]);
     }
   }
 }

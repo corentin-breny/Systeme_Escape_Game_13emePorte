@@ -149,13 +149,15 @@ void receive_order(int numBytes) {
     }else if(order[1] == '0'){
       mechanism.setMechanism_status(false);
     }
+    Serial.println(getMechanism_status());
   
-  for(int i=2; i<sizeof(order)+1; i++) {
+    for(int i=2; i<sizeof(order)+1; i++) {
       if(order[i] == '1'){
         mechanism.actuator[i-1] = true;
       }else if(order[i] == '0'){
         mechanism.actuator[i-1] = false;
       }
+      Serial.println(mechanism.actuator[i-1]);
     }
   }
 }
