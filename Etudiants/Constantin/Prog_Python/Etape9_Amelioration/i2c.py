@@ -130,16 +130,16 @@ class SDTimer(Thread):
         self.running = True
 
     def run(self):
-        no_thread = self.arduino['sd_noTimer']                      #On definit le numero du thread
+        console_message = "4s elapsed since last send"
+        no_thread = self.arduino['sd_noTimer']                          #On definit le numero du thread
         
         while self.running:
-            time.sleep(4)                                           #On attend 4 secondes
+            time.sleep(4)                                               #On attend 4 secondes
             
-            if self.arduino['sd_noTimer'] != no_thread :            #Si le thread n'est plus le timer actuel
-                self.running = False                                #On arrete le thread    
-            else :                                                  #Sinon
-                console_message = "4s elapsed since last send"
-                send_SDtoDataBase(self.arduino, console_message)    #On envoie la valeur des capteurs en BDD                       #Fonction Corentin
+            if self.arduino['sd_noTimer'] != no_thread :                #Si le thread n'est plus le timer actuel
+                self.running = False                                    #On arrete le thread    
+            else :                                                      #Sinon
+                send_SDtoDataBase(self.arduino, console_message)        #On envoie la valeur des capteurs en BDD                       #Fonction Corentin
                 
 
 class ASTimer(Thread):
@@ -152,16 +152,16 @@ class ASTimer(Thread):
         self.running = True
         
     def run(self):
-        no_thread = self.arduino['as_noTimer']                      #On definit le numero du thread                    
+        console_message = "60s elapsed since last send"
+        no_thread = self.arduino['as_noTimer']                          #On definit le numero du thread                    
         
         while self.running:
-            time.sleep(60)                                          #On attend 60 secondes
+            time.sleep(60)                                              #On attend 60 secondes
             
-            if self.arduino['as_noTimer'] != no_thread :            #Si le thread n'est plus le timer actuel
-                self.running = False                                #On arrete le thread    
-            else :                                                  #Sinon
-                console_message = "60s elapsed since last send"
-                send_AStoDataBase(self.arduino, console_message)    #On envoie l'etat des actionneurs en BDD                       #Fonction Corentin
+            if self.arduino['as_noTimer'] != no_thread :                #Si le thread n'est plus le timer actuel
+                self.running = False                                    #On arrete le thread    
+            else :                                                      #Sinon
+                send_AStoDataBase(self.arduino, console_message)        #On envoie l'etat des actionneurs en BDD                       #Fonction Corentin
 
 
 class MSTimer(Thread):
@@ -174,16 +174,16 @@ class MSTimer(Thread):
         self.running = True
 
     def run(self):
-        no_thread = self.arduino['ms_noTimer']                      #On definit le numero du thread                    
+        console_message = "60s elapsed since last send"
+        no_thread = self.arduino['ms_noTimer']                          #On definit le numero du thread                    
         
         while self.running:
-            time.sleep(60)                                          #On attend 60 secondes
+            time.sleep(60)                                              #On attend 60 secondes
             
-            if self.arduino['ms_noTimer'] != no_thread :            #Si le thread n'est plus le timer actuel
-                self.running = False                                #On arrete le thread    
-            else :                                                  #Sinon
-                console_message = "60s elapsed since last send"
-                send_MStoDataBase(self.arduino, console_message)    #On envoie l'etat des mecanismes en BDD                       #Fonction Corentin
+            if self.arduino['ms_noTimer'] != no_thread :                #Si le thread n'est plus le timer actuel
+                self.running = False                                    #On arrete le thread    
+            else :                                                      #Sinon
+                send_MStoDataBase(self.arduino, console_message)        #On envoie l'etat des mecanismes en BDD                       #Fonction Corentin
 
 
 def get_sensor_int_data(message, cpt):
@@ -211,8 +211,9 @@ def get_sensor_data(message, arduino):
     Recuperer la valeur de tous les capteurs d'un mecanisme
     """
     ResetTimer = False
+    console_message = "CHANGE"
     
-    cpt = 11
+    cpt = 11                                                            #La partie capteur du message commence au 12eme caractere
     for sensor_name in arduino['sensor_data'] :                         #Pour chaque capteur du mecanisme
    
         if message[cpt] == "T" :
@@ -238,7 +239,6 @@ def get_sensor_data(message, arduino):
         thread = SDTimer(arduino)                                       #On cree un nouveau thread
         thread.start()                                                  #On lance le nouveau thread
         
-        console_message = "CHANGE"
         send_SDtoDataBase(arduino, console_message)                     #On envoie la valeur des actionneurs en BDD                       #Fonction Corentin
 
 
@@ -247,17 +247,16 @@ def get_actuator_status(message, arduino):
     Recuperer l'etat de tous les actionneurs d'un mecanisme
     """
     ResetTimer = False
+    console_message = "CHANGE"
     
-    cpt = 5
+    cpt = 5                                                             #La partie capteur du message commence au 6eme caractere
     for actuator_name in arduino['actuator_status'] :                   #Pour chaque actionneur du mecanisme
            
         if message[cpt] == "T" :
             if arduino['actuator_status'][actuator_name] != True :      #Si l'actionneur selectionne vient d'etre valide
                 arduino['actuator_status'][actuator_name] = True        #On change la valeur de l'actionneur dans le dictionnaire
                 ResetTimer = True                                       #On reset le timer
-            
-        
-            
+                  
         elif message[cpt] == "F" :
             if arduino['actuator_status'][actuator_name] != False :     #Si l'actionneur selectionne vient d'etre invalide
                 arduino['actuator_status'][actuator_name] = False       #On change la valeur de l'actionneur dans le dictionnaire 
@@ -270,7 +269,6 @@ def get_actuator_status(message, arduino):
         thread = ASTimer(arduino)                                       #On cree un nouveau thread
         thread.start()                                                  #On lance le nouveau thread
         
-        console_message = "CHANGE"
         send_AStoDataBase(arduino, console_message)                     #On envoie la valeur des actionneurs en BDD                       #Fonction Corentin
     
 
@@ -280,13 +278,15 @@ def get_mechanism_status(message, arduino):
     Recuperer l'etat d'un mecanisme
     """
     ResetTimer = False
- 
-    if message[2] == "T" :
+    console_message = "CHANGE"
+    
+    cpt = 2                                                             #La partie capteur du message commence au 3eme caractere
+    if message[cpt] == "T" :
         if arduino['mechanism_status'] == False :                       #Si le mecanisme vient d'etre valide
             arduino['mechanism_status'] = True                          #On change la valeur du mecanisme dans le dictionnaire
             ResetTimer = True                                           #On reset le timer
     
-    elif message[2] == "F" :
+    elif message[cpt] == "F" :
         if arduino['mechanism_status'] == True :                        #Si le mecanisme vient d'etre invalide
             arduino['mechanism_status'] = False                         #On change la valeur du mecanisme dans le dictionnaire
             ResetTimer = True                                           #On reset le timer
@@ -296,7 +296,6 @@ def get_mechanism_status(message, arduino):
         thread = MSTimer(arduino)                                       #On cree un nouveau thread
         thread.start()                                                  #On lance le nouveau thread
         
-        console_message = "CHANGE"
         send_MStoDataBase(arduino, console_message)                     #On envoie l'etat du mecanisme en BDD                       #Fonction Corentin
 
 
