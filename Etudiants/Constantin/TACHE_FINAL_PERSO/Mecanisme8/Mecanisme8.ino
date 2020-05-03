@@ -41,34 +41,34 @@ class Riz{
 //FICHIER Riz CsPP
 
 Riz::Riz(){
-  S_Tableau = false;
-  S_Led = false;
-  C_Poids = 0;
-  mechanism_status = false;
+	S_Tableau = false;
+	S_Led = false;
+	C_Poids = 0;
+	mechanism_status = false;
 }
 
 bool Riz::getMechanism_status(){
-  return mechanism_status;
+	return mechanism_status;
 }
 
 void Riz::setMechanism_status(bool ms){
-  mechanism_status = ms;
+	mechanism_status = ms;
 }
 
 void Riz::setupMechanism() {
-  Serial.begin(9600);
+	Serial.begin(9600);
 
-  scale.set_scale();
-  scale.tare(); 										//Reset "scale"
+	scale.set_scale();
+	scale.tare(); 										//Reset "scale"
 
-  pinMode(STableau_PIN, OUTPUT);
-  digitalWrite(STableau_PIN, HIGH);
+	pinMode(STableau_PIN, OUTPUT);
+	digitalWrite(STableau_PIN, HIGH);
   
-  pinMode(SLedV_PIN, OUTPUT); 
-  digitalWrite(SLedV_PIN , LOW);
+	pinMode(SLedV_PIN, OUTPUT); 
+	digitalWrite(SLedV_PIN , LOW);
 
-  pinMode(SLedR_PIN, OUTPUT);
-  digitalWrite(SLedR_PIN, HIGH);
+	pinMode(SLedR_PIN, OUTPUT);
+	digitalWrite(SLedR_PIN, HIGH);
 }
 
 void Riz::execute(){
@@ -134,90 +134,90 @@ void Riz::execute(){
 Riz mechanism = Riz();
 
 void receive_order(int numBytes) {
-  String data_received;
-  while(Wire.available() > 0) {
-    char c = Wire.read();
-    data_received += String(c);
-  }
-  if(data_received != "2") {
-    String order = data_received;
-    Serial.print("Order received : ");
-    Serial.println(order);//4MSTASFFFT.
-
-    if(order[1] == '1'){
-      mechanism.setMechanism_status(true);
-    }else if(order[1] == '0'){
-      mechanism.setMechanism_status(false);
-    }
-    Serial.println(getMechanism_status());
+	String data_received;
   
-    for(int i=2; i<sizeof(order)+1; i++) {
-      if(order[i] == '1'){
-        mechanism.actuator[i-1] = true;
-      }else if(order[i] == '0'){
-        mechanism.actuator[i-1] = false;
-      }
-      Serial.println(mechanism.actuator[i-1]);
-    }
-  }
+	while(Wire.available() > 0) {						//Tant que le message n'est pas fini
+		char c = Wire.read();							//On lit le message
+		data_received += String(c);
+	}
+  
+	if(data_received != "2") {
+	  
+		String order = data_received;
+		Serial.print("Order received : ");
+		Serial.println(order);//412221
+
+		if(order[1] == '1'){							//Si le 2eme caractère est 1
+			mechanism.setMechanism_status(true);		//On valide le mécanisme
+		}else if(order[1] == '0'){						//Si le 2eme caractère est 0
+			mechanism.setMechanism_status(false);		//On invalide le mécanisme
+		}
+	  
+		for(int i=2; i<sizeof(order); i++) {			//Pour chaque actionneur
+			if(order[i] == '1'){						//Si le caractère est 1
+				mechanism.actuator[i-1] = true;			//On valide l'actionneur
+			}else if(order[i] == '0'){					//Si le caractère est 0
+				mechanism.actuator[i-1] = false;		//On invalide l'actionneur
+			}
+		}
+	}
 }
 
 void send_status() {
-  String ms_I2Cmessage = "ms";
-  String as_I2Cmessage = "as";
-  String sd_I2Cmessage = "sd";
-  String I2Cmessage;
+	String ms_I2Cmessage = "ms";
+	String as_I2Cmessage = "as";
+	String sd_I2Cmessage = "sd";
+	String I2Cmessage;
 
-  if (mechanism.getMechanism_status() == true){
-    ms_I2Cmessage += "T";
-  }else{
-    ms_I2Cmessage += "F";
-  }
+	if(mechanism.getMechanism_status() == true){		//Si le mécanisme est validé
+		ms_I2Cmessage += "T";							//On ajoute T au message i2c
+	}else{												//Si le mécanisme est invalide
+		ms_I2Cmessage += "F";							//On ajoute F au message i2c
+	}
   
-  for(int i=0; i<sizeof(mechanism.actuator); i++){
-    if (mechanism.actuator[i] == true){
-      as_I2Cmessage += "T";
-    }else{
-      as_I2Cmessage += "F";
-    }
-  }
-  if (as_I2Cmessage.length() < 6){
-    for(int i=as_I2Cmessage.length()-1; i<5; i++){
-      as_I2Cmessage += "X";
-    }
-  }
+	for(int i=0; i<sizeof(mechanism.actuator); i++){	//Pour chaque actionneur du mécanisme
+		if (mechanism.actuator[i] == true){				//Si l'actionneur est validé
+			as_I2Cmessage += "T";						//On ajoute T au message i2c
+		}else{											//Si l'actionneur est invalidé
+			as_I2Cmessage += "F";						//On ajoute F au message i2c
+		}
+	}
+	if(as_I2Cmessage.length() < 6){
+		for(int i=as_I2Cmessage.length()-1; i<5; i++){	//Tant que le message est inférieur à 6 caractere
+			as_I2Cmessage += "X";						//On ajoute X au message i2c
+		}
+	}
 
-  /*//A DECOMMENTER SI LES CAPTEURS SONT DES VALEURS BOOLEAN
-  for(int i=0; i<sizeof(mechanism.sensor); i++){
-    if (mechanism.sensor[i] == true){
-      sd_I2Cmessage += "T";
-    }else{
-      sd_I2Cmessage += "F";
-    }
-  }*/
+	/*//A DECOMMENTER SI LES CAPTEURS SONT DES VALEURS BOOLEAN
+	for(int i=0; i<sizeof(mechanism.sensor); i++){		//Pour chaque capteur du mécanisme
+		if (mechanism.sensor[i] == true){				//Si le capteur est validé
+			sd_I2Cmessage += "T";						//On ajoute T au message i2c
+		}else{											//Si le capteur est invalidé
+			sd_I2Cmessage += "F";						//On ajoute F au message i2c
+	}*/
 
-  //A DECOMMENTER SI LES CAPTEURS SONT DES VALEURS NUMERIQUE
-   for(int i=0; i<sizeof(sensor)/2; i++){
-    sd_I2Cmessage += sensor[i];
-    sd_I2Cmessage += "X";
-  }
+	//A DECOMMENTER SI LES CAPTEURS SONT DES VALEURS NUMERIQUE
+	for(int i=0; i<sizeof(sensor)/2; i++){				//Pour chaque capteur du mécanisme
+		sd_I2Cmessage += sensor[i];						//On ajoute la valeur du capteur au message i2c
+		sd_I2Cmessage += "X";							//Et on ajoute aussi X
+	}
   
-  I2Cmessage = ms_I2Cmessage + as_I2Cmessage + sd_I2Cmessage;//asFFXXsdF
+	I2Cmessage = ms_I2Cmessage + as_I2Cmessage + sd_I2Cmessage;//msFasFFXXsd0X
   
-  Wire.write(I2Cmessage.c_str());
-  Serial.print("Message send to Raspberry : ");
-  Serial.println(I2Cmessage);
+	Wire.write(I2Cmessage.c_str());						//On envoie le message i2c
+	Serial.print("Message send to Raspberry : ");
+	Serial.println(I2Cmessage);
 }
 
 void setup() {
-  Serial.begin(9600);
-  Wire.begin(SLAVE_ADDRESS);
-  Wire.onReceive(receive_order);
-  Wire.onRequest(send_status);
-  mechanism.setupMechanism();
+	Serial.begin(9600);
+	Wire.begin(SLAVE_ADDRESS);
+	Wire.onReceive(receive_order);
+	Wire.onRequest(send_status);
+	mechanism.setupMechanism();
 }
 
 void loop() {
-  delay(100);
-  mechanism.execute();
+	delay(100);											//On attends 0.1 seconde
+	mechanism.execute();								//On exécute le mécanisme
 }
