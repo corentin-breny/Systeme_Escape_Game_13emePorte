@@ -303,7 +303,7 @@ def get_message(arduino) :
     """
     Recuperer le message i2c en une chaine de caractere
     """
-    answer = bus.read_i2c_block_data(arduino['address'],0x32)
+    answer = bus.read_i2c_block_data(arduino['address'],0x32)           #On recupere le message i2c
     
     l = []
     for letter in answer:
@@ -311,7 +311,7 @@ def get_message(arduino) :
             break
         l.append(chr(letter))
 
-    message="".join(l)
+    message="".join(l)                                                  #On converti le message i2c en une chaine de caractere
 
     return message #msFasFFFFsdF/msFasFFXXsd0X
 

@@ -7,59 +7,59 @@ from threading import Thread, RLock
 bus=smbus.SMBus(1)
 
 arduinos = [
-        # {'id': 1, 'address': 0x12, 
-        # 'mechanism_status': False, 'ms_noTimer': 0,
-        # 'actuator_status' : {'S_Echiquier': False}, 'as_noTimer' : 0, 
-        # 'sensor_data' : {'C_EffetHall1': 0, 'C_EffetHall2': 0}, 'sd_noTimer': 0, 
-        # 'order' : 0},
+        {'id': 1, 'address': 0x12, 
+        'mechanism_status': False, 'ms_noTimer': 0,
+        'actuator_status' : {'S_Echiquier': False}, 'as_noTimer' : 0, 
+        'sensor_data' : {'C_EffetHall1': 0, 'C_EffetHall2': 0}, 'sd_noTimer': 0, 
+        'order' : 0},
         
-        # {'id': 2, 'address': 0x13, 
-        # 'mechanism_status': False, 'ms_noTimer': 0,
-        # 'actuator_status' : {'S_Lion': False}, 'as_noTimer' : 0, 
-        # 'sensor_data' : {'C_EffetHall': 0}, 'sd_noTimer': 0, 
-        # 'order' : 0},
+        {'id': 2, 'address': 0x13, 
+        'mechanism_status': False, 'ms_noTimer': 0,
+        'actuator_status' : {'S_Lion': False}, 'as_noTimer' : 0, 
+        'sensor_data' : {'C_EffetHall': 0}, 'sd_noTimer': 0, 
+        'order' : 0},
         
-        # {'id': 3, 'address': 0x14, 
-        # 'mechanism_status': False, 'ms_noTimer': 0,
-        # 'actuator_status' : {'S_Meuble': False, 'S_Terre': False}, 'as_noTimer' : 0, 
-        # 'sensor_data' : {'C_EffetHall': 0}, 'sd_noTimer': 0, 
-        # 'order' : 0},
+        {'id': 3, 'address': 0x14, 
+        'mechanism_status': False, 'ms_noTimer': 0,
+        'actuator_status' : {'S_Meuble': False, 'S_Terre': False}, 'as_noTimer' : 0, 
+        'sensor_data' : {'C_EffetHall': 0}, 'sd_noTimer': 0, 
+        'order' : 0},
         
         {'id': 4, 'address': 0x15,  
         'mechanism_status': False,  'ms_noTimer': 0,
         'actuator_status' : {'S_Dragon': False, 'S_Fumee': False, 'S_Led': False, 'S_Feu': False}, 'as_noTimer' : 0, 
         'sensor_data' : {'C_Interupteur': False}, 'sd_noTimer': 0, 
-        'order' : 0},#412221},
+        'order' : 0},
         
-        # {'id': 5, 'address': 0x16,  
-        # 'mechanism_status': False, 'ms_noTimer': 0,
-        # 'actuator_status' : {'S_Frigo': False, 'S_Fontaine': False, 'S_Led': False, 'S_Eau': False}, 'as_noTimer' : 0, 
-        # 'sensor_data' : {'C_Humidite': 0}, 'sd_noTimer': 0, 
-        # 'order' : 0},
+        {'id': 5, 'address': 0x16,  
+        'mechanism_status': False, 'ms_noTimer': 0,
+        'actuator_status' : {'S_Frigo': False, 'S_Fontaine': False, 'S_Led': False, 'S_Eau': False}, 'as_noTimer' : 0, 
+        'sensor_data' : {'C_Humidite': 0}, 'sd_noTimer': 0, 
+        'order' : 0},
         
-        # {'id': 6, 'address': 0x17, 
-        # 'mechanism_status': False, 'ms_noTimer': 0,
-        # 'actuator_status' : {'S_Vanne': False, 'S_Chien': False, 'S_Led': False, 'S_Air': False}, 'as_noTimer' : 0, 
-        # 'sensor_data' : {'C_Vanne1': False, 'C_Vanne2': False, 'C_Vanne3': False, 'C_Vanne4': False, 'C_Vanne5': False, 'C_Vanne6': False, 'C_Vanne7': False, 'C_Bouton': False}, 'sd_noTimer': 0, 
-        # 'order' : 0},
+        {'id': 6, 'address': 0x17, 
+        'mechanism_status': False, 'ms_noTimer': 0,
+        'actuator_status' : {'S_Vanne': False, 'S_Chien': False, 'S_Led': False, 'S_Air': False}, 'as_noTimer' : 0, 
+        'sensor_data' : {'C_Vanne1': False, 'C_Vanne2': False, 'C_Vanne3': False, 'C_Vanne4': False, 'C_Vanne5': False, 'C_Vanne6': False, 'C_Vanne7': False, 'C_Bouton': False}, 'sd_noTimer': 0, 
+        'order' : 0},
         
-        # {'id': 7, 'address': 0x18, 
-        # 'mechanism_status': False, 'ms_noTimer': 0,
-        # 'actuator_status' : {'S_Katana': False}, 'as_noTimer' : 0, 
-        # 'sensor_data' : {'C_Interupteur': False}, 'sd_noTimer': 0, 
-        # 'order' : 0},
+        {'id': 7, 'address': 0x18, 
+        'mechanism_status': False, 'ms_noTimer': 0,
+        'actuator_status' : {'S_Katana': False}, 'as_noTimer' : 0, 
+        'sensor_data' : {'C_Interupteur': False}, 'sd_noTimer': 0, 
+        'order' : 0},
         
         {'id': 8, 'address': 0x19, 
         'mechanism_status': False, 'ms_noTimer': 0,
         'actuator_status' : {'S_Tableau': False, 'S_Led': False}, 'as_noTimer' : 0, 
         'sensor_data' : {'C_Poids': 0}, 'sd_noTimer': 0, 
-        'order' : 0}#,
+        'order' : 0},
         
-        # {'id': 9, 'address': 0x20, 
-        # 'mechanism_status': False, 'ms_noTimer': 0,
-        # 'actuator_status' : {'S_Led': False, 'S_PorteFinal': False}, 'as_noTimer' : 0, 
-        # 'sensor_data' : {'C_Bouton': False}, 'sd_noTimer': 0, 
-        # 'order' : 0}
+        {'id': 9, 'address': 0x20, 
+        'mechanism_status': False, 'ms_noTimer': 0,
+        'actuator_status' : {'S_Led': False, 'S_PorteFinal': False}, 'as_noTimer' : 0, 
+        'sensor_data' : {'C_Bouton': False}, 'sd_noTimer': 0, 
+        'order' : 0}
      ]
 
 verrou = RLock()
@@ -303,7 +303,7 @@ def get_message(arduino) :
     """
     Recuperer le message i2c en une chaine de caractere
     """
-    answer = bus.read_i2c_block_data(arduino['address'],0x32)
+    answer = bus.read_i2c_block_data(arduino['address'],0x32)           #On recupere le message i2c
     
     l = []
     for letter in answer:
@@ -311,7 +311,7 @@ def get_message(arduino) :
             break
         l.append(chr(letter))
 
-    message="".join(l)
+    message="".join(l)                                                  #On converti le message i2c en une chaine de caractere
 
     return message #msFasFFFFsdF/msFasFFXXsd0X
 
