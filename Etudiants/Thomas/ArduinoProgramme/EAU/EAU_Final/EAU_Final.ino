@@ -16,11 +16,6 @@ class Eau{
     bool S_Eau;
     bool C_Humidite;
     bool mecanism_status;
-   
-
-  private : 
-    bool actuator[4] = {S_Frigo, S_Fontaine, S_Led, S_Eau};
-    bool sensor[1] = {C_Humidite};
 
 
     public : 
@@ -67,8 +62,9 @@ int ValeurCapteurInitial;
 int Time_Meca = 0;
 
 
-ValeurCapteur = analogRead (CHumidite_PIN); //Lecture de la valeur du capteur
 C_Humidite = true;
+ValeurCapteur = analogRead (CHumidite_PIN); //Lecture de la valeur du capteur
+
 
 if(mecanism_status == false)
 {
@@ -92,15 +88,15 @@ if(mecanism_status == true)
        
        if(Time_Meca > DEBOUNCE)
        {
-         digitalWrite(SLed_PIN, HIGH);
+         digitalWrite(SLed_PIN, HIGH); //Led sur panneau de contrôle
          S_Led = true;
 
-         digitalWrite(SFontaine_PIN, LOW);
+         digitalWrite(SFontaine_PIN, LOW); //RELAIS Fontaine
          S_Fontaine = true;
 
-         digitalWrite(SFrigo_PIN, LOW);  //RELAIS H2O FRIGO
+         digitalWrite(SFrigo_PIN, LOW);  //RELAIS Frigo Activer
          delay(1000);
-         digitalWrite(SFrigo_PIN, HIGH);
+         digitalWrite(SFrigo_PIN, HIGH); //RELAIS Frigo Désactiver
          S_Frigo = true;
          
          delay(1000);
