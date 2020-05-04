@@ -70,7 +70,13 @@ digitalWrite(SPorteFinal_PIN, HIGH);
 }
 
 
+void 4Elements::execute()
+{
 
+
+
+  
+}
 
 
 
