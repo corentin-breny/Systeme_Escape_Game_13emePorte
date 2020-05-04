@@ -62,12 +62,12 @@ void Echec::setupMechanism() {
 
 void Echec::execute(){
 
-  pin1 = digitalRead(C_EffetHall_1);
+  pin1 = digitalRead(C_EffetHall_1);    // On lit les deux capteurs à effet Hall
   pin2 = digitalRead(C_EffetHall_2);
   
   readingECHEC = pin1;
 
-  if (ECHECstate == HIGH)
+  if (ECHECstate == HIGH)   // Si ECHECstate est à HIGH, ça signifie que la ventouse est maintenue fermée
   {
     if (readingECHEC != previousECHEC) {    
       
