@@ -65,7 +65,7 @@ arduinos = [
 verrou = RLock()
 
 #Thomas :
-        #Structure du msgSocket : [1 a 9](noMecanisme) [0 ou 1 ou 2](Etat du mecanisme) [0 ou 1 ou 2][0 ou 1 ou 2][0 ou 1 ou 2](Etat des actionneurs)(Si il y a 3 actionneurs) ex : 8221
+        #Structure du msgSocket : [1 a 9](noMecanisme) [0 ou 1 ou 2](Etat du mecanisme) [0 ou 1 ou 2][0 ou 1 ou 2](Etat des actionneurs)(Si il y a 2 actionneurs) ex : 8221
 
 def get_socketMessage():
     """
