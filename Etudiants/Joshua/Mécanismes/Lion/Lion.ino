@@ -18,8 +18,6 @@ class LionB {
     const int C_EffetHall1;
     bool S_Lion;
     bool mecanism_status;
-    int pin1;
-    int pin2;
 
   private :
     bool actuator[1] = {S_Lion};
@@ -84,10 +82,10 @@ void LionB::execute(){
     {    
       if (readingLIONB == HIGH) 
       {
-        LIONBstate = LOW;
+        LIONBstate = LOW;   //Ce qui valide la réussite de l'énigme
         digitalWrite(3, LIONBstate);    //reset pour defaire le solenoide
         timeLIONB = millis();
-        LedLIONB = HIGH;
+        LedLIONB = HIGH;    //La led correspondante sur le panneau du superviseur est allumée
       }
     }
 
