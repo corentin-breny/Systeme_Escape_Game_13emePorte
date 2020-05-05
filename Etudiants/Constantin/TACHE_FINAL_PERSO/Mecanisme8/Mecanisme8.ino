@@ -19,23 +19,23 @@ int sd_previous = 0;     	//Valeur précédente du capteur
 class Riz{
 
   private :
-    bool S_Tableau;
-    bool S_Led;
-    int C_Poids;
-    bool mechanism_status;
+    bool S_Tableau;							//actionneur qui active/désactive l'électroaimant de la chute de tableau
+    bool S_Led;								//actionneur qui active/désactive la led de controle
+    int C_Poids;							//valeur mesuré par le capteur de poids
+    bool mechanism_status;					//indique si le mécanisme est activé ou non
 
   public :
-    bool actuator[2] = {S_Tableau, S_Led};
-    int sensor[1] = {C_Poids};
+    bool actuator[2] = {S_Tableau, S_Led};	//tableau des actionneurs
+    int sensor[1] = {C_Poids};				//tableau des capteurs
   
   public :
-    bool getMechanism_status();
-    void setMechanism_status(bool ms);
+    bool getMechanism_status();				//récupérer l'état du mécanisme
+    void setMechanism_status(bool ms);		//modifier l'état du mécanisme
 
   public :
-    Riz();
-    void setupMechanism();
-    void execute();
+    Riz();									//constructeur de la classe
+    void setupMechanism();					//configuration de base du mécanisme
+    void execute();							//méthode qui fait fonctionner le mécanisme
 };
 
 //FICHIER Riz CsPP
@@ -131,7 +131,7 @@ void Riz::execute(){
 
 
 //MAIN
-Riz mechanism = Riz();
+Riz mechanism = Riz();									//On instancie un objet de type Riz
 
 void receive_order(int numBytes) {
 	String data_received;
@@ -214,7 +214,7 @@ void setup() {
 	Wire.begin(SLAVE_ADDRESS);
 	Wire.onReceive(receive_order);
 	Wire.onRequest(send_status);
-	mechanism.setupMechanism();
+	mechanism.setupMechanism();							//On donne une configuration de base au mécanisme
 }
 
 void loop() {

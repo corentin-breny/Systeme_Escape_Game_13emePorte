@@ -16,25 +16,25 @@ long ms_time = 0;             	//Dernière fois que le statut du mécanisme a ch
 class Feu{
 
   private :
-    bool S_Dragon;
-    bool S_Fumee;
-    bool S_Led;
-    bool S_Feu;
-    bool C_Interupteur;
-    bool mechanism_status;
+    bool S_Dragon;							//actionneur qui active/désactive l'électroaimant de la ventouse dragon
+    bool S_Fumee;							//actionneur qui active/désactive la fumée
+    bool S_Led;								//actionneur qui active/désactive la led de controle
+    bool S_Feu;								//actionneur de l'élément FEU sur la tablette des 4 éléments
+    bool C_Interupteur;						//état de la position détecter par l'interupteur à clef
+    bool mechanism_status;					//indique si le mécanisme est activé ou non
 
   public :
-    bool actuator[4] = {S_Dragon, S_Fumee, S_Led, S_Feu};
-    bool sensor[1] = {C_Interupteur};
+    bool actuator[4] = {S_Dragon, S_Fumee, S_Led, S_Feu};//tableau des actionneurs
+    bool sensor[1] = {C_Interupteur};		//tableau des capteurs
       
   public :
-    bool getMechanism_status();
-    void setMechanism_status(bool ms);
+    bool getMechanism_status();				//récupérer l'état du mécanisme
+    void setMechanism_status(bool ms);		//modifier l'état du mécanisme
 
   public :
-    Feu();
-    void setupMechanism();
-    void execute();
+    Feu();									//constructeur de la classe
+    void setupMechanism();					//configuration de base du mécanisme
+    void execute();							//méthode qui fait fonctionner le mécanisme
     
 };
 
@@ -130,7 +130,24 @@ void Feu::execute(){
 }
 
 //MAIN
-Feu mechanism = Feu();
+Feu mechanism = Feu();									//On instancie un objet de type Feu
+
+void execute_order(String order){
+	
+	if(order[1] == '1'){								//Si le 2eme caractère est 1
+		mechanism.setMechanism_status(true);			//On valide le mécanisme
+	}else if(order[1] == '0'){							//Si le 2eme caractère est 0
+		mechanism.setMechanism_status(false);			//On invalide le mécanisme
+	}
+	  
+	for(int i=2; i<sizeof(order); i++) {				//Pour chaque actionneur
+		if(order[i] == '1'){							//Si le caractère est 1
+			mechanism.actuator[i-1] = true;				//On valide l'actionneur
+		}else if(order[i] == '0'){						//Si le caractère est 0
+			mechanism.actuator[i-1] = false;			//On invalide l'actionneur
+		}
+	}
+}
 
 void receive_order(int numBytes) {
 	String data_received;
@@ -146,23 +163,11 @@ void receive_order(int numBytes) {
 		Serial.print("Order received : ");
 		Serial.println(order);//412221
 
-		if(order[1] == '1'){							//Si le 2eme caractère est 1
-			mechanism.setMechanism_status(true);		//On valide le mécanisme
-		}else if(order[1] == '0'){						//Si le 2eme caractère est 0
-			mechanism.setMechanism_status(false);		//On invalide le mécanisme
-		}
-	  
-		for(int i=2; i<sizeof(order); i++) {			//Pour chaque actionneur
-			if(order[i] == '1'){						//Si le caractère est 1
-				mechanism.actuator[i-1] = true;			//On valide l'actionneur
-			}else if(order[i] == '0'){					//Si le caractère est 0
-				mechanism.actuator[i-1] = false;		//On invalide l'actionneur
-			}
-		}
+		execute_order(order);							//On exécute les ordres du message d'ordre
 	}
 }
 
-void send_status() {
+void getMessagei2c() {
 	String ms_I2Cmessage = "ms";
 	String as_I2Cmessage = "as";
 	String sd_I2Cmessage = "sd";
@@ -203,21 +208,27 @@ void send_status() {
 	}*/
   
 	I2Cmessage = ms_I2Cmessage + as_I2Cmessage + sd_I2Cmessage;//msFasFFFFsdF
-  
-	Wire.write(I2Cmessage.c_str());						//On envoie le message i2c
+	
 	Serial.print("Message send to Raspberry : ");
 	Serial.println(I2Cmessage);
+	
+	return I2Cmessage.c_str()
+}
+
+void send_status() {
+	
+	Wire.write(getMessagei2c());			//On écris le message i2c dans l'objet Wire
 }
 
 void setup() {
 	Serial.begin(9600);
-	Wire.begin(SLAVE_ADDRESS);
-	Wire.onReceive(receive_order);
-	Wire.onRequest(send_status);
-	mechanism.setupMechanism();
+	Wire.begin(SLAVE_ADDRESS);				//On indique à l'objet Wire l'adresse esclave utilisé par l'Arduino
+	Wire.onReceive(receive_order);			//On récupère le message s'ordre envoyé sur le bus i2c
+	Wire.onRequest(send_status);			//On envoie le messagei2c sur le bus i2c
+	mechanism.setupMechanism();				//On donne une configuration de base au mécanisme
 }
 
 void loop() {
-	delay(100);											//On attends 0.1 seconde
-	mechanism.execute();								//On exécute le mécanisme
+	delay(100);								//On attends 0.1 seconde
+	mechanism.execute();					//On exécute le mécanisme
 }
