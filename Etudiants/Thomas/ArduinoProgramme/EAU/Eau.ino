@@ -1,8 +1,9 @@
 int etateau = 0;
+int valeurCapteur = 0;
 
 void loop() {
 
-	int valeurCapteur = analogRead (CHumidite_PIN);// Lecture de la valeur du capteur
+	valeurCapteur = analogRead (CHumidite_PIN);// Lecture de la valeur du capteur
 
 	switch(etateau){
 		case 0 :
@@ -56,5 +57,6 @@ void loop() {
 		S_Fontaine = false;
 		S_Led = false;									//On change la valeur de l'attribut
 		S_Eau = false;									//On change la valeur de l'attribut
+		etateau = 0;
 	}
 }
