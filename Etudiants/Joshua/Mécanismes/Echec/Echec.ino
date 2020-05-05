@@ -1,15 +1,17 @@
 //Fichier Echec.h
 
+#include "WIRE.H"
+#define SLAVE_ADDRESS 0x12
 #define C_EffetHall1_PIN A0 //Capteur à effet Hall 1
 #define C_EffetHall2_PIN 2 //Capteur à effet Hall 2
 #define S_LedR_PIN 3 //Led de sortie
-#define debounce = 2000
 
 int ECHECstate = HIGH; // Etat actuel de la broche de sortie (la ventouse HIGH maintiens de la ventouse fermée)
 int readingECHEC;         // Contient la valeur lue sur la broche d'entrée
 int previousECHEC = LOW;  // Contient la précédente valeur lue sur la broche d'entrée
 long timeECHEC = 0;      // La dernière fois que la broche de sortie à changé d'état
 long time = 0;      // La dernière fois que la broche de sortie à changé d'état 
+long debounce = 2000;
 
 class Echec{
 
@@ -90,12 +92,11 @@ void Echec::execute(){
       
     previousECHEC = readingECHEC;     // Mémoriser la dernière lecture
     }  
-  }
-
   digitalWrite(7, not(ECHECstate));   // Écriture du statut sur la led (HIGH = allumé soit l'inverse de la ventouse)
   digitalWrite(8, ECHECstate);    // Écriture du statut sur la ventouse (LOW = on libere l'electroaimant)
   delay(500);
   digitalWrite(8, not(ECHECstate));
+  }
 
   if ( mechanism_status == false ){          //En cas de reset
     S_Echiquier = false;                  //On change la valeur de l'attribut

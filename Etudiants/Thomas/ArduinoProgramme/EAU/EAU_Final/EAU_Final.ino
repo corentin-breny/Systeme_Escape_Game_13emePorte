@@ -9,7 +9,8 @@
 #define SFontaine_PIN 4  //Relais Fontaine
 #define DEBOUNCE 2000
 
-
+int ValeurCapteur = 0;
+int EtatEau = 0;
 
 
 class Eau{
@@ -78,40 +79,41 @@ digitalWrite(SFontaine_PIN, HIGH);
 void Eau::execute(){
 
 
-//C_Humidite = true;
-int valeurCapteur = analogRead (CHumidite_PIN); //Lecture de la valeur du capteur
+ValeurCapteur = analogRead (CHumidite_PIN); //Lecture de la valeur du capteur
 
 
-int ValeurCapteurInitial = ValeurCapteur;
-  
+switch(etateau){
+    case 0 :
+         int ValeurCapteurInitial = ValeurCapteur;
+         EtatEau = 1;
+         break;
+    case 1 : 
+         C_Humidite = ValeurCapteur - ValeurCapteurInitiale;
 
-
-
-if(mecanism_status == false)
-  {
-
-       if(ValeurCapteur >= (ValeurCapteurInitial + 180) && Time_Meca == 0)
-       {
-         Time_Meca = millis();
-       }
-       else if(ValeurCapteur < (ValeurCapteurInitial + 180))
-       {
-         Time_Meca = 0;
-       }
-
+         if (C_Humidite >=180){
        
-       if(Time_Meca > DEBOUNCE)
-       {
-         digitalWrite(SLed_PIN, HIGH); //Led sur panneau de contrôle
-         S_Led = true;
+          S_Fontaine = true; 
+          S_Frigo = true;
+          S_Led = true; 
+          S_Eau = true;
+          mechanism_status = true;
+        }
+  } 
 
-         digitalWrite(SFontaine_PIN, LOW); //RELAIS Fontaine
-         S_Fontaine = true;
 
+if (S_Fontaine == true)
+{
+      delay(100);
+      digitalWrite(SFontaine_PIN, LOW); //FONTAINE
+}
+       
+
+
+if (S_Frigo == true){
+        
          digitalWrite(SFrigo_PIN, LOW);  //RELAIS Frigo Activer
          delay(1000);
          digitalWrite(SFrigo_PIN, HIGH); //RELAIS Frigo Désactiver
-         S_Frigo = true;
          
          delay(1000);
          digitalWrite(SFrigo_PIN, LOW);  
@@ -123,13 +125,33 @@ if(mecanism_status == false)
          digitalWrite(SFrigo_PIN, HIGH);
          delay(5000);
          digitalWrite(SFrigo_PIN, LOW);
-         S_EAU = true;
          delay(20000);
          
          digitalWrite(SFrigo_PIN, HIGH);
          delay(1000)
-         digitalWrite(SFrigo_PIN, LOW);
-       }
+         digitalWrite(SFrigo_PIN, LOW); 
+}
+
+
+if ( S_Led == true )//Pour allumer la led témoin
+  {                
+    delay(100);                           //On attend 0.1 seconde
+    digitalWrite(SLed_PIN, HIGH);         //On allume la led de contrôle
+  }
+else
+  {                        //Pour éteindre la led témoin
+    delay(100);                           //On attend 0.1 seconde
+    digitalWrite(SLed_PIN, LOW);          //On éteint la led de contrôle
+  }
+  
+
+if ( mechanism_status == false )//En cas de reset
+  {         
+    S_Frigo = false;
+    S_Fontaine = false;
+    S_Led = false;                  //On change la valeur de l'attribut
+    S_Eau = false;                  //On change la valeur de l'attribut
+    etateau = 0;
   }
 }
 
