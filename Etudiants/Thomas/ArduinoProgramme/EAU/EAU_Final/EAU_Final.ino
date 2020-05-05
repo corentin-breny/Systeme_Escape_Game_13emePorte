@@ -82,7 +82,7 @@ void Eau::execute(){
 ValeurCapteur = analogRead (CHumidite_PIN); //Lecture de la valeur du capteur
 
 
-switch(etateau){
+switch(EtatEau){
     case 0 :
          int ValeurCapteurInitial = ValeurCapteur;
          EtatEau = 1;
