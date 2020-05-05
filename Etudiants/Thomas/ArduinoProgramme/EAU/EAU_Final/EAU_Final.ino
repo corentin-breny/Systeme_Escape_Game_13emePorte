@@ -7,7 +7,7 @@
 #define SLed_PIN 2       //Led controle
 #define SFrigo_PIN 3     //Relais Frigo
 #define SFontaine_PIN 4  //Relais Fontaine
-#define DEBOUNCE 2000
+
 
 int ValeurCapteur = 0;
 int EtatEau = 0;
