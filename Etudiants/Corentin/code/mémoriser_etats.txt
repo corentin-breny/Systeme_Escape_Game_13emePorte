@@ -9,7 +9,7 @@ def send_SDtoDataBase(arduino_id, sensor_name, sensor_data):
     send sensor data to DataBase
     """
     #Corentin : Ecrire code
-curseur.execute("Insert INTO capteurs (ID_Capteurs, Nom_Capteurs, Valeur) VALUES (%s, %s, %s)", ("arduino_id", "sensor_name", "sensor_data")
+curseur.execute("Insert INTO capteurs (ID_Capteurs, Nom_Capteurs, Valeur) VALUES (%s, %d, %s)", ("sensor_id", "sensor_name", "sensor_data")
 conn.commit()	#sert à sauvegarder les données dans la table avant de fermer la connexion. 
 
 
@@ -18,7 +18,7 @@ def send_AStoDataBase(arduino_id, actuator_name, actuator_status):
     send actuator status to DataBase
     """
     #Corentin : Ecrire code
-curseur.execute("Insert INTO actionneurs (ID_Actionneur, Nom_Actionneur, Etat) VALUES (%s, %s, %s)", ("arduino_id", "actuator_name", "actuator_status")
+curseur.execute("Insert INTO actionneurs (ID_Actionneur, Nom_Actionneur, Etat) VALUES (%s, %d, %s)", ("actuator_id", "actuator_name", "actuator_status")
 conn.commit()	#sert à sauvegarder les données dans la table avant de fermer la connexion. 
 
 
