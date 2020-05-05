@@ -17,7 +17,7 @@ int state = HIGH; // Etat actuel de la broche de sortie (la LED)
 int reading;      // Contient la valeur lue sur la broche d'entrée
 int previous = LOW;
 
-class LionB {
+class Terre {
 
   private :
     const int C_EffetHall_1;

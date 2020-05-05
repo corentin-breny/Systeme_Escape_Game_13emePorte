@@ -1,6 +1,7 @@
 //Fichier Echec.h
 
 #include "WIRE.H"
+
 #define SLAVE_ADDRESS 0x12
 #define C_EffetHall1_PIN A0 //Capteur à effet Hall 1
 #define C_EffetHall2_PIN 2 //Capteur à effet Hall 2
@@ -11,7 +12,7 @@ int readingECHEC;         // Contient la valeur lue sur la broche d'entrée
 int previousECHEC = LOW;  // Contient la précédente valeur lue sur la broche d'entrée
 long timeECHEC = 0;      // La dernière fois que la broche de sortie à changé d'état
 long time = 0;      // La dernière fois que la broche de sortie à changé d'état 
-long debounce = 2000;
+long debounce = 2000;   
 
 class Echec{
 
