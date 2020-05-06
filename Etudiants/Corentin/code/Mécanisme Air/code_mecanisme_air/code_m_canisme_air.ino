@@ -197,7 +197,7 @@ void Air::execute(){
   //    Serial.println(" - Tres lumineux");
   //  }
 
-
+}
 //MAIN
 
 Air Mecanisme = Air();
@@ -258,19 +258,19 @@ void send_status() {
   }
 
   //A DECOMMENTER SI LES CAPTEURS SONT DES VALEURS BOOLEAN
-  //for(int i=0; i<sizeof(mechanism.sensor); i++){    //Pour chaque capteur du mécanisme
-    //if (mechanism.sensor[i] == true){       //Si le capteur est validé
-      //sd_I2Cmessage += "T";           //On ajoute T au message i2c
-    //}else{                      //Si le capteur est invalidé
-     // sd_I2Cmessage += "F";           //On ajoute F au message i2c
-    //}
-  //}
+  for(int i=0; i<sizeof(mechanism.sensor); i++){    //Pour chaque capteur du mécanisme
+    if (mechanism.sensor[i] == true){       //Si le capteur est validé
+      sd_I2Cmessage += "T";           //On ajoute T au message i2c
+    }else{                      //Si le capteur est invalidé
+      sd_I2Cmessage += "F";           //On ajoute F au message i2c
+    }
+  }
 
   //A DECOMMENTER SI LES CAPTEURS SONT DES VALEURS NUMERIQUE
-  for(int i=0; i<sizeof(sensor)/2; i++){        //Pour chaque capteur du mécanisme
+  /*for(int i=0; i<sizeof(sensor)/2; i++){        //Pour chaque capteur du mécanisme
     sd_I2Cmessage += sensor[i];           //On ajoute la valeur du capteur au message i2c
     sd_I2Cmessage += "X";             //Et on ajoute aussi X
-  }
+  }*/
   
   I2Cmessage = ms_I2Cmessage + as_I2Cmessage + sd_I2Cmessage;//msFasFFFFsdF
   
