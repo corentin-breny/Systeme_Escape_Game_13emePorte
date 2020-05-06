@@ -135,7 +135,7 @@ Feu mechanism = Feu();									//On instancie un objet de type Feu
 void execute_order(String order){
 	
 	Serial.print("Order received : ");
-	Serial.println(data_received);//412221
+	Serial.println(order);//412221
 	
 	if(order[1] == '1'){								//Si le 2eme caractère est 1
 		mechanism.setMechanism_status(true);			//On valide le mécanisme
@@ -165,7 +165,7 @@ void receive_order(int numBytes) {
 	}
 }
 
-void getMessagei2c() {
+String getMessagei2c() {
 	String ms_I2Cmessage = "ms";
 	String as_I2Cmessage = "as";
 	String sd_I2Cmessage = "sd";
@@ -190,7 +190,7 @@ void getMessagei2c() {
 		}
 	}
 
-	//A DECOMMENTER SI LES CAPTEURS SONT DES VALEURS BOOLEAN
+	//A COMMENTER SI LES CAPTEURS SONT DES VALEURS BOOLEAN
 	for(int i=0; i<sizeof(mechanism.sensor); i++){		//Pour chaque capteur du mécanisme
 		if (mechanism.sensor[i] == true){				//Si le capteur est validé
 			sd_I2Cmessage += "T";						//On ajoute T au message i2c
@@ -210,17 +210,19 @@ void getMessagei2c() {
 	Serial.print("Message send to Raspberry : ");
 	Serial.println(I2Cmessage);
 	
-	return I2Cmessage.c_str()
+	return I2Cmessage;
 }
 
 void send_status() {
-	
-	Wire.write(getMessagei2c());			//On écris le message i2c dans l'objet Wire
+	Wire.write(getMessagei2c().c_str());	//On écris le message i2c dans l'objet Wire
 }
 
 void setup() {
 	Serial.begin(9600);
 	Wire.begin(SLAVE_ADDRESS);				//On indique à l'objet Wire l'adresse esclave utilisé par l'Arduino
+	Wire.onRequest(send_status);			//On envoie le messagei2c sur le bus i2c
+}
+	
 	Wire.onReceive(receive_order);			//On récupère le message s'ordre reçu sur le bus i2c via la fonction receive order
 	Wire.onRequest(send_status);			//On envoie le messagei2c sur le bus i2c
 	mechanism.setupMechanism();				//On donne une configuration de base au mécanisme

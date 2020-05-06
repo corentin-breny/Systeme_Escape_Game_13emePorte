@@ -166,7 +166,7 @@ void receive_order(int numBytes) {
 	}
 }
 
-void getMessagei2c() {
+String getMessagei2c() {
 	String ms_I2Cmessage = "ms";
 	String as_I2Cmessage = "as";
 	String sd_I2Cmessage = "sd";
@@ -199,7 +199,7 @@ void getMessagei2c() {
 			sd_I2Cmessage += "F";						//On ajoute F au message i2c
 	}*/
 
-	//A DECOMMENTER SI LES CAPTEURS SONT DES VALEURS NUMERIQUE
+	//A COMMENTER SI LES CAPTEURS SONT DES VALEURS NUMERIQUE
 	for(int i=0; i<sizeof(sensor)/2; i++){				//Pour chaque capteur du mécanisme
 		sd_I2Cmessage += sensor[i];						//On ajoute la valeur du capteur au message i2c
 		sd_I2Cmessage += "X";							//Et on ajoute aussi X
@@ -210,12 +210,12 @@ void getMessagei2c() {
 	Serial.print("Message send to Raspberry : ");
 	Serial.println(I2Cmessage);
 	
-	return I2Cmessage.c_str()
+	return I2Cmessage
 }
 
 void send_status() {
 	
-	Wire.write(getMessagei2c());			//On écris le message i2c dans l'objet Wire
+	Wire.write(getMessagei2c().c_str());	//On écris le message i2c dans l'objet Wire
 }
 
 void setup() {

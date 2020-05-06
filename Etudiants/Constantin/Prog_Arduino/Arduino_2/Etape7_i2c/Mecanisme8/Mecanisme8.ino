@@ -19,23 +19,23 @@ int sd_previous = 0;     	//Valeur précédente du capteur
 class Riz{
 
   private :
-    bool S_Tableau;
-    bool S_Led;
-    int C_Poids;
-    bool mechanism_status;
+    bool S_Tableau;							//actionneur qui active/désactive l'électroaimant de la chute de tableau
+    bool S_Led;								//actionneur qui active/désactive la led de controle
+    int C_Poids;							//valeur mesuré par le capteur de poids
+    bool mechanism_status;					//indique si le mécanisme est activé ou non
 
   public :
-    bool actuator[2] = {S_Tableau, S_Led};
-    int sensor[1] = {C_Poids};
+    bool actuator[2] = {S_Tableau, S_Led};	//tableau des actionneurs
+    int sensor[1] = {C_Poids};				//tableau des capteurs
   
   public :
-    bool getMechanism_status();
-    void setMechanism_status(bool ms);
+    bool getMechanism_status();				//récupérer l'état du mécanisme
+    void setMechanism_status(bool ms);		//modifier l'état du mécanisme
 
   public :
-    Riz();
-    void setupMechanism();
-    void execute();
+    Riz();									//constructeur de la classe
+    void setupMechanism();					//configuration de base du mécanisme
+    void execute();							//méthode qui fait fonctionner le mécanisme
 };
 
 //FICHIER Riz CsPP
@@ -131,39 +131,42 @@ void Riz::execute(){
 
 
 //MAIN
-Riz mechanism = Riz();
+Riz mechanism = Riz();									//On instancie un objet de type Riz
 
-void receive_order(int numBytes) {
-	String data_received;
-  
-	while(Wire.available() > 0) {						//Tant que le message n'est pas fini
-		char c = Wire.read();							//On lit le message
-		data_received += String(c);
+void execute_order(String order){
+	
+	Serial.print("Order received : ");
+	Serial.println(data_received);//412221
+	
+	if(order[1] == '1'){								//Si le 2eme caractère est 1
+		mechanism.setMechanism_status(true);			//On valide le mécanisme
+	}else if(order[1] == '0'){							//Si le 2eme caractère est 0
+		mechanism.setMechanism_status(false);			//On invalide le mécanisme
 	}
-  
-	if(data_received != "2") {
 	  
-		String order = data_received;
-		Serial.print("Order received : ");
-		Serial.println(order);//412221
-
-		if(order[1] == '1'){							//Si le 2eme caractère est 1
-			mechanism.setMechanism_status(true);		//On valide le mécanisme
-		}else if(order[1] == '0'){						//Si le 2eme caractère est 0
-			mechanism.setMechanism_status(false);		//On invalide le mécanisme
-		}
-	  
-		for(int i=2; i<sizeof(order); i++) {			//Pour chaque actionneur
-			if(order[i] == '1'){						//Si le caractère est 1
-				mechanism.actuator[i-1] = true;			//On valide l'actionneur
-			}else if(order[i] == '0'){					//Si le caractère est 0
-				mechanism.actuator[i-1] = false;		//On invalide l'actionneur
-			}
+	for(int i=2; i<sizeof(order); i++) {				//Pour chaque actionneur
+		if(order[i] == '1'){							//Si le caractère est 1
+			mechanism.actuator[i-1] = true;				//On valide l'actionneur
+		}else if(order[i] == '0'){						//Si le caractère est 0
+			mechanism.actuator[i-1] = false;			//On invalide l'actionneur
 		}
 	}
 }
 
-void send_status() {
+void receive_order(int numBytes) {
+	String data_received;
+  
+	while(Wire.available() > 0) {						//Tant que le message i2c reçu n'est pas fini
+		char c = Wire.read();							//On lit le caractère suivant du message sur le bus i2c
+		data_received += String(c);						//On ajoute le caractère du message aux données reçus
+	}
+  
+	if(data_received != "2") {							//Si les données reçues sont bien un message d'ordre
+		execute_order(data_received);					//On exécute les ordres du message d'ordre
+	}
+}
+
+String getMessagei2c() {
 	String ms_I2Cmessage = "ms";
 	String as_I2Cmessage = "as";
 	String sd_I2Cmessage = "sd";
@@ -196,28 +199,34 @@ void send_status() {
 			sd_I2Cmessage += "F";						//On ajoute F au message i2c
 	}*/
 
-	//A DECOMMENTER SI LES CAPTEURS SONT DES VALEURS NUMERIQUE
+	//A COMMENTER SI LES CAPTEURS SONT DES VALEURS NUMERIQUE
 	for(int i=0; i<sizeof(sensor)/2; i++){				//Pour chaque capteur du mécanisme
 		sd_I2Cmessage += sensor[i];						//On ajoute la valeur du capteur au message i2c
 		sd_I2Cmessage += "X";							//Et on ajoute aussi X
 	}
   
-	I2Cmessage = ms_I2Cmessage + as_I2Cmessage + sd_I2Cmessage;//msFasFFXXsd0X
-  
-	Wire.write(I2Cmessage.c_str());						//On envoie le message i2c
+	I2Cmessage = ms_I2Cmessage + as_I2Cmessage + sd_I2Cmessage;//msFasFFFFsdF
+	
 	Serial.print("Message send to Raspberry : ");
 	Serial.println(I2Cmessage);
+	
+	return I2Cmessage
+}
+
+void send_status() {
+	
+	Wire.write(getMessagei2c().c_str());	//On écris le message i2c dans l'objet Wire
 }
 
 void setup() {
 	Serial.begin(9600);
-	Wire.begin(SLAVE_ADDRESS);
-	Wire.onReceive(receive_order);
-	Wire.onRequest(send_status);
-	mechanism.setupMechanism();
+	Wire.begin(SLAVE_ADDRESS);				//On indique à l'objet Wire l'adresse esclave utilisé par l'Arduino
+	Wire.onReceive(receive_order);			//On récupère le message s'ordre reçu sur le bus i2c via la fonction receive order
+	Wire.onRequest(send_status);			//On envoie le messagei2c sur le bus i2c
+	mechanism.setupMechanism();				//On donne une configuration de base au mécanisme
 }
 
 void loop() {
-	delay(100);											//On attends 0.1 seconde
-	mechanism.execute();								//On exécute le mécanisme
+	delay(100);								//On attends 0.1 seconde
+	mechanism.execute();					//On exécute le mécanisme
 }
