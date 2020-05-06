@@ -218,25 +218,10 @@ void send_status() {
 	Wire.write(getMessagei2c());			//On écris le message i2c dans l'objet Wire
 }
 
-void receive_order(int numBytes) {
-	String data_received;
-  
-	while(Wire.available() > 0) {			//Tant que le message i2c reçu n'est pas fini
-		char c = Wire.read();				//On lit le caractère suivant du message sur le bus i2c
-		data_received += String(c);			//On ajoute le caractère du message aux données reçus
-	}
-  
-	if(data_received != "2") {				//Si les données reçues sont bien un message d'ordre
-		execute_order(data_received);		//On exécute les ordres du message d'ordre
-	}
-}
-
 void setup() {
 	Serial.begin(9600);
 	Wire.begin(SLAVE_ADDRESS);				//On indique à l'objet Wire l'adresse esclave utilisé par l'Arduino
 	Wire.onReceive(receive_order);			//On récupère le message s'ordre reçu sur le bus i2c via la fonction receive order
-}
-
 	Wire.onRequest(send_status);			//On envoie le messagei2c sur le bus i2c
 	mechanism.setupMechanism();				//On donne une configuration de base au mécanisme
 }
