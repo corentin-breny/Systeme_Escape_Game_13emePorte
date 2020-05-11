@@ -1,0 +1,1064 @@
+body
+{
+	background-color : black;
+}
+
+.center
+{
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.image
+{
+	float: left;
+	width : 100px;
+	height : 100px;
+}
+
+h1
+{
+	color: white;
+	overflow: hidden;
+	text-align: center;
+	margin-top: center;
+	float: bottom;
+}
+
+.Fond
+{
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.imgFond
+{
+	position: fixed;
+	max-width: 100%;
+	height: auto;
+	z-index: 0;
+}
+
+.mecanisme
+{
+	float: left;
+	width : 100px;
+	height : 100px;
+	z-index: 2;
+}
+
+.Devant
+{
+	position: relative;
+	z-index: 1;
+}
+
+.carré1
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 20px;
+	margin-left: 200px;
+}
+
+
+.carré1.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 20px;
+	margin-left: 200px;
+}
+
+.carré2
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 2%;
+	margin-left: 15%;
+}
+
+
+.carré2.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 2%;
+	margin-left: 15%;
+}
+
+.carré3
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 2%;
+	margin-left: 55%;
+
+}
+
+.carré3.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 2%;
+	margin-left: 55%;
+
+}
+
+.carré4
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: -5%;
+	margin-left: 75%;
+}
+
+.carré4.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: -5%;
+	margin-left: 75%;
+}
+
+.carré5
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 10%;
+	margin-left: 15%;
+}
+
+.carré5.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 10%;
+	margin-left: 15%;
+}
+
+.carré6
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 10%;
+	margin-left: 15%;
+}
+
+.carré6.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 10%;
+	margin-left: 15%;
+}
+
+.carré7
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 10%;
+	margin-left: 14.6%;
+}
+
+.carré7.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 10%;
+	margin-left: 14.6%;
+}
+
+.carré8
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 10%;
+	margin-left: 14.6%;
+}
+
+.carré8.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 10%;
+	margin-left: 14.6%;
+}
+
+.carré9
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 550px;
+	margin-left: -550px;
+}
+
+.carré9.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.8;
+	margin-top: 550px;
+	margin-left: -550px;
+}
+
+.carréMeca1
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: -15%;
+	margin-left: 12%;
+}
+
+.carréMeca1.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: -15%;
+	margin-left: 12%;
+}
+
+.carréMeca2
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 5px;
+	margin-left: -1285px;
+}
+.carréMeca2.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 5px;
+	margin-left: -1285px;
+}
+
+.carréMeca3
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+}
+
+.carréMeca3.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+}
+
+.carréMeca4
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+	margin-left: 250px;
+}
+
+.carréMeca4.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+	margin-left: 250px;
+}
+
+.carréMeca5
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+}
+
+.carréMeca5.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+}
+
+.carréMeca6
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+	margin-left: -200px;
+}
+
+.carréMeca6.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+	margin-left: -200px;
+}
+
+
+.carréMeca7
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+	margin-left: -100px;
+}
+
+.carréMeca7.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+	margin-left: -100px;
+}
+
+.carréMeca8
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+}
+
+.carréMeca8.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+}
+
+.carréMeca9
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+	margin-left: -200px;
+}
+
+.carréMeca9.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+	margin-left: -200px;
+}
+
+.carréMeca10
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+	margin-left: -100px;
+}
+
+.carréMeca10.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+	margin-left: -100px;
+}
+
+.carréMeca11
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+	margin-left: 0px;
+}
+
+.carréMeca11.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 150px;
+	margin-left: 0px;
+}
+
+.carréMeca12
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 250px;
+	margin-left: -250px;
+}
+
+.carréMeca12.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 250px;
+	margin-left: -250px;
+}
+
+.carréMeca13
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 250px;
+	margin-left: -150px;
+}
+
+.carréMeca13.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 250px;
+	margin-left: -150px;
+}
+
+.carréMeca14
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -1600px;
+}
+
+.carréMeca14.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -1600px;
+}
+
+.carréMeca15
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -1500px;
+}
+
+.carréMeca15.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -1500px;
+}
+
+.carréMeca16
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -1400px;
+}
+
+.carréMeca16.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -1400px;
+}
+
+.carréMeca17
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -1500px;
+}
+
+.carréMeca17.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -1500px;
+}
+
+.carréMeca18
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -1100px;
+}
+
+.carréMeca18.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -1100px;
+}
+
+.carréMeca19
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -1000px;
+}
+
+.carréMeca19.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -1000px;
+}
+
+.carréMeca20
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -900px;
+}
+
+.carréMeca20.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -900px;
+}
+
+.carréMeca21
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -1100px;
+}
+
+.carréMeca21.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -1100px;
+}
+
+
+.carréMeca22
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -1000px;
+}
+
+.carréMeca22.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -1000px;
+}
+
+.carréMeca23
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -900px;
+}
+
+.carréMeca23.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -900px;
+}
+
+.carréMeca24
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 575px;
+	margin-left: -1100px;
+}
+
+.carréMeca24.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 575px;
+	margin-left: -1100px;
+}
+
+.carréMeca25
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 575px;
+	margin-left: -1000px;
+}
+
+.carréMeca25.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 575px;
+	margin-left: -1000px;
+}
+
+.carréMeca26
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 575px;
+	margin-left: -900px;
+}
+
+.carréMeca26.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 575px;
+	margin-left: -900px;
+}
+
+.carréMeca27
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 675px;
+	margin-left: -1000px;
+}
+.carréMeca27.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 675px;
+	margin-left: -1000px;
+}
+
+.carréMeca28
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -600px;
+}
+
+.carréMeca28.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -600px;
+}
+
+.carréMeca29
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -500px;
+}
+
+.carréMeca29.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 375px;
+	margin-left: -500px;
+}
+
+.carréMeca30
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -300px;
+}
+
+.carréMeca30.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -300px;
+}
+
+.carréMeca31
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -200px;
+}
+
+.carréMeca31.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -200px;
+}
+
+.carréMeca32
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -100px;
+}
+
+.carréMeca32.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 475px;
+	margin-left: -100px;
+}
+
+.carréMeca33
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 650px;
+	margin-left: -750px;
+}
+
+.carréMeca33.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 650px;
+	margin-left: -750px;
+}
+
+.carréMeca34
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 650px;
+	margin-left: -650px;
+}
+
+.carréMeca34.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 650px;
+	margin-left: -650px;
+}
+
+.carréMeca35
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 650px;
+	margin-left: -550px;
+}
+
+.carréMeca35.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 650px;
+	margin-left: -550px;
+}
+
+.carréMeca36
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 650px;
+	margin-left: -450px;
+}
+
+.carréMeca36.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 650px;
+	margin-left: -450px;
+}
+
+.carréMeca37
+{
+	background-color: green; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 650px;
+	margin-left: -350px;
+}
+
+.carréMeca37.1
+{
+	background-color: red; 
+	float: left;
+	width: 100px;
+	height: 100px;
+	opacity: 0.7;
+	margin-top: 650px;
+	margin-left: -350px;
+}
