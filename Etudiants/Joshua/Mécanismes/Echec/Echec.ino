@@ -33,7 +33,6 @@ class Echec{
     Echec();
     void setupMechanism();
     void execute();
-    
 };
 
 //Fichier Echec.cpp
