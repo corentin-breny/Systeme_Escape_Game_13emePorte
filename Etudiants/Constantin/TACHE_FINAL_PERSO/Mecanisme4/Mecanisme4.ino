@@ -214,15 +214,13 @@ String getMessagei2c() {
 }
 
 void send_status() {
-	Wire.write(getMessagei2c().c_str());	//On écris le message i2c dans l'objet Wire
+	Wire.write(getMessagei2c().c_str());	//On écrit le message i2c dans l'objet Wire
 }
 
 void setup() {
 	Serial.begin(9600);
 	Wire.begin(SLAVE_ADDRESS);				//On indique à l'objet Wire l'adresse esclave utilisé par l'Arduino
 	Wire.onRequest(send_status);			//On envoie le messagei2c sur le bus i2c
-}
-	
 	Wire.onReceive(receive_order);			//On récupère le message s'ordre reçu sur le bus i2c via la fonction receive order
 	Wire.onRequest(send_status);			//On envoie le messagei2c sur le bus i2c
 	mechanism.setupMechanism();				//On donne une configuration de base au mécanisme
