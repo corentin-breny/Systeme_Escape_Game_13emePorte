@@ -9,20 +9,20 @@ bus=smbus.SMBus(1)
 arduinos = [
         {'id': 1, 'address': 0x12, 
         'mechanism_status': False, 'ms_noTimer': 0,
-        'actuator_status' : {'S_Echiquier': False}, 'as_noTimer' : 0, 
-        'sensor_data' : {'C_EffetHall1': 0, 'C_EffetHall2': 0}, 'sd_noTimer': 0, 
+        'actuator_status' : {'S_Echiquier': False, 'S_Led': False}, 'as_noTimer' : 0, 
+        'sensor_data' : {'C_EffetHall1': False, 'C_EffetHall2': False}, 'sd_noTimer': 0, 
         'order' : 0},
         
         {'id': 2, 'address': 0x13, 
         'mechanism_status': False, 'ms_noTimer': 0,
-        'actuator_status' : {'S_Lion': False}, 'as_noTimer' : 0, 
-        'sensor_data' : {'C_EffetHall': 0}, 'sd_noTimer': 0, 
+        'actuator_status' : {'S_Lion': False, 'S_Led': False}, 'as_noTimer' : 0, 
+        'sensor_data' : {'C_EffetHall': False}, 'sd_noTimer': 0, 
         'order' : 0},
         
         {'id': 3, 'address': 0x14, 
         'mechanism_status': False, 'ms_noTimer': 0,
-        'actuator_status' : {'S_Meuble': False, 'S_Terre': False}, 'as_noTimer' : 0, 
-        'sensor_data' : {'C_EffetHall': 0}, 'sd_noTimer': 0, 
+        'actuator_status' : {'S_Meuble': False, 'S_Led': False, 'S_Terre': False}, 'as_noTimer' : 0, 
+        'sensor_data' : {'C_EffetHall': False}, 'sd_noTimer': 0, 
         'order' : 0},
         
         {'id': 4, 'address': 0x15,  

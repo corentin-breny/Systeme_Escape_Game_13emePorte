@@ -214,7 +214,6 @@ String getMessagei2c() {
 }
 
 void send_status() {
-	
 	Wire.write(getMessagei2c().c_str());	//On écris le message i2c dans l'objet Wire
 }
 
