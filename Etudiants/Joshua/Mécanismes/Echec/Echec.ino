@@ -1,36 +1,37 @@
 //Fichier Echec.h
 
-#include "WIRE.H"
+#include "Wire.h"
 
 #define SLAVE_ADDRESS 0x12
-#define C_EffetHall1_PIN A0 //Capteur à effet Hall 1
-#define C_EffetHall2_PIN 2 //Capteur à effet Hall 2
-#define S_LedR_PIN 3 //Led de sortie
+#define CEffetHall1_PIN A0 //Capteur à effet Hall 1
+#define CEffetHall2_PIN 2 //Capteur à effet Hall 2
+#define SLed_PIN 7 //Led de sortie
+#define SEchiquier_PIN 8 //Led de sortie
+#define DEBOUNCE 2000
 
-int ECHECstate = HIGH; // Etat actuel de la broche de sortie (la ventouse HIGH maintiens de la ventouse fermée)
-int readingECHEC;         // Contient la valeur lue sur la broche d'entrée
-int previousECHEC = LOW;  // Contient la précédente valeur lue sur la broche d'entrée
-long timeECHEC = 0;      // La dernière fois que la broche de sortie à changé d'état
-long time = 0;      // La dernière fois que la broche de sortie à changé d'état 
-long debounce = 2000;   
-
+int sd_reading = HIGH;        //Valeur actuelle du capteur
+int sd_previous = HIGH;       //Valeur précédente du capteur
+long ms_time = 0;
+int pin2 = HIGH;
+ 
 class Echec{
 
   private :
-    const int C_EffetHall1;
-    const int C_EffetHall2;
+    bool C_EffetHall1;
+    bool C_EffetHall2;
     bool S_Echiquier;
-    bool mecanism_status;
+    bool S_Led;
+    bool mechanism_status;
 
   public :
-    bool actuator[1] = {S_Echiquier};
+    bool actuator[2] = {S_Echiquier, S_Led};
     int sensor[2] = {C_EffetHall2, C_EffetHall2};
     bool getMechanism_status();
     void setMechanism_status(bool ms);    
 
   public :
     Echec();
-    void setupMecanism();
+    void setupMechanism();
     void execute();
     
 };
@@ -39,10 +40,11 @@ class Echec{
 
 Echec::Echec(){
   
-  C_EffetHall_1 = false;
-  C_EffetHall_2 = false;
+  C_EffetHall1 = false;
+  C_EffetHall2 = false;
   S_Echiquier = false;
-  mecanism_status = false;
+  S_Led = false;
+  mechanism_status = false;
   
 }
 
@@ -56,51 +58,66 @@ void Echec::setMechanism_status(bool ms){
 
 void Echec::setupMechanism() {
   
-  pinMode( 8, OUTPUT ); // Relais echec
-  digitalWrite(8, HIGH);
+  pinMode( SEchiquier_PIN, OUTPUT );
+  digitalWrite(SEchiquier_PIN, HIGH);
   
-  pinMode( 7, OUTPUT ); // Led controle echec
-  digitalWrite(7, HIGH);
+  pinMode( SLed_PIN, OUTPUT ); // Led controle echec
+  digitalWrite(SLed_PIN, HIGH);
 
-  pinMode(11, INPUT_PULLUP);
-
-  digitalWrite(hallPin, HIGH);  // Activation résistance pullUP
-  digitalWrite(hallPin2, HIGH);
+  digitalWrite(CEffetHall1_PIN, HIGH);  // Activation résistance pullUP
+  digitalWrite(CEffetHall2_PIN, HIGH);
  
 }
 
 void Echec::execute(){
 
-  int pin1 = digitalRead(C_EffetHall_1);    // On lit les deux capteurs à effet Hall
-  int pin2 = digitalRead(C_EffetHall_2);
-  
-  readingECHEC = pin1;
+  sd_reading = digitalRead(CEffetHall1_PIN);       //On récupère la valeur du capteur intérupteur à clef
+  pin2 = digitalRead(CEffetHall2_PIN);       //On récupère la valeur du capteur intérupteur à clef
 
-  if (ECHECstate == HIGH)   // Si ECHECstate est à HIGH, ça signifie que la ventouse est maintenue fermée
-  {
-    if (readingECHEC != previousECHEC) {    
-      
-      timeECHEC = millis();   // Remettre la minuterie/timer de déparasitage à 0
-    }
-    
-    if ((millis() - timeECHEC) > debounce)    // Attendre que l'on ai dépassé le temps de déparasitage
-    {
-      
-      if ((pin1 == LOW) && (pin2 == LOW))     // Si les deux pieces sont à la bonne place
-      {  
-        ECHECstate = LOW; // On valide l'enigme
-      } else LEDstate = HIGH;
-      
-    previousECHEC = readingECHEC;     // Mémoriser la dernière lecture
-    }  
-  digitalWrite(7, not(ECHECstate));   // Écriture du statut sur la led (HIGH = allumé soit l'inverse de la ventouse)
-  digitalWrite(8, ECHECstate);    // Écriture du statut sur la ventouse (LOW = on libere l'electroaimant)
-  delay(500);
-  digitalWrite(8, not(ECHECstate));
+  //on tient à vérifier si il y a eu un changement de position ou un parasite (bille qui trésaute)... 
+  if (sd_reading != sd_previous) {
+    ms_time = millis();               //On remet le timer de déparasitage à 0
   }
-
-  if ( mechanism_status == false ){          //En cas de reset
-    S_Echiquier = false;                  //On change la valeur de l'attribut
+  
+  sd_previous = sd_reading;
+  
+  if (sd_reading == LOW && pin2 == LOW
+  && (millis() - ms_time) > DEBOUNCE){      //On vérifie s'il y a eu un changement de position positif
+      
+    C_EffetHall1 = true;             //On fixe la valeur de l'attribut capteur
+    C_EffetHall2 = true;             //On fixe la valeur de l'attribut capteur
+      
+    if (mechanism_status == false) {        //Si il y a eu le premier changement de position
+        
+      S_Echiquier = true;             //On active l'électroaimant de la ventouse dragon                        
+      S_Led = true;                   //On allume la led rouge                     
+      mechanism_status = true;        //On valide le mécanisme
+    } 
+  }else{                        //Si il n'y a pas eu de changement de position positif
+  
+    C_EffetHall1 = false;             //On fixe la valeur de l'attribut capteur
+    C_EffetHall2 = false;             //On fixe la valeur de l'attribut capteur
+  } 
+  
+  if ( S_Echiquier == true ){              //Pour désactiver l'electroaimant de la ventouse dragon
+    delay(100);                   //On attend 0.1 seconde
+    digitalWrite(SEchiquier_PIN, LOW);    // Écriture du statut sur la ventouse (LOW = on libere l'electroaimant)
+    delay(500);
+    digitalWrite(SEchiquier_PIN, HIGH);
+    delay(4000);                       //On attend 4 secondes
+    S_Echiquier = false;               //On change la valeur de l'attribut
+  }
+  
+  if ( S_Led == true ){                   //Pour allumer la led témoin
+    delay(100);                           //On attend 0.1 seconde
+    digitalWrite(SLed_PIN, HIGH);         //On allume la led de contrôle
+  }else{                                  //Pour éteindre la led témoin
+    delay(100);                           //On attend 0.1 seconde
+    digitalWrite(SLed_PIN, LOW);          //On éteint la led de contrôle
+  }
+  
+  if ( mechanism_status == false ){         //En cas de reset
+    S_Led = false;                  //On change la valeur de l'attribut
   }
 }
 
@@ -161,20 +178,20 @@ void send_status() {
     }
   }
 
-  /*//A COMMENTER SI LES CAPTEURS SONT DES VALEURS BOOLEAN
+  //A COMMENTER SI LES CAPTEURS SONT DES VALEURS BOOLEAN
   for(int i=0; i<sizeof(mechanism.sensor); i++){    //Pour chaque capteur du mécanisme
     if (mechanism.sensor[i] == true){       //Si le capteur est validé
       sd_I2Cmessage += "T";           //On ajoute T au message i2c
     }else{                      //Si le capteur est invalidé
       sd_I2Cmessage += "F";           //On ajoute F au message i2c
     }
-  }*/
+  }
 
-  //A COMMENTER SI LES CAPTEURS SONT DES VALEURS NUMERIQUE
+  /*//A COMMENTER SI LES CAPTEURS SONT DES VALEURS NUMERIQUE
   for(int i=0; i<sizeof(sensor)/2; i++){        //Pour chaque capteur du mécanisme
     sd_I2Cmessage += sensor[i];           //On ajoute la valeur du capteur au message i2c
     sd_I2Cmessage += "X";             //Et on ajoute aussi X
-  }
+  }*/
   
   I2Cmessage = ms_I2Cmessage + as_I2Cmessage + sd_I2Cmessage;//msFasFFFFsdF
   
