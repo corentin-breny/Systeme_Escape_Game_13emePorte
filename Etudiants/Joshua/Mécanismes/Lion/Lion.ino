@@ -1,33 +1,33 @@
 //Fichier LionB.h
 
-#include "WIRE.H"
+#include "Wire.h"
 #define SLAVE_ADDRESS 0x13
-#define C_EffetHall1_PIN A0 //Capteur à effet Hall 1
-#define S_Lion_PIN 3 //Led de sortie
+#define CEffetHall1_PIN A0 //Capteur à effet Hall 1
+#define SLed_PIN 10 //Led de sortie
+#define SLion_PIN 3 //Led de sortie
+#define DEBOUNCE 2000
 
-int LIONBstate = HIGH; // Etat actuel de la broche de sortie (la LED)
-int readingLIONB;         // Contient la valeur lue sur la broche d'entrée
-int previousLIONB = LOW;
-long timeLIONB = 0;      // La dernière fois que la broche de sortie à changé d'état
-int LedLIONB = LOW;
-long debounce = 2000;
+int sd_reading = HIGH;        //Valeur actuelle du capteur
+int sd_previous = HIGH;       //Valeur précédente du capteur
+long ms_time = 0;
 
 class LionB {
 
   private :
-    const int C_EffetHall1;
+    bool C_EffetHall_1;
     bool S_Lion;
+    bool S_Led;
     bool mecanism_status;
 
   private :
-    bool actuator[1] = {S_Lion};
-    bool sensor[1] = {C_EffetHall1};
+    bool actuator[2] = {S_Lion, S_Led};
+    bool sensor[1] = {C_EffetHall_1};
     bool getMechanism_status();
     void setMechanism_status(bool ms);
 
   public :
     LionB();
-    void setupMecanism();
+    void setupMechanism();
     void execute();
 };
 
@@ -49,55 +49,66 @@ void Echec::setMechanism_status(bool ms){
 
 void LionB::setupMechanism() {
   
-  pinMode(10, OUTPUT); // vers led controle lionb
-  digitalWrite(10, HIGH);
+  pinMode(SLed_PIN, OUTPUT); // vers led controle lionb
+  digitalWrite(SLed_PIN, HIGH);
   
-  pinMode( 3, OUTPUT); // Vers relais lionb
-  digitalWrite(3, HIGH);
+  pinMode(SLion_PIN, OUTPUT); // Vers relais lionb
+  digitalWrite(SLion_PIN, HIGH);
   
   pinMode(C_EffetHall, INPUT); // pin 6
   digitalWrite(C_EffetHall, HIGH);
-  
-  pinMode(11, INPUT_PULLUP);
-  
+
   digitalWrite(hallPin, HIGH);  // Activation résistance pullUP
-  digitalWrite(hallPin2, HIGH);
  
 }
 
 void LionB::execute(){
+
+
+  sd_reading = digitalRead(CEffetHall1_PIN);       //On récupère la valeur du capteur intérupteur à clef
+
+  //on tient à vérifier si il y a eu un changement de position ou un parasite (bille qui trésaute)... 
+  if (sd_reading != sd_previous) {
+    ms_time = millis();               //On remet le timer de déparasitage à 0
+  }
   
-  pinlionb = digitalRead(C_EffetHall);
-
-  readingLIONB = pinlionb;
-
-  if (LIONBstate == HIGH)
-  {
-    if (readingLIONB != previousLIONB) 
-    {  
-      timeLIONB = millis();   // Remettre la minuterie/timer de déparasitage à 0
-    }
-    
-    if ((millis() - timeLIONB) > (debounce)) // attendre que l'on ai dépassé le temps de déparasitage
-    {    
-      if (readingLIONB == HIGH) 
-      {
-        LIONBstate = LOW;   //Ce qui valide la réussite de l'énigme
-        digitalWrite(3, LIONBstate);    //reset pour defaire le solenoide
-        timeLIONB = millis();
-        LedLIONB = HIGH;    //La led correspondante sur le panneau du superviseur est allumée
-      }
-    }
-
-    previousLIONB = readingLIONB;   // Mémoriser la dernière lecture
+  sd_previous = sd_reading;
+  
+  if (sd_reading == LOW
+  && (millis() - ms_time) > DEBOUNCE){      //On vérifie s'il y a eu un changement de position positif
+      
+    C_EffetHall_1 = true;             //On fixe la valeur de l'attribut capteur
+      
+    if (mechanism_status == false) {        //Si il y a eu le premier changement de position
+        
+      S_Lion = true;             //On active l'électroaimant de la ventouse dragon                        
+      S_Led = true;                   //On allume la led rouge                     
+      mechanism_status = true;        //On valide le mécanisme
+    } 
+  }else{                        //Si il n'y a pas eu de changement de position positif
+  
+    C_EffetHall_1 = false;             //On fixe la valeur de l'attribut capteur
+  } 
+  
+  if ( S_Lion == true ){              //Pour désactiver l'electroaimant de la ventouse dragon
+    S_Lion = LOW;   //Ce qui valide la réussite de l'énigme
+    digitalWrite(3, S_Lion);    //reset pour defaire le solenoide
+    ms_time = millis();
+    S_Led = HIGH;    //La led correspondante sur le panneau du superviseur est allumée
   }
-  else if ((millis() - timeLIONB) > debounce)
-  {
-    digitalWrite(3, HIGH);
-    if (readingLIONB == LOW)
-    LIONBstate = HIGH;
+  
+  if ( S_Led == true ){                   //Pour allumer la led témoin
+    delay(100);                           //On attend 0.1 seconde
+    digitalWrite(SLed_PIN, HIGH);         //On allume la led de contrôle
+  }else{                                  //Pour éteindre la led témoin
+    delay(100);                           //On attend 0.1 seconde
+    digitalWrite(SLed_PIN, LOW);          //On éteint la led de contrôle
   }
-  digitalWrite(10, LedLIONB);  
+  
+  if ( mechanism_status == false ){         //En cas de reset
+    S_Led = false;                  //On change la valeur de l'attribut
+  }
+
 }
 
 LionB mechanism = LionB();
