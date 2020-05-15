@@ -54,11 +54,11 @@ Katana::Katana(){
 }
 
 bool Katana::getMechanism_status(){
-  return mechanism_status;
+  return mechanism_status;  //Retourner si le mécanisme a ét fait ou non
 }
 
 void Katana::setMechanism_status(bool ms){
-  mechanism_status = ms;
+  mechanism_status = ms; //Affiche le temps de la dernière actualisation
 }
 
 //SETUP
@@ -74,21 +74,21 @@ void Katana::setupMecanism(){
 
 void Katana::execute(){
 
-  readingkatana = digitalRead(CInterruppteur_PIN );
+  readingkatana = digitalRead(CInterruppteur_PIN ); // Lis l'état de l'interrupteur
 
-  if (readingkatana != previouskatana) {
-    // Remettre la minuterie/timer de déparasitage à 0
+  //on tient à vérifier si il y a eu un changement de position ou un parasite (bille qui trésaute)...
+  if (readingkatana != previouskatana) { // Remettre la minuterie/timer de déparasitage à 0
     timeKatana = millis();
   }
 
-  if ((millis() - timeKatana) > ((debounce))) {
+  if ((millis() - timeKatana) > ((debounce))) { //On vérifie s'il y a eu un changement de position positif
     if (readingkatana == 0) {
       if (firstkatana == 0) {
         statekatana = LOW;
-        digitalWrite(SKatana_PIN , LOW);
-        delay(500);
-        digitalWrite(SKatana_PIN , HIGH);
-        firstkatana = 1;
+        digitalWrite(SKatana_PIN , LOW); // On désactive le relai katana
+        delay(500); // attendre 0,5 seconde
+        digitalWrite(SKatana_PIN , HIGH); // On réactive le relai katana
+        firstkatana = 1; // On change la valeur du katana
       }
     }
     else {
