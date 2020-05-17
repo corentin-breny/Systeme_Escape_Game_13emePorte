@@ -229,7 +229,6 @@ void setup() {
 	Wire.begin(SLAVE_ADDRESS);				//On indique à l'objet Wire l'adresse esclave utilisé par l'Arduino
 	Wire.onRequest(send_status);			//On envoie le messagei2c sur le bus i2c
 	Wire.onReceive(receive_order);			//On récupère le message s'ordre reçu sur le bus i2c via la fonction receive order
-	Wire.onRequest(send_status);			//On envoie le messagei2c sur le bus i2c
 	mechanism.setupMechanism();				//On donne une configuration de base au mécanisme
 }
 
