@@ -70,12 +70,12 @@ Air::Air(){
   mecanism_status = false;
 }
 
-bool Air::getMechanism_status(){
-  return mechanism_status;
+bool Air::getMechanism_status(){ //On demande si le mécanisme a été réalisé ou non
+  return mechanism_status;       //On retourne une réponse, true ou false
 }
 
-void Air::setMechanism_status(bool ms){
-  mechanism_status = ms;
+void Air::setMechanism_status(bool ms){ //On demande le dernier temps d'actualisation
+  mechanism_status = ms;                //On retourne le temps d'actualisation
 }
 
 //SETUP
@@ -96,22 +96,21 @@ void Air::execute(){
 
 
   int VanOkSeuil = 10;
-  vanne1 = analogRead(S_Vanne1) >= VanOkSeuil ? 1 : 0;
-  vanne2 = analogRead(S_Vanne2) >= VanOkSeuil ? 1 : 0;
-  vanne3 = analogRead(S_Vanne3) >= VanOkSeuil ? 1 : 0;
-  vanne4 = analogRead(S_Vanne4) >= VanOkSeuil ? 1 : 0;
-  vanne5 = analogRead(S_Vanne5) >= VanOkSeuil ? 1 : 0;
-  vanne6 = analogRead(S_Vanne6) >= VanOkSeuil ? 1 : 0;
-  vanne7 = analogRead(S_Vanne7) >= VanOkSeuil ? 1 : 0;
-  long resultCode = vanne1 * 1000000 + vanne2 * 100000 + vanne3 * 10000 + vanne4 * 1000 + vanne5 * 100 + vanne6 * 10 + vanne7;
+  vanne1 = analogRead(S_Vanne1) >= VanOkSeuil ? 1 : 0; //Lis la valeur de la tension a la broche de la vanne 1, si celle-ci est ouverte ou fermée
+  vanne2 = analogRead(S_Vanne2) >= VanOkSeuil ? 1 : 0; //Lis la valeur de la tension a la broche de la vanne 2, si celle-ci est ouverte ou fermée
+  vanne3 = analogRead(S_Vanne3) >= VanOkSeuil ? 1 : 0; //Lis la valeur de la tension a la broche de la vanne 3, si celle-ci est ouverte ou fermée
+  vanne4 = analogRead(S_Vanne4) >= VanOkSeuil ? 1 : 0; //Lis la valeur de la tension a la broche de la vanne 4, si celle-ci est ouverte ou fermée
+  vanne5 = analogRead(S_Vanne5) >= VanOkSeuil ? 1 : 0; //Lis la valeur de la tension a la broche de la vanne 5, si celle-ci est ouverte ou fermée
+  vanne6 = analogRead(S_Vanne6) >= VanOkSeuil ? 1 : 0; //Lis la valeur de la tension a la broche de la vanne 6, si celle-ci est ouverte ou fermée
+  vanne7 = analogRead(S_Vanne7) >= VanOkSeuil ? 1 : 0; //Lis la valeur de la tension a la broche de la vanne 7, si celle-ci est ouverte ou fermée
+  long resultCode = vanne1 * 1000000 + vanne2 * 100000 + vanne3 * 10000 + vanne4 * 1000 + vanne5 * 100 + vanne6 * 10 + vanne7; // On calcule le code afin de valider si les vannes sont bien coordonnées
   // 1 = ouvert, 0 = fermée
-  long codeToDo = 1101011;
+  long codeToDo = 1101011; // resultat du code de validitée
   // digitalWrite(SLedVerte_PIN, LOW);  // LED VERT
 
-  readingchien = digitalRead(CBouton_PIN);
+  readingchien = digitalRead(CBouton_PIN); // Lis l'etat du bouton poussoir
 
-  if (readingchien != previouschien) {
-    // Remettre la minuterie/timer de déparasitage à 0
+  if (readingchien != previouschien) {  // Remettre la minuterie/timer de déparasitage à 0
     timeChien = millis();
   }
 
@@ -121,42 +120,42 @@ void Air::execute(){
 
         if (firstchien == 0 ) {
           statechien = LOW;
-          digitalWrite(SAir_PIN, LOW);  // Relais sarbacane
-          digitalWrite(SLedVerte_PIN , HIGH); // LED vert
-          delay(3000);
+          digitalWrite(SAir_PIN, LOW);  // On désactive le Relais sarbacane
+          digitalWrite(SLedVerte_PIN , HIGH); // On active la LED vert
+          delay(3000); // Attendre 3secondes
           firstchien = 1;
-          digitalWrite(SAIR_PIN, HIGH);  // Relais sarbacane
+          digitalWrite(SAir_PIN, HIGH);  //On reactive le Relais sarbacane
         }
         else {
-          digitalWrite(SLedVerte_PIN , LOW);
-          delay(500);
-          digitalWrite(SLedVerte_PIN , HIGH);
-          delay(500);
-          digitalWrite(SLedVerte_PIN , LOW);
-          delay(500);
-          digitalWrite(SLedVerte_PIN , HIGH);
-          delay(500);
+          digitalWrite(SLedVerte_PIN , LOW); //On désactive la LED verte
+          delay(500); // Attendre 0,5 seconde
+          digitalWrite(SLedVerte_PIN , HIGH);//On active la LED verte
+          delay(500);// Attendre 0,5 seconde
+          digitalWrite(SLedVerte_PIN , LOW); //On désactive la LED verte
+          delay(500);// Attendre 0,5 seconde
+          digitalWrite(SLedVerte_PIN , HIGH); //On active la LED verte
+          delay(500);// Attendre 0,5 seconde
         }
       }
       else {
         if (firstchien == 0 ) {
-          digitalWrite(SLedRouge_PIN, HIGH);  // LED ROUGE
-          digitalWrite(SChien_PIN, LOW);  // RELAIS SOUFFLE CHIEN
-          delay(200);
-          digitalWrite(SChien_PIN, HIGH);  // RELAIS SOUFFLE CHIEN
-          digitalWrite(SLedRouge_PIN, HIGH);  // LED ROUGE
-          delay(1000);
-          digitalWrite(SLedRouge_PIN, LOW);  // LED ROUGE
+          digitalWrite(SLedRouge_PIN, HIGH);  // On active la LED ROUGE
+          digitalWrite(SChien_PIN, LOW);  // On désactive le RELAIS SOUFFLE CHIEN
+          delay(200); // Attendre 0,2 seconde
+          digitalWrite(SChien_PIN, HIGH);  //On reactive le RELAIS SOUFFLE CHIEN
+          digitalWrite(SLedRouge_PIN, HIGH);  //On désactive la LED ROUGE
+          delay(1000); // Attendre 1 seconde
+          digitalWrite(SLedRouge_PIN, LOW);  //On active la LED ROUGE
        }
         else {
-          digitalWrite(SLedVerte_PIN , LOW);
-          delay(500);
-          digitalWrite(SLedVerte_PIN , HIGH);
-          delay(500);
-          digitalWrite(SLedVerte_PIN , LOW);
-          delay(500);
-          digitalWrite(SLedVerte_PIN , HIGH);
-          delay(500);
+          digitalWrite(SLedVerte_PIN , LOW); //On désactive la LED verte
+          delay(500); // Attendre 0,5 seconde
+          digitalWrite(SLedVerte_PIN , HIGH); //On active la LED verte
+          delay(500); // Attendre 0,5 seconde
+          digitalWrite(SLedVerte_PIN , LOW); //On désactive la LED verte
+          delay(500); // Attendre 0,5 seconde
+          digitalWrite(SLedVerte_PIN , HIGH); //On active la LED verte
+          delay(500); // Attendre 0,5 seconde
         }
       }
     }
@@ -169,19 +168,19 @@ void Air::execute(){
 
 
 
-   Serial.print("vanne1 = ");
+   Serial.print("vanne1 = "); // Imprime les données sur le port série sous forme de texte
     Serial.print(vanne1); // the raw analog reading
-  Serial.print(" vanne2: ");
+  Serial.print(" vanne2: ");// Imprime les données sur le port série sous forme de texte
   Serial.print(vanne2);
-  Serial.print(" vanne3: ");
+  Serial.print(" vanne3: ");// Imprime les données sur le port série sous forme de texte
   Serial.print(vanne3);
-  Serial.print(" vanne4: ");
+  Serial.print(" vanne4: ");// Imprime les données sur le port série sous forme de texte
   Serial.print(vanne4);
-  Serial.print(" vanne5: ");
+  Serial.print(" vanne5: ");// Imprime les données sur le port série sous forme de texte
   Serial.print(vanne5);
-  Serial.print(" vanne6: ");
+  Serial.print(" vanne6: ");// Imprime les données sur le port série sous forme de texte
   Serial.print(vanne6);
-  Serial.print(" vanne7: ");
+  Serial.print(" vanne7: ");// Imprime les données sur le port série sous forme de texte
   Serial.println(vanne7);
   Serial.println(readingchien);
 
