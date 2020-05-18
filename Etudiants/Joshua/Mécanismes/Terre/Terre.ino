@@ -1,5 +1,6 @@
 //Fichier Terre.h
 
+#define SLAVE_ADDRESS 0x14
 #define C_EffetHall_1_PIN 2 //Capteur à effet Hall 1
 #define S_Led_PIN A2 //Led de sortie
 #define S_Terre_PIN A0 //Led de sortie
