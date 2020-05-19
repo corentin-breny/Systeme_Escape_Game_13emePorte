@@ -6,7 +6,7 @@
 #define CEffetHall1_PIN A0 //Capteur à effet Hall 1
 #define CEffetHall2_PIN 2 //Capteur à effet Hall 2
 #define SLed_PIN 7 //Led de sortie
-#define SEchiquier_PIN 8 //Led de sortie
+#define SEchiquier_PIN 8 //électroaimant
 #define DEBOUNCE 2000
 
 int sd_reading = HIGH;        //Valeur actuelle du capteur
@@ -60,14 +60,15 @@ void Echec::setupMechanism() {
   digitalWrite(CEffetHall1_PIN, HIGH);  // Activation résistance pullUP
   digitalWrite(CEffetHall2_PIN, HIGH);
 
-  pinMode(SEchiquier_PIN, OUTPUT);            //On initialise le pin du relais de l'électroaimant de la ventouse dragon
+  pinMode(SEchiquier_PIN, OUTPUT);            //On initialise le pin du relais de l'électroaimant de la ventouse
+  
   if (S_Echiquier = false){                   //Suivant la valeur de l'attribut
     digitalWrite(SEchiquier_PIN , LOW);       //On active le relais de l'électroaimant par défaut
   }else{
     digitalWrite(SEchiquier_PIN , HIGH);      //On désactive le relais de l'électroaimant par défaut
     }
   
-  pinMode(SLed_PIN, OUTPUT);        //On initialise le pin du relais de l'électroaimant de la ventouse dragon
+  pinMode(SLed_PIN, OUTPUT);        //On initialise le pin de la Led
   if (S_Led = false){               //Suivant la valeur de l'attribut
     digitalWrite(SLed_PIN, LOW);    //On éteint la led par défaut
   }else{
@@ -88,14 +89,14 @@ void Echec::execute(){
   sd_previous = sd_reading;
   
   if (sd_reading == LOW && pin2 == LOW
-  && (millis() - ms_time) > DEBOUNCE){      //On vérifie s'il y a eu un changement de position positif
+  && (millis() - ms_time) > DEBOUNCE){      //On vérifie que les pièces sont en place depuis un certain temps (DEBOUNCE)
       
     C_EffetHall1 = true;             //On fixe la valeur de l'attribut capteur
     C_EffetHall2 = true;             //On fixe la valeur de l'attribut capteur
       
     if (mechanism_status == false) {        //Si il y a eu le premier changement de position
         
-      S_Echiquier = true;             //On active l'électroaimant de la ventouse dragon                        
+      S_Echiquier = true;             //On active l'électroaimant de la ventouse                        
       S_Led = true;                   //On allume la led rouge                     
       mechanism_status = true;        //On valide le mécanisme
     } 
@@ -126,8 +127,6 @@ void Echec::execute(){
     S_Led = false;                  //On change la valeur de l'attribut
   }
 }
-
-Echec mechanism = Echec();
 
 void execute_order(String order){
   
@@ -202,6 +201,8 @@ String getMessagei2c() {
   
   return I2Cmessage;
 }
+
+Echec mechanism = Echec();
 
 void send_status() {
   Wire.write(getMessagei2c().c_str());  //On écrit le message i2c dans l'objet Wire
