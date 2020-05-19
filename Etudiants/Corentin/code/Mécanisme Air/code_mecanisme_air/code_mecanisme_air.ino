@@ -19,19 +19,19 @@ int first = 0;
 class Air{
 
   private : 
-    bool S_LedVerte;
-    bool S_Chien;
-    bool S_LedRouge;
-    bool S_Air;
-    bool C_Vanne1;
+    bool S_LedVerte; // Led verte pour prévenir la réussite de la combinaison des vannes
+    bool S_Chien;     //L'actionneur où le chien souffle
+    bool S_LedRouge;  //Led rouge pour prévenir l'échec de la combinaison des vannes 
+    bool S_Air;   // L'actionneur du relai pour l'air de la sarbacanne
+    bool C_Vanne1; //les actionneurs des 7 vannes
     bool C_Vanne2;
     bool C_Vanne3;
     bool C_Vanne4;
     bool C_Vanne5;
     bool C_Vanne6;
     bool C_Vanne7;
-    bool C_Bouton;
-    bool mecanism_status;
+    bool C_Bouton;  // L'actionneur du bouton poussoir
+    bool mecanism_status; // indique si le mécanisme est activé ou non
 
  public : 
 
@@ -103,7 +103,8 @@ void Air::execute(){
   vanne5 = analogRead(S_Vanne5) >= VanOkSeuil ? 1 : 0; //Lis la valeur de la tension a la broche de la vanne 5, si celle-ci est ouverte ou fermée
   vanne6 = analogRead(S_Vanne6) >= VanOkSeuil ? 1 : 0; //Lis la valeur de la tension a la broche de la vanne 6, si celle-ci est ouverte ou fermée
   vanne7 = analogRead(S_Vanne7) >= VanOkSeuil ? 1 : 0; //Lis la valeur de la tension a la broche de la vanne 7, si celle-ci est ouverte ou fermée
-  long resultCode = vanne1 * 1000000 + vanne2 * 100000 + vanne3 * 10000 + vanne4 * 1000 + vanne5 * 100 + vanne6 * 10 + vanne7; // On calcule le code afin de valider si les vannes sont bien coordonnées
+  long resultCode = vanne1 * 1000000 + vanne2 * 100000 + vanne3 * 10000 + vanne4 * 1000 + vanne5 * 100 + vanne6 * 10 + vanne7; // On calcule le code 
+  //afin de valider si les vannes sont bien coordonnées
   // 1 = ouvert, 0 = fermée
   long codeToDo = 1101011; // resultat du code de validitée
   // digitalWrite(SLedVerte_PIN, LOW);  // LED VERT
