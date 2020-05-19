@@ -4,7 +4,7 @@
 #define SLAVE_ADDRESS 0x13
 #define CEffetHall1_PIN A0 //Capteur à effet Hall 1
 #define SLed_PIN 10 //Led de sortie
-#define SLion_PIN 3 //Led de sortie
+#define SLion_PIN 3 //Actionneur
 #define DEBOUNCE 2000
 
 int sd_reading = HIGH;        //Valeur actuelle du capteur
@@ -58,25 +58,25 @@ void LionB::setupMechanism() {
   pinMode(SLion_PIN, OUTPUT); // Vers relais lionb
   digitalWrite(SLion_PIN, HIGH);
 
-  pinMode(SLion_PIN, OUTPUT);         //On initialise le pin du relais de l'électroaimant de la ventouse dragon
+  pinMode(SLion_PIN, OUTPUT);         //On initialise le pin du relais de l'électroaimant de la ventouse pour le tiroir
   if (S_Lion = false){               //Suivant la valeur de l'attribut
     digitalWrite(SLion_PIN, LOW);       //On active le relais de l'électroaimant par défaut
   }else{
     digitalWrite(SLion_PIN, HIGH);      //On désactive le relais de l'électroaimant par défaut
     }
   
-  pinMode(SLed_PIN, OUTPUT);          //On initialise le pin du relais de la machine à fumée
+  pinMode(SLed_PIN, OUTPUT);          //On initialise le pin de la Led
   if (S_Led = false){             //Suivant la valeur de l'attribut
-    digitalWrite(SLed_PIN, HIGH);       //On désactive le relais machine à fumée par défaut
+    digitalWrite(SLed_PIN, HIGH);       //On désactive la Led
   }else{
-    digitalWrite(SLed_PIN, LOW);       //On active le relais machine à fumée par défaut
+    digitalWrite(SLed_PIN, LOW);       //On active la Led
   }
 }
 
 void LionB::execute(){
 
 
-  sd_reading = digitalRead(CEffetHall1_PIN);       //On récupère la valeur du capteur intérupteur à clef
+  sd_reading = digitalRead(CEffetHall1_PIN);       //On récupère la valeur du capteur à effet Hall
 
   //on tient à vérifier si il y a eu un changement de position ou un parasite (bille qui trésaute)... 
   if (sd_reading != sd_previous) {
@@ -86,13 +86,13 @@ void LionB::execute(){
   sd_previous = sd_reading;
   
   if (sd_reading == LOW
-  && (millis() - ms_time) > DEBOUNCE){      //On vérifie s'il y a eu un changement de position positif
+  && (millis() - ms_time) > DEBOUNCE){      //On vérifie que la statuette est tournée depuis un certain temps (DEBOUNCE)
       
     C_EffetHall_1 = true;             //On fixe la valeur de l'attribut capteur
       
     if (mechanism_status == false) {        //Si il y a eu le premier changement de position
         
-      S_Lion = true;             //On active l'électroaimant de la ventouse dragon                        
+      S_Lion = true;                  //On active l'électroaimant du tiroir                        
       S_Led = true;                   //On allume la led rouge                     
       mechanism_status = true;        //On valide le mécanisme
     } 
@@ -101,14 +101,14 @@ void LionB::execute(){
     C_EffetHall_1 = false;             //On fixe la valeur de l'attribut capteur
   } 
   
-  if (S_Lion == true ){              //Pour désactiver l'electroaimant de la ventouse dragon
+  if (S_Lion == true ){              //Pour désactiver l'electroaimant du tiroir 
     S_Lion = LOW;   //Ce qui valide la réussite de l'énigme
-    digitalWrite(3, S_Lion);    //reset pour defaire le solenoide
+    digitalWrite(SLion_PIN, S_Lion);    //reset pour defaire le solenoide
     ms_time = millis();
     S_Led = HIGH;    //La led correspondante sur le panneau du superviseur est allumée
   }
   
-  if (S_Led == true ){                   //Pour allumer la led témoin
+  if (S_Led == true ){                    //Pour allumer la led témoin
     delay(100);                           //On attend 0.1 seconde
     digitalWrite(SLed_PIN, HIGH);         //On allume la led de contrôle
   }else{                                  //Pour éteindre la led témoin
@@ -121,8 +121,6 @@ void LionB::execute(){
   }
 
 }
-
-LionB mechanism = LionB();
 
 void execute_order(String order){
   
@@ -201,6 +199,8 @@ String getMessagei2c() {
 void send_status() {
   Wire.write(getMessagei2c().c_str());  //On écrit le message i2c dans l'objet Wire
 }
+
+LionB mechanism = LionB();
 
 void setup() {
   Serial.begin(9600);
