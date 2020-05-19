@@ -3,10 +3,10 @@
 #include "Wire.h"
 #define SLAVE_ADDRESS 0x16  //initialisation de l’Arduino avec l’adresse 0x16
 
-#define CHumidite_PIN A0  //Capteur d'humidité
-#define SLed_PIN 2       //Led controle
-#define SFrigo_PIN 3     //Relais Frigo
-#define SFontaine_PIN 4  //Relais Fontaine
+#define CHumidite_PIN A0  //Capteur d'humidité au pin A0
+#define SLed_PIN 2       //Led de contrôle au pin 2
+#define SFrigo_PIN 3     //Relais Frigo au pin 3
+#define SFontaine_PIN 4  //Relais Fontaine au pin 4
 
 
 int ValeurCapteur = 0;
@@ -16,12 +16,13 @@ int EtatEau = 0;
 class Eau{
 
   private : 
-    bool S_Frigo;
-    bool S_Fontaine;
-    bool S_Led;
-    bool S_Eau;
-    int C_Humidite;
-    bool mecanism_status;
+    
+    bool S_Frigo;                   //Actionneurs qui active/désactive l'électro-aimant de la porte du frigo
+    bool S_Fontaine;                //Actionneurs qui active/désactive le moteur de la fontaine 
+    bool S_Led;                     //Actionneurs qui active/désactive la led de contrôle
+    bool S_Eau;                     //Actionneurs de l'élément Eau sur la tablette des 4 éléments
+    int C_Humidite;                 //Valeur numérique détécter par le capteur d'humidité 
+    bool mecanism_status;           //indique si le mécanisme est activé ou non 
 
  public : 
 
@@ -34,10 +35,11 @@ class Eau{
  void setMechanism_status(bool ms);
  int getC_Humidite();
 
-    public : 
-      Eau();
-      void setupMecanism();
-      void execute();
+    public :    
+      Eau();                        //Constructeur par défaut de la classe
+      void setupMecanism();         //Configuration de la base du mécanisme
+      void execute();               //Méthode qui fait fonctionner le mécanisme
+
 };
 
 
@@ -69,23 +71,23 @@ int Eau::getC_Humidite(){
 //SETUP
 void Eau::setupMecanism(){
 
-pinMode(CHumidite_PIN, INPUT);
+pinMode(CHumidite_PIN, INPUT);     //On initialise le pin du capteur d'Humidité en entrée
 
-pinMode(SLed_PIN, OUTPUT);
-digitalWrite(SLed_PIN, LOW);
+pinMode(SLed_PIN, OUTPUT);         //On initialise la led du tableau de commande en sortie
+digitalWrite(SLed_PIN, LOW);       //On éteint la led par défaut 
 
-pinMode(SFrigo_PIN, OUTPUT);
-digitalWrite(SFrigo_PIN, HIGH);
+pinMode(SFrigo_PIN, OUTPUT);       //On initialise le pin du relais frigo en sortie
+digitalWrite(SFrigo_PIN, HIGH);    //On désactive le relais du frigo par défaut
 
-pinMode(SFontaine_PIN, OUTPUT);
-digitalWrite(SFontaine_PIN, HIGH);
+pinMode(SFontaine_PIN, OUTPUT);    //On initialise le pin du relais de la fontaine 
+digitalWrite(SFontaine_PIN, HIGH); //On désactive le relais de la fontaine par défaut
 }
 
 
 void Eau::execute(){
 
 
-ValeurCapteur = analogRead (CHumidite_PIN); //Lecture de la valeur du capteur
+ValeurCapteur = analogRead (CHumidite_PIN); //On récupère la valeur du capteur d'humidité
 
 
 switch(EtatEau){
@@ -96,13 +98,13 @@ switch(EtatEau){
     case 1 : 
          C_Humidite = ValeurCapteur - ValeurCapteurInitiale;
 
-         if (C_Humidite >=180){
+         if (C_Humidite >=180){             //Si la valeur du capteur est supérieur ou éguale à 180 points de base
        
-          S_Fontaine = true; 
-          S_Frigo = true;
-          S_Led = true; 
-          S_Eau = true;
-          mechanism_status = true;
+          S_Fontaine = true;                //On active le moteur de la fontaine
+          S_Frigo = true;                   //On active l'électro-aimant de la porte du frigo
+          S_Led = true;                     //On allume la led du panneau de contrôle
+          S_Eau = true;                     //On allume l'élément Eau des 4 éléments
+          mechanism_status = true;          //On valide le mécanisme 
         }
   } 
 
