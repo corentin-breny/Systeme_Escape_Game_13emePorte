@@ -2,9 +2,8 @@
 
 #define SLAVE_ADDRESS 0x14
 #define C_EffetHall_1_PIN 2 //Capteur à effet Hall 1
-#define S_Led_PIN A2 //Led de sortie
-#define S_Terre_PIN A0 //Led de sortie
-
+#define SLed_PIN A2 //Led de sortie
+#define STerre_PIN A0 //Actionneur
 #define DEBOUNCE 2000
 
 int sd_reading = HIGH;        //Valeur actuelle du capteur
@@ -17,7 +16,7 @@ int DOIGTstate = HIGH; // Etat actuel de la broche de sortie (la LED)
 class Terre {
 
   private :
-    const int C_EffetHall_1;
+    bool C_EffetHall_1;
     bool S_Led;
     bool S_Terre;
     bool mecanism_status;
@@ -57,11 +56,11 @@ void Terre::setupMechanism() {
     digitalWrite(SLed_PIN , HIGH);      //On allume la led par défaut
   }
 
-  pinMode(S_Terre_PIN, OUTPUT);           //On initialise le pin du relais de l'électroaimant de la ventouse dragon
+  pinMode(STerre_PIN, OUTPUT);           //On initialise le pin du relais de l'électroaimant de la ventouse dragon
   if (S_Terre = false) {                  //Suivant la valeur de l'attribut
-    digitalWrite(S_Terre_PIN, LOW);       //On active le relais de l'électroaimant par défaut
+    digitalWrite(STerre_PIN, LOW);       //On active le relais de l'électroaimant par défaut
   } else {
-    digitalWrite(S_Terre_PIN, HIGH);      //On désactive le relais de l'électroaimant par défaut
+    digitalWrite(STerre_PIN, HIGH);      //On désactive le relais de l'électroaimant par défaut
   }
 
 } 
@@ -95,7 +94,7 @@ void Terre::execute() {
 
   if (S_Terre == true) {             //Pour désactiver l'electroaimant de la ventouse
     S_Terre = HIGH;
-    digitalWrite(S_Terre_PIN, HIGH);
+    digitalWrite(STerre_PIN, HIGH);
     sd_previous = sd_reading;
   }
 
