@@ -3,6 +3,7 @@
 #define SLAVE_ADDRESS 0x14
 #define C_EffetHall_1_PIN 2 //Capteur à effet Hall 1
 #define SLed_PIN A2 //Led de sortie
+#define SLedV_PIN A3 //Led verte sur la tablette
 #define STerre_PIN A0 //Actionneur
 #define DEBOUNCE 2000
 
@@ -18,11 +19,12 @@ class Terre {
   private :
     bool C_EffetHall_1;
     bool S_Led;
+    bool S_LedV;
     bool S_Terre;
     bool mecanism_status;
 
   private :
-    bool actuator[2] = {S_Led, S_Terre};
+    bool actuator[3] = {S_Led, S_LedV, S_Terre};
     bool sensor[1] = {C_EffetHall_1};
     const int C_EffetHall_1 = 2;
     bool getMechanism_status();
@@ -56,6 +58,13 @@ void Terre::setupMechanism() {
     digitalWrite(SLed_PIN , HIGH);      //On allume la led par défaut
   }
 
+  pinMode(SLedV_PIN, OUTPUT);           //On initialise le pin de la led
+  if (S_LedV = false) {                  //Suivant la valeur de l'attribut
+    digitalWrite(SLedV_PIN , LOW);       //On éteint la led par défaut
+  } else {
+    digitalWrite(SLedV_PIN , HIGH);      //On allume la led par défaut
+  }
+
   pinMode(STerre_PIN, OUTPUT);           //On initialise le pin du relais de l'électroaimant de la ventouse dragon
   if (S_Terre = false) {                  //Suivant la valeur de l'attribut
     digitalWrite(STerre_PIN, LOW);       //On active le relais de l'électroaimant par défaut
@@ -85,6 +94,7 @@ void Terre::execute() {
 
       S_Terre = true;             //On active l'électroaimant de la ventouse dragon
       S_Led = true;                   //On allume la led rouge
+      S_LedV = true;              //On allume la led verte
       mechanism_status = true;        //On valide le mécanisme
     }
   } else {                       //Si il n'y a pas eu de changement de position positif
@@ -96,9 +106,10 @@ void Terre::execute() {
     S_Terre = HIGH;
     digitalWrite(STerre_PIN, HIGH);
     sd_previous = sd_reading;
+    SLedV = true;
   }
 
-   if (S_Terre == false) {             //Pour désactiver l'electroaimant de la ventouse
+   if (S_Terre == false) {             //Pour activer l'electroaimant de la ventouse
     digitalWrite(SLed_PIN, HIGH);
     S_Terre = LOW;
   }
@@ -111,8 +122,17 @@ void Terre::execute() {
     digitalWrite(SLed_PIN, LOW);          //On éteint la led de contrôle
   }
 
+  if (S_LedV == true) {                  //Pour allumer la led témoin
+    delay(100);                           //On attend 0.1 seconde
+    digitalWrite(SLedV_PIN, HIGH);         //On allume la led sur la tablette
+  } else {                                 //Pour éteindre la sur la tablette
+    delay(100);                           //On attend 0.1 seconde
+    digitalWrite(SLedV_PIN, LOW);          //On éteint la led sur la tablette
+  }
+
   if (mechanism_status == false) {        //En cas de reset
     S_Led = false;                  //On change la valeur de l'attribut
+    S_LedV = false;                  //On change la valeur de l'attribut
   }
 
 Terre mechanism = Terre();
