@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Lun 18 Mai 2020 à 02:24
+-- Généré le :  Jeu 04 Juin 2020 à 00:33
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `general` (
 --
 
 INSERT INTO `general` (`ID_mecanismes`, `Numero_Salle`, `Nom_mecanisme`, `Etat`) VALUES
-(1, 1, 'Echiquier', ''),
+(1, 1, 'Echiquier', 'TRUE'),
 (2, 1, 'Le Lion', 'TRUE'),
 (3, 1, 'Terre', 'TRUE'),
 (4, 1, 'Feu', 'TRUE'),
