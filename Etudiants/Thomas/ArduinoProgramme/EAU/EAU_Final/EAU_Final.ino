@@ -7,6 +7,7 @@
 #define SLed_PIN 2       //Led de contrôle au pin 2
 #define SFrigo_PIN 3     //Relais Frigo au pin 3
 #define SFontaine_PIN 4  //Relais Fontaine au pin 4
+#define SLedElements_PIN 5       //Led 4 elements au pin 5
 
 
 int ValeurCapteur = 0;
@@ -81,6 +82,9 @@ digitalWrite(SFrigo_PIN, HIGH);    //On désactive le relais du frigo par défau
 
 pinMode(SFontaine_PIN, OUTPUT);    //On initialise le pin du relais de la fontaine 
 digitalWrite(SFontaine_PIN, HIGH); //On désactive le relais de la fontaine par défaut
+
+pinMode(SLedElements_PIN, OUTPUT);         //On initialise la led du tableau de commande en sortie
+digitalWrite(SLedElements_PIN, LOW);       //On éteint la led par défaut 
 }
 
 
@@ -152,6 +156,12 @@ else
     digitalWrite(SLed_PIN, LOW);          //On éteint la led de contrôle
   }
   
+if(S_Eau == true)
+{
+   digitalWrite(SLedElements_PIN, HIGH);   
+}
+
+
 
 if ( mechanism_status == false )//En cas de reset
   {         
