@@ -3,10 +3,10 @@
 #include "Wire.h"
 #define SLAVE_ADDRESS 0x16  //initialisation de l’Arduino avec l’adresse 0x16
 
-#define CHumidite_PIN A0  //Capteur d'humidité au pin A0
-#define SLed_PIN 2       //Led de contrôle au pin 2
-#define SFrigo_PIN 3     //Relais Frigo au pin 3
-#define SFontaine_PIN 4  //Relais Fontaine au pin 4
+#define CHumidite_PIN A0         //Capteur d'humidité au pin A0
+#define SLed_PIN 2               //Led de contrôle au pin 2
+#define SFrigo_PIN 3             //Relais Frigo au pin 3
+#define SFontaine_PIN 4          //Relais Fontaine au pin 4
 #define SLedElements_PIN 5       //Led 4 elements au pin 5
 
 
@@ -72,18 +72,18 @@ int Eau::getC_Humidite(){
 //SETUP
 void Eau::setupMecanism(){
 
-pinMode(CHumidite_PIN, INPUT);     //On initialise le pin du capteur d'Humidité en entrée
+pinMode(CHumidite_PIN, INPUT);             //On initialise le pin du capteur d'Humidité en entrée
 
-pinMode(SLed_PIN, OUTPUT);         //On initialise la led du tableau de commande en sortie
-digitalWrite(SLed_PIN, LOW);       //On éteint la led par défaut 
+pinMode(SLed_PIN, OUTPUT);                 //On initialise la led du tableau de commande en sortie
+digitalWrite(SLed_PIN, LOW);               //On éteint la led par défaut 
 
-pinMode(SFrigo_PIN, OUTPUT);       //On initialise le pin du relais frigo en sortie
-digitalWrite(SFrigo_PIN, HIGH);    //On désactive le relais du frigo par défaut
+pinMode(SFrigo_PIN, OUTPUT);               //On initialise le pin du relais frigo en sortie
+digitalWrite(SFrigo_PIN, HIGH);            //On désactive le relais du frigo par défaut
 
-pinMode(SFontaine_PIN, OUTPUT);    //On initialise le pin du relais de la fontaine 
-digitalWrite(SFontaine_PIN, HIGH); //On désactive le relais de la fontaine par défaut
+pinMode(SFontaine_PIN, OUTPUT);            //On initialise le pin du relais de la fontaine 
+digitalWrite(SFontaine_PIN, HIGH);         //On désactive le relais de la fontaine par défaut
 
-pinMode(SLedElements_PIN, OUTPUT);         //On initialise la led du tableau de commande en sortie
+pinMode(SLedElements_PIN, OUTPUT);         //On initialise la led des 4 éléments en sortie
 digitalWrite(SLedElements_PIN, LOW);       //On éteint la led par défaut 
 }
 
