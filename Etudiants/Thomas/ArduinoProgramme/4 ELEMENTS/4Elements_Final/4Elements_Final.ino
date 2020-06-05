@@ -59,9 +59,6 @@ pinMode(EFeu_PIN, INPUT);               //On initialise le pin de la liaison de 
 pinMode(EEau_PIN, INPUT);               //On initialise le pin de la liaison de l'arduino Eau en entrée
 
 pinMode(EAir_PIN, INPUT);               //On initialise le pin de la liaison de l'arduino Air en entrée
-
-
-
   
 }
 
