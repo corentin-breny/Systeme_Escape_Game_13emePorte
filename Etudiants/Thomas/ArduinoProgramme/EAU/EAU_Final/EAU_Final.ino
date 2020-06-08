@@ -9,10 +9,11 @@
 #define SFontaine_PIN 4          //Relais Fontaine au pin 4
 #define SLedElements_PIN 5       //Led 4 elements au pin 5
 
-
 int ValeurCapteur = 0;
 int EtatEau = 0;
-
+int ValeurCapteurInitial;
+int var1 = 0;
+int var2 = 0; 
 
 class Eau{
 
@@ -23,7 +24,7 @@ class Eau{
     bool S_Led;                     //Actionneurs qui active/désactive la led de contrôle
     bool S_Eau;                     //Actionneurs de l'élément Eau sur la tablette des 4 éléments
     int C_Humidite;                 //Valeur numérique détécter par le capteur d'humidité 
-    bool mecanism_status;           //indique si le mécanisme est activé ou non 
+    bool mechanism_status;           //indique si le mécanisme est activé ou non 
 
  public : 
 
@@ -52,7 +53,7 @@ Eau::Eau(){
   S_Led = false;
   S_Eau = false;
   C_Humidite = 0;
-  mecanism_status = false;
+  mechanism_status = false;
 }
 
 bool Eau::getMechanism_status(){
@@ -90,19 +91,32 @@ digitalWrite(SLedElements_PIN, LOW);       //On éteint la led par défaut
 
 void Eau::execute(){
 
-
 ValeurCapteur = analogRead (CHumidite_PIN); //On récupère la valeur du capteur d'humidité
 
+if(EtatEau == 0)
+{
+ValeurCapteurInitial = ValeurCapteur;
+EtatEau = 1; 
+}
 
-switch(EtatEau){
-    case 0 :
-         int ValeurCapteurInitial = ValeurCapteur;
-         EtatEau = 1;
-         break;
-    case 1 : 
-         C_Humidite = ValeurCapteur - ValeurCapteurInitiale;
 
-         if (C_Humidite >=180){             //Si la valeur du capteur est supérieur ou éguale à 180 points de base
+if(EtatEau == 1)
+{
+
+        if(ValeurCapteur >= (ValeurCapteurInitial + 180))
+        {
+           var1 = 1;   
+        }
+
+        delay(3000);
+
+        if(ValeurCapteur >= (ValeurCapteurInitial + 180))
+        {
+            var2 = 1;
+        }
+       
+       
+         if (var1 == var2){             //Si la valeur du capteur est supérieur ou éguale à 180 points de base
        
           S_Fontaine = true;                //On active le moteur de la fontaine
           S_Frigo = true;                   //On active l'électro-aimant de la porte du frigo
@@ -110,16 +124,8 @@ switch(EtatEau){
           S_Eau = true;                     //On allume l'élément Eau des 4 éléments
           mechanism_status = true;          //On valide le mécanisme 
         }
-  } 
 
-
-if (S_Fontaine == true)
-{
-      delay(100);
-      digitalWrite(SFontaine_PIN, LOW); //FONTAINE
 }
-       
-
 
 if (S_Frigo == true){
         
@@ -140,9 +146,19 @@ if (S_Frigo == true){
          delay(20000);
          
          digitalWrite(SFrigo_PIN, HIGH);
-         delay(1000)
-         digitalWrite(SFrigo_PIN, LOW); 
+         delay(1000);
+         digitalWrite(SFrigo_PIN, LOW);
+         delay(3600000); 
 }
+
+
+if (S_Fontaine == true)
+{
+      delay(100);
+      digitalWrite(SFontaine_PIN, LOW); //FONTAINE
+}
+       
+
 
 
 if ( S_Led == true )//Pour allumer la led témoin
@@ -163,20 +179,20 @@ if(S_Eau == true)
 
 
 
-if ( mechanism_status == false )//En cas de reset
+if (mechanism_status == false )//En cas de reset
   {         
     S_Frigo = false;
     S_Fontaine = false;
     S_Led = false;                  //On change la valeur de l'attribut
     S_Eau = false;                  //On change la valeur de l'attribut
-    etateau = 0;
+    EtatEau = 0;
   }
-}
 
+}
 
 //MAIN
 
-Eau Mecanisme = Eau();
+Eau mechanism = Eau();
 
 void execute_order(String order){
   
@@ -258,7 +274,7 @@ void setup() {
   Wire.begin(SLAVE_ADDRESS);        //On indique à l'objet Wire l'adresse esclave utilisé par l'Arduino
   Wire.onReceive(receive_order);      //On récupère le message s'ordre reçu sur le bus i2c via la fonction receive order
   Wire.onRequest(send_status);      //On envoie le messagei2c sur le bus i2c
-  mechanism.setupMechanism();       //On donne une configuration de base au mécanisme
+  mechanism.setupMecanism();       //On donne une configuration de base au mécanisme
 }
 
 void loop() {
