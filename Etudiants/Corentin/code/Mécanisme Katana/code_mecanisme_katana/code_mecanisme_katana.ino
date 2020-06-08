@@ -1,3 +1,4 @@
+
 //Fichier Katana.H
 
 #include "Wire.h"
@@ -72,9 +73,9 @@ void Katana::setupMechanism(){
     
     pinMode(SKatana_PIN, OUTPUT);          //On initialise le pin du relais de l'électroaimant du Katana
   if (S_Katana = false){               //Suivant la valeur de l'attribut
-    digitalWrite(SKatana_PIN, HIGH);       //On active le relais de l'électroaimant par défaut
+    digitalWrite(SKatana_PIN, LOW);       //On active le relais de l'électroaimant par défaut
   }else{
-    digitalWrite(SKatana_PIN, LOW);      //On désactive le relais de l'électroaimant par défaut
+    digitalWrite(SKatana_PIN, HIGH);      //On désactive le relais de l'électroaimant par défaut
 }
 }
 
@@ -116,10 +117,10 @@ sd_reading = digitalRead(CInterupteur_PIN); // Lis l'état de l'interrupteur
   
     if ( S_Led == true ){               //Pour allumer la led témoin
     delay(100);                   //On attend 0.1 seconde
-    digitalWrite(SLed_PIN, HIGH);         //On allume la led de contrôle
+    digitalWrite(SLed_PIN, LOW);         //On allume la led de contrôle
   }else{                        //Pour éteindre la led témoin
     delay(100);                   //On attend 0.1 seconde
-    digitalWrite(SLed_PIN, LOW);          //On éteint la led de contrôle
+    digitalWrite(SLed_PIN, HIGH);          //On éteint la led de contrôle
   }
   
   if ( mechanism_status == false ){         //En cas de reset
