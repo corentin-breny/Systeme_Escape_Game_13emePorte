@@ -1,9 +1,9 @@
-//Fichier LionB.h
+#include <Wire.h>
 
-#include "Wire.h"
+//Fichier LionB.h
 #define SLAVE_ADDRESS 0x13
 #define CEffetHall1_PIN A0 //Capteur à effet Hall 1
-#define SLed_PIN 10 //Led de sortie
+#define SLed_PIN A3 //Led de sortie
 #define SLion_PIN 3 //Actionneur
 #define DEBOUNCE 2000
 
@@ -14,14 +14,14 @@ long ms_time = 0;
 class LionB {
 
   private :
-    bool C_EffetHall_1;
+    bool C_EffetHall;
     bool S_Lion;
     bool S_Led;
-    bool mecanism_status;
+    bool mechanism_status;
 
-  private :
+  public :
     bool actuator[2] = {S_Lion, S_Led};
-    bool sensor[1] = {C_EffetHall_1};
+    bool sensor[1] = {C_EffetHall};
     bool getMechanism_status();
     void setMechanism_status(bool ms);
 
@@ -34,17 +34,17 @@ class LionB {
 //Fichier LionB.cpp
 
 LionB::LionB(){  
-  C_EffetHall_1 = false;
+  C_EffetHall = false;
   S_Led = false;
   S_Lion = false;
-  mecanism_status = false;
+  mechanism_status = false;
 }
 
-bool Echec::getMechanism_status(){
+bool LionB::getMechanism_status(){
   return mechanism_status;
 }
 
-void Echec::setMechanism_status(bool ms){
+void LionB::setMechanism_status(bool ms){
   mechanism_status = ms;
 }
 
@@ -52,8 +52,6 @@ void LionB::setupMechanism() {
 
   pinMode(C_EffetHall, INPUT); // pin 6
   digitalWrite(C_EffetHall, HIGH);
-
-  digitalWrite(hallPin, HIGH);  // Activation résistance pullUP
   
   pinMode(SLion_PIN, OUTPUT); // Vers relais lionb
   digitalWrite(SLion_PIN, HIGH);
@@ -85,10 +83,10 @@ void LionB::execute(){
   
   sd_previous = sd_reading;
   
-  if (sd_reading == LOW
+  if (sd_reading == HIGH
   && (millis() - ms_time) > DEBOUNCE){      //On vérifie que la statuette est tournée depuis un certain temps (DEBOUNCE)
       
-    C_EffetHall_1 = true;             //On fixe la valeur de l'attribut capteur
+    C_EffetHall = false;             //On fixe la valeur de l'attribut capteur
       
     if (mechanism_status == false) {        //Si il y a eu le premier changement de position
         
@@ -98,14 +96,16 @@ void LionB::execute(){
     } 
   }else{                        //Si il n'y a pas eu de changement de position positif
   
-    C_EffetHall_1 = false;             //On fixe la valeur de l'attribut capteur
+    C_EffetHall = false;             //On fixe la valeur de l'attribut capteur
   } 
   
   if (S_Lion == true ){              //Pour désactiver l'electroaimant du tiroir 
-    S_Lion = LOW;   //Ce qui valide la réussite de l'énigme
-    digitalWrite(SLion_PIN, S_Lion);    //reset pour defaire le solenoide
-    ms_time = millis();
-    S_Led = HIGH;    //La led correspondante sur le panneau du superviseur est allumée
+    digitalWrite(SLion_PIN, HIGH);    //reset pour defaire le solenoide
+    digitalWrite(SLed_PIN, HIGH);    
+  }else
+  {
+    digitalWrite(SLion_PIN, LOW);    //reset pour defaire le solenoide
+    digitalWrite(SLed_PIN, LOW);
   }
   
   if (S_Led == true ){                    //Pour allumer la led témoin
@@ -118,9 +118,12 @@ void LionB::execute(){
   
   if ( mechanism_status == false ){         //En cas de reset
     S_Led = false;                  //On change la valeur de l'attribut
+    S_Lion = false;    //La led correspondante sur le panneau du superviseur est allumée
   }
 
 }
+
+LionB mechanism = LionB();
 
 void execute_order(String order){
   
@@ -179,15 +182,12 @@ String getMessagei2c() {
       as_I2Cmessage += "X";           //On ajoute X au message i2c
     }
   }
-
-  for(int i=0; i<sizeof(mechanism.sensor); i++){    //Pour chaque capteur du mécanisme
-    if (mechanism.sensor[i] == true){       //Si le capteur est validé
-      sd_I2Cmessage += "T";           //On ajoute T au message i2c
-    }else{                      //Si le capteur est invalidé
-      sd_I2Cmessage += "F";           //On ajoute F au message i2c
-    }
+/*
+  for(int i=0; i<sizeof(mechanism.sensor)/2; i++){        //Pour chaque capteur du mécanisme
+    sd_I2Cmessage += mechanism.getC_Poids();//mechanism.sensor[i];            //On ajoute la valeur du capteur au message i2c
+    sd_I2Cmessage += "X";             //Et on ajoute aussi X
   }
-  
+  */
   I2Cmessage = ms_I2Cmessage + as_I2Cmessage + sd_I2Cmessage;//msFasFFFFsdF
   
   Serial.print("Message send to Raspberry : ");
@@ -200,8 +200,6 @@ void send_status() {
   Wire.write(getMessagei2c().c_str());  //On écrit le message i2c dans l'objet Wire
 }
 
-LionB mechanism = LionB();
-
 void setup() {
   Serial.begin(9600);
   Wire.begin(SLAVE_ADDRESS);        //On indique à l'objet Wire l'adresse esclave utilisé par l'Arduino
@@ -211,6 +209,6 @@ void setup() {
 }
 
 void loop() {
-  delay(100);                     //On attends 0.1 seconde
-  mechanism.execute();                //On exécute le mécanisme
+  delay(100);               //On attends 0.1 seconde
+  mechanism.execute();          //On exécute le mécanisme
 }

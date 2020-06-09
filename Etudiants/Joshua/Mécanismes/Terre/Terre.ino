@@ -1,10 +1,13 @@
+#include <Wire.h>
+
 //Fichier Terre.h
 
+
 #define SLAVE_ADDRESS 0x14
-#define C_EffetHall_1_PIN 2 //Capteur à effet Hall 1
+#define CEffetHall_PIN A0 //Capteur à effet Hall 1
 #define SLed_PIN A2 //Led de sortie
 #define SLedV_PIN A3 //Led verte sur la tablette
-#define STerre_PIN A0 //Actionneur
+#define STerre_PIN A1 //Actionneur
 #define DEBOUNCE 2000
 
 int sd_reading = HIGH;        //Valeur actuelle du capteur
@@ -21,19 +24,18 @@ class Terre {
     bool S_Led;
     bool S_LedV;
     bool S_Terre;
-    bool mecanism_status;
+    bool mechanism_status;
 
-  private :
+  public :
     bool actuator[3] = {S_Led, S_LedV, S_Terre};
     bool sensor[1] = {C_EffetHall_1};
-    const int C_EffetHall_1 = 2;
     bool getMechanism_status();
     void setMechanism_status(bool ms);
 
 
   public :
     Terre();
-    void setupMecanism();
+    void setupMechanism();
     void execute();
 };
 
@@ -43,7 +45,15 @@ Terre::Terre() {
   C_EffetHall_1 = false;
   S_Led = false;
   S_Terre = false;
-  mecanism_status = false;
+  mechanism_status = false;
+}
+
+bool Terre::getMechanism_status(){
+  return mechanism_status;
+}
+
+void Terre::setMechanism_status(bool ms){
+  mechanism_status = ms;
 }
 
 void Terre::setupMechanism() {
@@ -76,7 +86,7 @@ void Terre::setupMechanism() {
 
 void Terre::execute() {
 
-  sd_reading = digitalRead(C_EffetHall_1);  // lecture du capteur a Effet Hall
+  sd_reading = digitalRead(CEffetHall_PIN);  // lecture du capteur a Effet Hall
 
   if (sd_reading != sd_previous)
   {
@@ -88,7 +98,7 @@ void Terre::execute() {
   if (sd_reading == LOW
       && (millis() - ms_time) > (DEBOUNCE / 3)) {   //On vérifie s'il y a eu un changement de position positif
 
-    C_EffetHall1 = true;             //On fixe la valeur de l'attribut capteur
+    C_EffetHall_1 = false;             //On fixe la valeur de l'attribut capteur
 
     if (mechanism_status == false) {        //Si il y a eu le premier changement de position
 
@@ -99,21 +109,16 @@ void Terre::execute() {
     }
   } else {                       //Si il n'y a pas eu de changement de position positif
 
-    C_EffetHall1 = false;             //On fixe la valeur de l'attribut capteur
+    C_EffetHall_1 = false;             //On fixe la valeur de l'attribut capteur
   }
 
   if (S_Terre == true) {             //Pour désactiver l'electroaimant de la ventouse
-    S_Terre = HIGH;
     digitalWrite(STerre_PIN, HIGH);
     sd_previous = sd_reading;
-    SLedV = true;
+    S_LedV = true;
+    S_Led = true;
   }
-
-   if (S_Terre == false) {             //Pour activer l'electroaimant de la ventouse
-    digitalWrite(SLed_PIN, HIGH);
-    S_Terre = LOW;
-  }
-
+  
   if (S_Led == true) {                  //Pour allumer la led témoin
     delay(100);                           //On attend 0.1 seconde
     digitalWrite(SLed_PIN, HIGH);         //On allume la led de contrôle
@@ -134,38 +139,38 @@ void Terre::execute() {
     S_Led = false;                  //On change la valeur de l'attribut
     S_LedV = false;                  //On change la valeur de l'attribut
   }
+}
 
 Terre mechanism = Terre();
-
-void execute_order(String order) {
-
+void execute_order(String order){
+  
   Serial.print("Order received : ");
   Serial.println(order);//412221
-
-  if (order[1] == '1') {              //Si le 2eme caractère est 1
+  
+  if(order[1] == '1'){                //Si le 2eme caractère est 1
     mechanism.setMechanism_status(true);      //On valide le mécanisme
-  } else if (order[1] == '0') {            //Si le 2eme caractère est 0
+  }else if(order[1] == '0'){              //Si le 2eme caractère est 0
     mechanism.setMechanism_status(false);     //On invalide le mécanisme
   }
-
-  for (int i = 2; i < sizeof(order); i++) {   //Pour chaque actionneur
-    if (order[i] == '1') {            //Si le caractère est 1
-      mechanism.actuator[i - 1] = true;     //On valide l'actionneur
-    } else if (order[i] == '0') {          //Si le caractère est 0
-      mechanism.actuator[i - 1] = false;    //On invalide l'actionneur
+    
+  for(int i=2; i<sizeof(order); i++) {        //Pour chaque actionneur
+    if(order[i] == '1'){              //Si le caractère est 1
+      mechanism.actuator[i-1] = true;       //On valide l'actionneur
+    }else if(order[i] == '0'){            //Si le caractère est 0
+      mechanism.actuator[i-1] = false;      //On invalide l'actionneur
     }
   }
 }
 
 void receive_order(int numBytes) {
   String data_received;
-
-  while (Wire.available() > 0) {          //Tant que le message i2c reçu n'est pas fini
+  
+  while(Wire.available() > 0) {           //Tant que le message i2c reçu n'est pas fini
     char c = Wire.read();             //On lit le caractère suivant du message sur le bus i2c
     data_received += String(c);           //On ajoute le caractère du message aux données reçus
   }
-
-  if (data_received != "2") {             //Si les données reçues sont bien un message d'ordre
+  
+  if(data_received != "2") {              //Si les données reçues sont bien un message d'ordre
     execute_order(data_received);         //On exécute les ordres du message d'ordre
   }
 }
@@ -176,38 +181,35 @@ String getMessagei2c() {
   String sd_I2Cmessage = "sd";
   String I2Cmessage;
 
-  if (mechanism.getMechanism_status() == true) {  //Si le mécanisme est validé
+  if(mechanism.getMechanism_status() == true){    //Si le mécanisme est validé
     ms_I2Cmessage += "T";             //On ajoute T au message i2c
-  } else {                       //Si le mécanisme est invalide
+  }else{                        //Si le mécanisme est invalide
     ms_I2Cmessage += "F";             //On ajoute F au message i2c
   }
-
-  for (int i = 0; i < sizeof(mechanism.actuator); i++) { //Pour chaque actionneur du mécanisme
-    if (mechanism.actuator[i] == true) {      //Si l'actionneur est validé
+  
+  for(int i=0; i<sizeof(mechanism.actuator); i++){  //Pour chaque actionneur du mécanisme
+    if (mechanism.actuator[i] == true){       //Si l'actionneur est validé
       as_I2Cmessage += "T";           //On ajoute T au message i2c
-    } else {                     //Si l'actionneur est invalidé
+    }else{                      //Si l'actionneur est invalidé
       as_I2Cmessage += "F";           //On ajoute F au message i2c
     }
   }
-  if (as_I2Cmessage.length() < 6) {
-    for (int i = as_I2Cmessage.length() - 1; i < 5; i++) { //Tant que le message est inférieur à 6 caractere
+  if(as_I2Cmessage.length() < 6){
+    for(int i=as_I2Cmessage.length()-1; i<5; i++){  //Tant que le message est inférieur à 6 caractere
       as_I2Cmessage += "X";           //On ajoute X au message i2c
     }
   }
-
-  for (int i = 0; i < sizeof(mechanism.sensor); i++) { //Pour chaque capteur du mécanisme
-    if (mechanism.sensor[i] == true) {      //Si le capteur est validé
-      sd_I2Cmessage += "T";           //On ajoute T au message i2c
-    } else {                     //Si le capteur est invalidé
-      sd_I2Cmessage += "F";           //On ajoute F au message i2c
-    }
+  /*
+  for(int i=0; i<sizeof(mechanism.sensor)/2; i++){        //Pour chaque capteur du mécanisme
+    sd_I2Cmessage += mechanism.getC_Poids();//mechanism.sensor[i];            //On ajoute la valeur du capteur au message i2c
+    sd_I2Cmessage += "X";             //Et on ajoute aussi X
   }
-
+  */
   I2Cmessage = ms_I2Cmessage + as_I2Cmessage + sd_I2Cmessage;//msFasFFFFsdF
-
+  
   Serial.print("Message send to Raspberry : ");
   Serial.println(I2Cmessage);
-
+  
   return I2Cmessage;
 }
 
@@ -224,6 +226,6 @@ void setup() {
 }
 
 void loop() {
-  delay(100);                     //On attends 0.1 seconde
-  mechanism.execute();                //On exécute le mécanisme
+  delay(100);               //On attends 0.1 seconde
+  mechanism.execute();          //On exécute le mécanisme
 }
